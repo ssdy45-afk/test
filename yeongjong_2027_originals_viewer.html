@@ -2,21 +2,26 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b132b">
   <title>Yeongjong 2027 Originals Viewer — 영종도 유치원 모집요강 통합 인텔리전스</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
+    html {
+      scroll-behavior: smooth;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
     @keyframes floatSlow {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-7px) rotate(0.6deg); }
+      50% { transform: translateY(-6px) rotate(0.5deg); }
     }
     @keyframes floatReverse {
       0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-6px) rotate(-0.6deg); }
-    }
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.55; transform: scale(1); }
-      50% { opacity: 0.9; transform: scale(1.06); }
+      50% { transform: translateY(-5px) rotate(-0.5deg); }
     }
     @keyframes shimmerSweep {
       0% { transform: translateX(-120%) skewX(-18deg); }
@@ -24,41 +29,54 @@
     }
     @keyframes heroKenBurns {
       0%, 100% { transform: scale(1.01) translate3d(0, 0, 0); }
-      50% { transform: scale(1.045) translate3d(-0.8%, -0.6%, 0); }
+      50% { transform: scale(1.04) translate3d(-0.7%, -0.5%, 0); }
     }
     .animate-float-slow { animation: floatSlow 5.2s ease-in-out infinite; }
     .animate-float-delay { animation: floatReverse 5.8s ease-in-out 0.8s infinite; }
     .animate-float-slow2 { animation: floatSlow 6.2s ease-in-out 1.4s infinite; }
     .animate-hero-pan { animation: heroKenBurns 16s ease-in-out infinite; }
+
     .hero-mesh {
       background:
-        radial-gradient(circle at 14% 22%, rgba(56, 189, 248, 0.24), transparent 42%),
-        radial-gradient(circle at 86% 18%, rgba(251, 191, 36, 0.20), transparent 38%),
-        radial-gradient(circle at 72% 84%, rgba(99, 102, 241, 0.25), transparent 45%),
+        radial-gradient(circle at 14% 20%, rgba(56, 189, 248, 0.25), transparent 44%),
+        radial-gradient(circle at 86% 16%, rgba(251, 191, 36, 0.20), transparent 40%),
+        radial-gradient(circle at 72% 84%, rgba(99, 102, 241, 0.24), transparent 45%),
         linear-gradient(135deg, #070d1f 0%, #0f1b3d 52%, #132550 100%);
     }
     .page-aurora {
-      background-color: #f6f8fc;
+      background-color: #f5f7fb;
       background-image:
         radial-gradient(at 10% 8%, rgba(59, 130, 246, 0.08) 0px, transparent 45%),
         radial-gradient(at 92% 14%, rgba(16, 185, 129, 0.08) 0px, transparent 42%),
         radial-gradient(at 50% 60%, rgba(139, 92, 246, 0.05) 0px, transparent 50%);
     }
     .glass-dock {
-      background: rgba(255, 255, 255, 0.84);
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
+    }
+    .mobile-bottom-bar {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      box-shadow: 0 -8px 28px -8px rgba(15, 23, 42, 0.12);
     }
     .tilt-stage {
       transform-style: preserve-3d;
       transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .bento-card {
-      transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease;
+      transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.26s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s ease;
     }
-    .bento-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 38px -14px rgba(15, 23, 42, 0.13);
+    @media (hover: hover) {
+      .bento-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 38px -14px rgba(15, 23, 42, 0.13);
+      }
+    }
+    .bento-card:active {
+      transform: scale(0.99);
     }
     .shimmer-btn {
       position: relative;
@@ -78,11 +96,24 @@
       box-shadow: 0 8px 20px -6px rgba(30, 58, 138, 0.45);
       border-color: transparent;
     }
+    .mob-tab-active {
+      color: #1d4ed8;
+      font-weight: 800;
+    }
+    .mob-tab-active .mob-tab-dot {
+      opacity: 1;
+      transform: scaleX(1);
+    }
     .subtab-active {
       background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
       color: #ffffff;
       border-color: transparent;
       box-shadow: 0 6px 16px -4px rgba(37, 99, 235, 0.42);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .sticky-col-shadow {
+      box-shadow: 4px 0 10px -4px rgba(15, 23, 42, 0.08);
     }
     @media (prefers-reduced-motion: reduce) {
       .animate-float-slow, .animate-float-delay, .animate-float-slow2, .animate-hero-pan, .shimmer-btn::after {
@@ -91,29 +122,28 @@
     }
   </style>
 </head>
-<body class="page-aurora text-slate-900 antialiased min-h-screen selection:bg-blue-600 selection:text-white">
+<body class="page-aurora text-slate-900 antialiased min-h-screen overflow-x-hidden pb-24 md:pb-8 selection:bg-blue-600 selection:text-white">
 
-  <!-- ==================== CINEMATIC HERO SECTION ==================== -->
+  <!-- ==================== CINEMATIC HERO SECTION (MOBILE & DESKTOP ADAPTIVE) ==================== -->
   <section class="hero-mesh relative overflow-hidden text-white border-b border-white/10">
-    <!-- Ambient Particle Canvas -->
     <canvas id="heroParticles" class="absolute inset-0 w-full h-full pointer-events-none opacity-75"></canvas>
 
-    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-7 pb-10 lg:py-12">
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-4 pb-6 sm:pt-7 sm:pb-10 lg:py-12">
       <!-- Top Mini Utility Bar -->
-      <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-white/10">
-        <div class="flex items-center gap-2.5 flex-wrap">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-400/20 text-sky-200 border border-sky-300/30">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            2027학년도 영종구 유치원 입학 인텔리전스
+      <div class="flex items-center justify-between gap-2 pb-4 sm:pb-6 border-b border-white/10">
+        <div class="flex items-center gap-2 min-w-0 flex-wrap">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-sky-400/20 text-sky-200 border border-sky-300/30">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
+            <span class="truncate">2027 영종구 유치원 통합 가이드</span>
           </span>
-          <span id="ddayBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-400/20 text-amber-200 border border-amber-300/30">
-            우선모집 접수: 11. 2.(월) ~ 11. 4.(수)
+          <span id="ddayBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-400/20 text-amber-200 border border-amber-300/30">
+            우선모집: 11. 2. ~ 11. 4.
           </span>
         </div>
-        <div class="flex items-center gap-2 flex-wrap">
+        <div class="hidden sm:flex items-center gap-2 shrink-0">
           <a href="https://enter.childinfo.go.kr" target="_blank" rel="noopener noreferrer"
              class="shimmer-btn inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-sky-400 to-blue-600 text-white shadow-lg shadow-blue-900/40 hover:from-sky-300 hover:to-blue-500 transition">
-            유보통합포털 원서접수 ↗
+            유보통합포털 접수 ↗
           </a>
           <a href="https://e-childschoolinfo.moe.go.kr" target="_blank" rel="noopener noreferrer"
              class="inline-flex items-center gap-1 px-3.5 py-2 rounded-full text-xs font-semibold bg-white/10 text-slate-100 hover:bg-white/20 border border-white/15 transition">
@@ -122,69 +152,77 @@
         </div>
       </div>
 
-      <!-- Main Hero Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-7">
-        <!-- Hero Copy (5 cols) -->
-        <div class="lg:col-span-5 space-y-5">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-white/10 border border-white/15 text-xs text-sky-200 font-medium">
-            <span>✨ Nano Banana 3D 모션 디오라마 에디션</span>
+      <!-- Main Hero Grid (Mobile: compact title -> unobstructed 3D motion -> metrics -> CTAs) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center pt-4 sm:pt-7">
+        <!-- Hero Copy (5 cols on desktop) -->
+        <div class="lg:col-span-5 space-y-4 sm:space-y-5">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/10 border border-white/15 text-xs text-sky-200 font-medium">
+            <span>✨ Nano Banana 3D 모션 디오라마</span>
           </div>
-          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-snug sm:leading-tight">
             영종국제도시 14개 유치원<br>
             <span class="bg-gradient-to-r from-sky-300 via-teal-200 to-amber-200 bg-clip-text text-transparent">
               모집요강 &amp; 무삭제 원문 뷰어
             </span>
           </h1>
           <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            공립 단설 2곳 · 병설 7곳 · 사립 5곳의 <strong>우선모집(70%) · 일반모집(30%) 배정 인원</strong>과
-            한글(HWP)·PDF 공고문 원문 전체를 설치 없이 한 화면에서 비교하세요.
+            단설 2곳 · 병설 7곳 · 사립 5곳의 <strong>우선(70%) · 일반(30%) 정원</strong>과
+            한글(HWP)·PDF 공고문 원문을 스마트폰과 PC 어디서나 바로 열람하세요.
           </p>
 
           <!-- Quick Hero Metric Pills -->
-          <div class="grid grid-cols-3 gap-2.5 pt-1">
-            <div class="rounded-2xl bg-white/10 border border-white/15 p-3 backdrop-blur-md">
-              <div class="text-xs text-sky-200/90">원문 공개 분석</div>
-              <div class="text-lg sm:text-xl font-extrabold text-white mt-0.5">10개원</div>
-              <div class="text-xs text-slate-300">사립 4개원 공시 포함</div>
+          <div class="grid grid-cols-3 gap-2 sm:gap-2.5">
+            <div class="rounded-2xl bg-white/10 border border-white/15 p-2.5 sm:p-3 backdrop-blur-md">
+              <div class="text-xs text-sky-200/90">원문 공개</div>
+              <div class="text-base sm:text-xl font-extrabold text-white mt-0.5">10개원</div>
+              <div class="text-xs text-slate-300 hidden sm:block">사립 4곳 공시포함</div>
             </div>
-            <div class="rounded-2xl bg-blue-500/20 border border-blue-300/25 p-3 backdrop-blur-md">
-              <div class="text-xs text-blue-200">우선모집 (70%)</div>
-              <div class="text-lg sm:text-xl font-extrabold text-sky-200 mt-0.5">292명</div>
-              <div class="text-xs text-slate-300">2자녀 출생신고자</div>
+            <div class="rounded-2xl bg-blue-500/20 border border-blue-300/25 p-2.5 sm:p-3 backdrop-blur-md">
+              <div class="text-xs text-blue-200">우선 (70%)</div>
+              <div class="text-base sm:text-xl font-extrabold text-sky-200 mt-0.5">292명</div>
+              <div class="text-xs text-slate-300 hidden sm:block">2자녀 출생신고자</div>
             </div>
-            <div class="rounded-2xl bg-emerald-500/20 border border-emerald-300/25 p-3 backdrop-blur-md">
-              <div class="text-xs text-emerald-200">일반모집 (30%)</div>
-              <div class="text-lg sm:text-xl font-extrabold text-emerald-200 mt-0.5">123명+</div>
-              <div class="text-xs text-slate-300">우선 미달분 이월</div>
+            <div class="rounded-2xl bg-emerald-500/20 border border-emerald-300/25 p-2.5 sm:p-3 backdrop-blur-md">
+              <div class="text-xs text-emerald-200">일반 (30%)</div>
+              <div class="text-base sm:text-xl font-extrabold text-emerald-200 mt-0.5">123명+</div>
+              <div class="text-xs text-slate-300 hidden sm:block">우선 미달분 이월</div>
             </div>
           </div>
 
-          <div class="flex flex-wrap gap-2.5 pt-1">
-            <button onclick="switchMainTab('compare'); document.getElementById('mainNavAnchor').scrollIntoView({behavior:'smooth'});"
-                    class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-900 hover:bg-sky-50 shadow-lg transition">
-              우선·일반 인원 비교하기 ↓
+          <!-- Mobile + Desktop Action Buttons (44px+ touch targets on mobile) -->
+          <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 pt-0.5">
+            <a href="https://enter.childinfo.go.kr" target="_blank" rel="noopener noreferrer"
+               class="sm:hidden shimmer-btn col-span-2 flex items-center justify-center gap-1.5 min-h-[46px] px-4 py-2.5 rounded-2xl text-xs font-extrabold bg-gradient-to-r from-sky-400 to-blue-600 text-white shadow-lg">
+              유보통합포털 원서접수 바로가기 ↗
+            </a>
+            <button onclick="switchMainTab('compare', true)"
+                    class="flex items-center justify-center min-h-[44px] px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-white text-slate-900 hover:bg-sky-50 shadow-lg transition">
+              정원 비교표 ↓
             </button>
-            <button onclick="switchMainTab('originals'); document.getElementById('mainNavAnchor').scrollIntoView({behavior:'smooth'});"
-                    class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white/10 text-white hover:bg-white/20 border border-white/20 transition">
-              공고문 원문 바로 열람
+            <button onclick="switchMainTab('originals', true)"
+                    class="flex items-center justify-center min-h-[44px] px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white/10 text-white hover:bg-white/20 border border-white/20 transition">
+              공고문 원문 열람
             </button>
           </div>
         </div>
 
-        <!-- Hero Moving Nano Banana 3D Showcase (7 cols) -->
+        <!-- Hero Moving Nano Banana 3D Showcase (Unobstructed on Mobile!) -->
         <div class="lg:col-span-7">
-          <div id="heroTiltCard" class="tilt-stage relative rounded-3xl p-2 bg-gradient-to-br from-white/25 via-white/10 to-white/5 border border-white/20 shadow-2xl">
-            <div class="relative rounded-2xl overflow-hidden bg-slate-900 aspect-video">
-              <img src="./assets/hero_yeongjong_motion.webp"
-                   alt="영종대교와 영종국제도시 유치원 통학버스 및 비행기 무빙 3D 디오라마"
-                   class="w-full h-full object-cover animate-hero-pan" />
-              <!-- Subtle Top-Right Live Motion Pill -->
-              <div class="absolute top-3 right-3 px-3 py-1 rounded-full bg-slate-950/65 backdrop-blur-md border border-white/20 text-xs font-semibold text-sky-200 flex items-center gap-1.5">
+          <div id="heroTiltCard" class="tilt-stage relative rounded-2xl sm:rounded-3xl p-1.5 sm:p-2 bg-gradient-to-br from-white/25 via-white/10 to-white/5 border border-white/20 shadow-2xl">
+            <div class="relative rounded-xl sm:rounded-2xl overflow-hidden bg-slate-900 aspect-video">
+              <picture>
+                <source media="(max-width: 640px)" srcset="./assets/hero_mobile_motion.webp" type="image/webp" />
+                <img src="./assets/hero_yeongjong_motion.webp"
+                     alt="영종대교와 영종국제도시 유치원 통학버스 및 비행기 무빙 3D 디오라마"
+                     class="w-full h-full object-cover animate-hero-pan" />
+              </picture>
+              <!-- Compact Pill on Top-Right -->
+              <div class="absolute top-2.5 right-2.5 px-2.5 py-1 rounded-full bg-slate-950/65 backdrop-blur-md border border-white/20 text-xs font-semibold text-sky-200 flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                LIVE 3D MOTION · 영종대교 &amp; 등하원길
+                <span>LIVE 3D MOTION</span>
               </div>
-              <!-- Bottom Glass Caption Overlay -->
-              <div class="absolute inset-x-3 bottom-3 rounded-xl bg-slate-950/65 backdrop-blur-md border border-white/15 px-3.5 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <!-- Desktop-only Overlay Caption (on Mobile, placed cleanly below image so bus/bridge are 100% visible!) -->
+              <div class="hidden sm:flex absolute inset-x-3 bottom-3 rounded-xl bg-slate-950/65 backdrop-blur-md border border-white/15 px-3.5 py-2.5 flex-wrap items-center justify-between gap-2 text-xs">
                 <div class="text-slate-100 font-medium">
                   🚌 <strong>단설 2곳 · 용유초병설 · 사립 5곳</strong> 통학버스 운행
                 </div>
@@ -193,26 +231,31 @@
                 </div>
               </div>
             </div>
+            <!-- Mobile-only Clean Stacked Caption Bar below Video -->
+            <div class="sm:hidden mt-1.5 rounded-xl bg-slate-950/55 px-3 py-2 flex items-center justify-between gap-2 text-xs">
+              <span class="text-sky-100 font-medium">🚌 단설2·용유·사립5 버스운행</span>
+              <span class="text-amber-300 font-bold shrink-0">11/4 조기마감 주의</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ==================== STICKY GLASS NAVIGATION DOCK ==================== -->
-  <div id="mainNavAnchor" class="sticky top-0 z-30 glass-dock border-b border-slate-200/80 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5">
+  <!-- ==================== DESKTOP STICKY GLASS NAVIGATION DOCK ==================== -->
+  <div id="mainNavAnchor" class="hidden md:block sticky top-0 z-30 glass-dock border-b border-slate-200/80 shadow-sm">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between gap-3">
       <nav class="flex flex-wrap gap-2" id="mainNav">
-        <button onclick="switchMainTab('compare')" id="nav-compare" class="px-4 py-2 rounded-full text-xs sm:text-sm font-bold border transition nav-pill-active">
+        <button onclick="switchMainTab('compare')" id="nav-compare" class="px-4 py-2 rounded-full text-sm font-bold border transition nav-pill-active">
           📊 우선·일반 인원 비교
         </button>
-        <button onclick="switchMainTab('originals')" id="nav-originals" class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold border border-slate-200 bg-white/90 text-slate-700 hover:bg-slate-100 transition">
+        <button onclick="switchMainTab('originals')" id="nav-originals" class="px-4 py-2 rounded-full text-sm font-semibold border border-slate-200 bg-white/90 text-slate-700 hover:bg-slate-100 transition">
           📄 10개원 모집요강 원문
         </button>
-        <button onclick="switchMainTab('forms')" id="nav-forms" class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold border border-slate-200 bg-white/90 text-slate-700 hover:bg-slate-100 transition">
+        <button onclick="switchMainTab('forms')" id="nav-forms" class="px-4 py-2 rounded-full text-sm font-semibold border border-slate-200 bg-white/90 text-slate-700 hover:bg-slate-100 transition">
           📎 붙임1~6 증빙·양식
         </button>
-        <button onclick="switchMainTab('private4')" id="nav-private4" class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold border border-slate-200 bg-white/90 text-slate-700 hover:bg-slate-100 transition">
+        <button onclick="switchMainTab('private4')" id="nav-private4" class="px-4 py-2 rounded-full text-sm font-semibold border border-slate-200 bg-white/90 text-slate-700 hover:bg-slate-100 transition">
           🗓️ 사립 4개원 &amp; 공통일정
         </button>
       </nav>
@@ -223,182 +266,214 @@
     </div>
   </div>
 
-  <!-- ==================== MAIN CONTENT AREA ==================== -->
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-7 space-y-7">
+  <!-- ==================== MOBILE FIXED BOTTOM APP TAB BAR (THUMB-FRIENDLY) ==================== -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 z-40 mobile-bottom-bar border-t border-slate-200/90">
+    <div class="grid grid-cols-4 h-16">
+      <button onclick="switchMainTab('compare', true)" id="mnav-compare" class="relative flex flex-col items-center justify-center gap-0.5 text-xs mob-tab-active transition">
+        <span class="mob-tab-dot absolute top-0 w-8 h-1 rounded-b-full bg-blue-600 transition-transform"></span>
+        <span class="text-base leading-none">📊</span>
+        <span>정원비교</span>
+      </button>
+      <button onclick="switchMainTab('originals', true)" id="mnav-originals" class="relative flex flex-col items-center justify-center gap-0.5 text-xs text-slate-500 font-semibold transition">
+        <span class="mob-tab-dot absolute top-0 w-8 h-1 rounded-b-full bg-blue-600 opacity-0 scale-x-0 transition-transform"></span>
+        <span class="text-base leading-none">📄</span>
+        <span>원문뷰어</span>
+      </button>
+      <button onclick="switchMainTab('forms', true)" id="mnav-forms" class="relative flex flex-col items-center justify-center gap-0.5 text-xs text-slate-500 font-semibold transition">
+        <span class="mob-tab-dot absolute top-0 w-8 h-1 rounded-b-full bg-blue-600 opacity-0 scale-x-0 transition-transform"></span>
+        <span class="text-base leading-none">📎</span>
+        <span>증빙양식</span>
+      </button>
+      <button onclick="switchMainTab('private4', true)" id="mnav-private4" class="relative flex flex-col items-center justify-center gap-0.5 text-xs text-slate-500 font-semibold transition">
+        <span class="mob-tab-dot absolute top-0 w-8 h-1 rounded-b-full bg-blue-600 opacity-0 scale-x-0 transition-transform"></span>
+        <span class="text-base leading-none">🗓️</span>
+        <span>사립·일정</span>
+      </button>
+    </div>
+  </nav>
 
-    <!-- General Recruitment Auto-Update Status Banner (Synced with scripts/update_general_2027.py) -->
-    <div id="generalAutoBanner" class="bg-white/90 backdrop-blur-md border border-emerald-200/90 rounded-2xl p-4 sm:px-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+  <!-- ==================== MAIN CONTENT AREA ==================== -->
+  <main id="mobileContentTop" class="max-w-6xl mx-auto px-3.5 sm:px-6 py-5 sm:py-7 space-y-5 sm:space-y-7">
+
+    <!-- General Recruitment Auto-Update Status Banner -->
+    <div id="generalAutoBanner" class="bg-white/95 backdrop-blur-md border border-emerald-200/90 rounded-2xl p-3.5 sm:p-4 sm:px-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-2.5 sm:gap-3">
       <div class="space-y-1">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white">
             <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
             자동 업데이트 연동됨
           </span>
-          <span class="font-bold text-slate-900 text-xs sm:text-sm">일반모집 요강 자동 감지 시스템 (매일 낮 12:00 KST 자동 스캔)</span>
+          <span class="font-bold text-slate-900 text-xs sm:text-sm">매일 낮 12:00 KST 일반모집 자동 스캔</span>
         </div>
-        <p id="generalAutoSummary" class="text-xs sm:text-sm text-slate-600">최근 자동 점검 시각을 불러오는 중입니다... (일반모집 공고 예정: 2026. 11. 12. ~ 11. 16. 18:00)</p>
+        <p id="generalAutoSummary" class="text-xs sm:text-sm text-slate-600 leading-relaxed">최근 자동 점검 시각을 불러오는 중입니다... (일반모집 공고 예정: 2026. 11. 12. ~ 11. 16. 18:00)</p>
       </div>
-      <div class="shrink-0 flex items-center gap-2 flex-wrap">
+      <div class="shrink-0">
         <a href="https://github.com/ssdy45-afk/test/actions/workflows/update_general_2027.yml" target="_blank" rel="noopener noreferrer"
-           class="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition">
+           class="w-full md:w-auto inline-flex items-center justify-center min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition">
           🔄 수동 즉시 업데이트 (GitHub Actions) ↗
         </a>
       </div>
     </div>
 
     <!-- ==================== 3 MOVING NANO BANANA CATEGORY BENTO CARDS ==================== -->
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <!-- Card 1: Danseol -->
-      <div onclick="quickFilterType('공립 단설')"
-           class="bento-card cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-50 via-white to-blue-50/70 border border-sky-200/80 p-5 flex items-center justify-between gap-4 shadow-sm">
-        <div class="space-y-2 z-10">
-          <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-600 text-white">공립 단설 · 2개원</span>
-          <h3 class="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-blue-700 transition">유아 전용 단독건물 &amp; 스쿨버스</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            <strong>영종 · 인천공항유치원</strong><br>
-            전임 원장 · 전용 급식 · 2곳 모두 통학버스 운행
-          </p>
-          <div class="text-xs font-bold text-blue-700 pt-0.5">클릭하여 단설 2곳 필터 보기 →</div>
-        </div>
-        <div class="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-2xl overflow-hidden shadow-md border border-white bg-sky-100/60 animate-float-slow">
-          <img src="./assets/danseol_motion.webp" alt="공립 단설유치원 3D 모션 디오라마" class="w-full h-full object-cover" />
-        </div>
+    <!-- Mobile: Smooth Horizontal Snap Swipe Carousel | Tablet/Desktop: 3-Col Bento Grid -->
+    <section class="space-y-2">
+      <div class="flex items-center justify-between md:hidden px-1">
+        <span class="text-xs font-bold text-slate-600">설립유형별 특징 (좌우로 밀어서 선택)</span>
+        <span class="text-xs text-slate-400">스와이프 →</span>
       </div>
+      <div class="flex md:grid md:grid-cols-3 gap-3.5 sm:gap-4 overflow-x-auto md:overflow-visible no-scrollbar snap-x snap-mandatory pb-1">
+        <!-- Card 1: Danseol -->
+        <div onclick="quickFilterType('공립 단설')"
+             class="snap-center shrink-0 w-[85%] sm:w-[70%] md:w-auto bento-card cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-50 via-white to-blue-50/70 border border-sky-200/80 p-4 sm:p-5 flex items-center justify-between gap-3.5 shadow-sm">
+          <div class="space-y-1.5 z-10 min-w-0">
+            <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-600 text-white">공립 단설 · 2개원</span>
+            <h3 class="text-base font-extrabold text-slate-900 group-hover:text-blue-700 transition">유아 전용 단독건물 &amp; 버스</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>영종 · 인천공항유치원</strong><br>
+              전임 원장 · 전용 급식 · 전원 스쿨버스
+            </p>
+            <div class="text-xs font-bold text-blue-700 pt-0.5">터치하여 단설 2곳 보기 →</div>
+          </div>
+          <div class="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden shadow-md border border-white bg-sky-100/60 animate-float-slow">
+            <img src="./assets/danseol_motion.webp" alt="공립 단설유치원 3D 모션 디오라마" class="w-full h-full object-cover" />
+          </div>
+        </div>
 
-      <!-- Card 2: Byeongseol -->
-      <div onclick="quickFilterType('공립 병설')"
-           class="bento-card cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-teal-50/70 border border-emerald-200/80 p-5 flex items-center justify-between gap-4 shadow-sm">
-        <div class="space-y-2 z-10">
-          <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white">공립 병설 · 7개원</span>
-          <h3 class="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-emerald-700 transition">초품아 도보권 &amp; 초등 형제연계</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            <strong>달빛·별빛·영종·용유·윤슬·중산·하늘초</strong><br>
-            초등 재학·취학예정 형제 4순위 &amp; 학교 적응 강점
-          </p>
-          <div class="text-xs font-bold text-emerald-700 pt-0.5">클릭하여 병설 7곳 필터 보기 →</div>
+        <!-- Card 2: Byeongseol -->
+        <div onclick="quickFilterType('공립 병설')"
+             class="snap-center shrink-0 w-[85%] sm:w-[70%] md:w-auto bento-card cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-teal-50/70 border border-emerald-200/80 p-4 sm:p-5 flex items-center justify-between gap-3.5 shadow-sm">
+          <div class="space-y-1.5 z-10 min-w-0">
+            <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white">공립 병설 · 7개원</span>
+            <h3 class="text-base font-extrabold text-slate-900 group-hover:text-emerald-700 transition">초품아 도보권 &amp; 형제연계</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>달빛·별빛·영종·용유·윤슬·중산·하늘</strong><br>
+              초등 형제 4순위 &amp; 학교 적응 강점
+            </p>
+            <div class="text-xs font-bold text-emerald-700 pt-0.5">터치하여 병설 7곳 보기 →</div>
+          </div>
+          <div class="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden shadow-md border border-white bg-emerald-100/60 animate-float-delay">
+            <img src="./assets/byeongseol_motion.webp" alt="공립 병설유치원 3D 모션 디오라마" class="w-full h-full object-cover" />
+          </div>
         </div>
-        <div class="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-2xl overflow-hidden shadow-md border border-white bg-emerald-100/60 animate-float-delay">
-          <img src="./assets/byeongseol_motion.webp" alt="공립 병설유치원 3D 모션 디오라마" class="w-full h-full object-cover" />
-        </div>
-      </div>
 
-      <!-- Card 3: Sarip -->
-      <div onclick="quickFilterType('사립')"
-           class="bento-card cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50 via-white to-pink-50/70 border border-purple-200/80 p-5 flex items-center justify-between gap-4 shadow-sm">
-        <div class="space-y-2 z-10">
-          <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-600 text-white">사립 · 5개원</span>
-          <h3 class="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-purple-700 transition">특성화 프로그램 &amp; 광역 차량</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            <strong>뒤나미스(원문공개) + 무지개·이튼·초롱·해님나라</strong><br>
-            전 원 통학버스 운행 · 유아학비 지원 적용
-          </p>
-          <div class="text-xs font-bold text-purple-700 pt-0.5">클릭하여 사립 필터 보기 →</div>
-        </div>
-        <div class="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-2xl overflow-hidden shadow-md border border-white bg-purple-100/60 animate-float-slow2">
-          <img src="./assets/sarip_motion.webp" alt="사립유치원 3D 모션 디오라마" class="w-full h-full object-cover" />
+        <!-- Card 3: Sarip -->
+        <div onclick="quickFilterType('사립')"
+             class="snap-center shrink-0 w-[85%] sm:w-[70%] md:w-auto bento-card cursor-pointer group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50 via-white to-pink-50/70 border border-purple-200/80 p-4 sm:p-5 flex items-center justify-between gap-3.5 shadow-sm">
+          <div class="space-y-1.5 z-10 min-w-0">
+            <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-600 text-white">사립 · 5개원</span>
+            <h3 class="text-base font-extrabold text-slate-900 group-hover:text-purple-700 transition">특성화 프로그램 &amp; 차량</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>뒤나미스 + 무지개·이튼·초롱·해님나라</strong><br>
+              전 원 통학버스 · 유아학비 지원 적용
+            </p>
+            <div class="text-xs font-bold text-purple-700 pt-0.5">터치하여 사립 보기 →</div>
+          </div>
+          <div class="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden shadow-md border border-white bg-purple-100/60 animate-float-slow2">
+            <img src="./assets/sarip_motion.webp" alt="사립유치원 3D 모션 디오라마" class="w-full h-full object-cover" />
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ==================== TAB 1: PRIORITY VS GENERAL COMPARISON ==================== -->
     <section id="panel-compare" class="space-y-5">
-      <!-- Filter Toolbar + View Switcher Card -->
-      <div class="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 shadow-sm space-y-5">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div class="bg-white rounded-3xl border border-slate-200/90 p-4 sm:p-6 shadow-sm space-y-4 sm:space-y-5">
+        <!-- Responsive Header & Mobile-Friendly 2x2 Filter Grid -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5">
           <div>
-            <div class="flex items-center gap-2">
-              <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">우선모집(70%) vs 일반모집(30%) 정원 인텔리전스</h2>
-              <button onclick="resetFilters()" id="resetFilterBtn" class="hidden px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
-                필터 초기화 ↺
+            <div class="flex items-center gap-2 flex-wrap">
+              <h2 class="text-base sm:text-xl font-extrabold text-slate-900">우선모집(70%) vs 일반모집(30%) 정원 비교</h2>
+              <button onclick="resetFilters()" id="resetFilterBtn" class="hidden px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition">
+                필터 해제 ✕
               </button>
             </div>
-            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">카드를 클릭하거나 표에서 <strong>원문 보기</strong>를 누르면 공고문 전문과 통학버스 노선을 바로 열람합니다.</p>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">유치원 카드를 터치하면 공고문 전문·통학버스 노선·원본 파일로 바로 이동합니다.</p>
           </div>
 
-          <div class="flex flex-wrap items-center gap-2">
-            <!-- View Mode Toggle -->
-            <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200">
-              <button id="viewBtnCards" onclick="setCompareView('cards')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition">
-                ✨ 카드 뷰
-              </button>
-              <button id="viewBtnTable" onclick="setCompareView('table')" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
-                📋 정밀 표 뷰
-              </button>
-            </div>
-
-            <select id="cmpRegion" onchange="renderCompareTable()" class="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:border-blue-500">
-              <option value="ALL">전체 권역 (10개원)</option>
-              <option value="중산">중산·하늘도시 (6)</option>
+          <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
+            <select id="cmpRegion" onchange="renderCompareTable()" class="min-h-[42px] px-3 py-2 rounded-xl text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:border-blue-500">
+              <option value="ALL">전체 권역 (10)</option>
+              <option value="중산">중산·하늘 (6)</option>
               <option value="운서">운서권역 (2)</option>
-              <option value="운남·용유">운남·용유권역 (2)</option>
+              <option value="운남·용유">운남·용유 (2)</option>
             </select>
-            <select id="cmpType" onchange="renderCompareTable()" class="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:border-blue-500">
+            <select id="cmpType" onchange="renderCompareTable()" class="min-h-[42px] px-3 py-2 rounded-xl text-xs font-semibold bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:border-blue-500">
               <option value="ALL">전체 설립유형</option>
               <option value="공립 단설">공립 단설 (2)</option>
               <option value="공립 병설">공립 병설 (7)</option>
               <option value="사립">사립 (1)</option>
             </select>
-            <label class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-50 border border-slate-200 cursor-pointer select-none hover:bg-slate-100 transition">
-              <input type="checkbox" id="cmpBusOnly" onchange="renderCompareTable()" class="rounded text-blue-600" />
+            <label class="min-h-[42px] inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-slate-50 border border-slate-200 cursor-pointer select-none hover:bg-slate-100 transition">
+              <input type="checkbox" id="cmpBusOnly" onchange="renderCompareTable()" class="rounded text-blue-600 w-4 h-4" />
               <span>🚌 통학버스만</span>
             </label>
+            <div class="min-h-[42px] inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200">
+              <button id="viewBtnCards" onclick="setCompareView('cards')" class="flex-1 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition whitespace-nowrap">
+                카드뷰
+              </button>
+              <button id="viewBtnTable" onclick="setCompareView('table')" class="flex-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition whitespace-nowrap">
+                표뷰
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- KPI Summary Bento Boxes + Stacked Ratio Bar -->
-        <div id="kpiGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-3"></div>
+        <!-- KPI Summary Bento Boxes -->
+        <div id="kpiGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3"></div>
 
-        <!-- Interactive Bento Card Grid View -->
-        <div id="compareCardsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        <!-- Interactive Bento Card Grid View (Default & Best on Mobile!) -->
+        <div id="compareCardsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4"></div>
 
-        <!-- Precision Data Table View -->
-        <div id="compareTableWrap" class="hidden overflow-x-auto border border-slate-200 rounded-2xl">
-          <table class="w-full text-left border-collapse text-xs sm:text-sm">
-            <thead>
-              <tr class="bg-slate-900 text-white">
-                <th class="py-3.5 px-3.5 font-bold">유치원명 (권역·설립)</th>
-                <th class="py-3.5 px-2.5 text-center font-bold">3세 (23년생)<br><span class="text-sky-300">우선</span> / <span class="text-emerald-300">일반</span></th>
-                <th class="py-3.5 px-2.5 text-center font-bold">4세 (22년생)<br><span class="text-sky-300">우선</span> / <span class="text-emerald-300">일반</span></th>
-                <th class="py-3.5 px-2.5 text-center font-bold">5세 (21년생)<br><span class="text-sky-300">우선</span> / <span class="text-emerald-300">일반</span></th>
-                <th class="py-3.5 px-2.5 text-center font-bold bg-white/10">합계<br><span class="text-sky-300">우선</span> / <span class="text-emerald-300">일반</span></th>
-                <th class="py-3.5 px-2.5 text-center font-bold">통학버스 · 시간</th>
-                <th class="py-3.5 px-2.5 text-center font-bold">11/4 서류마감</th>
-                <th class="py-3.5 px-2.5 text-center font-bold">상세</th>
-              </tr>
-            </thead>
-            <tbody id="compareTbody" class="divide-y divide-slate-200 bg-white"></tbody>
-          </table>
+        <!-- Precision Data Table View (With Sticky Left Column on Mobile!) -->
+        <div id="compareTableWrap" class="hidden space-y-2">
+          <div class="sm:hidden text-xs text-slate-500 px-1">↔ 표를 좌우로 밀면 연령별 상세 수치를 볼 수 있습니다 (유치원명 고정).</div>
+          <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="bg-slate-900 text-white">
+                  <th class="sticky left-0 z-10 bg-slate-900 py-3 px-3 font-bold min-w-[132px]">유치원명</th>
+                  <th class="py-3 px-2.5 text-center font-bold whitespace-nowrap">3세 (23년)<br><span class="text-sky-300">우선</span>/<span class="text-emerald-300">일반</span></th>
+                  <th class="py-3 px-2.5 text-center font-bold whitespace-nowrap">4세 (22년)<br><span class="text-sky-300">우선</span>/<span class="text-emerald-300">일반</span></th>
+                  <th class="py-3 px-2.5 text-center font-bold whitespace-nowrap">5세 (21년)<br><span class="text-sky-300">우선</span>/<span class="text-emerald-300">일반</span></th>
+                  <th class="py-3 px-2.5 text-center font-bold bg-white/10 whitespace-nowrap">합계</th>
+                  <th class="py-3 px-2.5 text-center font-bold whitespace-nowrap">버스·시간</th>
+                  <th class="py-3 px-2.5 text-center font-bold whitespace-nowrap">11/4 마감</th>
+                  <th class="py-3 px-2.5 text-center font-bold whitespace-nowrap">원문</th>
+                </tr>
+              </thead>
+              <tbody id="compareTbody" class="divide-y divide-slate-200 bg-white"></tbody>
+            </table>
+          </div>
         </div>
 
         <!-- Crucial 2027 Policy & Fetus Multi-Child Notice -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-1">
-          <div class="rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/60 border border-amber-200/80 p-4 text-xs sm:text-sm space-y-1.5 text-slate-800">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3.5 pt-1">
+          <div class="rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/60 border border-amber-200/80 p-4 text-xs sm:text-sm space-y-1.5 text-slate-800 leading-relaxed">
             <div class="font-extrabold text-amber-950 flex items-center gap-1.5">
-              <span>⚠️</span> 2027 다자녀 우선모집 핵심 주의사항 (태아 미포함 · 마감시각)
+              <span>⚠️</span> 다자녀 기준(태아 미포함) &amp; 서류 조기마감 주의
             </div>
-            <p>• <strong>2자녀 이상 다자녀(기타 4순위)</strong>: 올해부터 2자녀로 완화되었으나 인천 유치원은 반드시 <strong>출생신고자에 한함(출생순서 무관, 임신 중 태아는 불인정)</strong> 기준이 적용됩니다.</p>
-            <p>• <strong>11/4(수) 조기 마감 원 주의</strong>: <span class="text-red-700 font-bold">용유초병설 15:30 · 영종초병설/윤슬초병설 16:00 · 뒤나미스 17:00</span>에 서류 접수가 마감됩니다.</p>
+            <p>• <strong>2자녀 이상 다자녀(기타 4순위)</strong>: 인천 유치원 우선모집은 반드시 <strong>출생신고자에 한함(출생순서 무관, 임신 중 태아 불인정)</strong> 기준이 적용됩니다.</p>
+            <p>• <strong>11/4(수) 조기마감</strong>: <span class="text-red-700 font-bold">용유 15:30 · 영종초/윤슬 16:00 · 뒤나미스 17:00</span> 마감 주의!</p>
           </div>
-          <div class="rounded-2xl bg-slate-50 border border-slate-200/90 p-4 text-xs sm:text-sm space-y-1.5 text-slate-700">
+          <div class="rounded-2xl bg-slate-50 border border-slate-200/90 p-4 text-xs sm:text-sm space-y-1.5 text-slate-700 leading-relaxed">
             <div class="font-extrabold text-slate-900 flex items-center gap-1.5">
-              <span>💡</span> 포털 모집인원 표기 &amp; 일반모집 이월 원리
+              <span>💡</span> 포털 표기 인원 &amp; 일반모집 이월 원리
             </div>
-            <p>• 유보통합포털과 요강 표의 <code>모집인원</code>(예: 공항 3세 <code>12명</code>)은 <strong>우선+일반 전체 신입 정원</strong>이며, 다자녀 등 기타 4순위는 <strong>70%까지만 우선 선발</strong>됩니다.</p>
-            <p>• 우선모집 미달·미등록 잔여석은 전량 <strong>일반모집(<code>11. 16. 18:00</code> 확정 공개)</strong>으로 이월되어 본 사이트에 자동 업데이트됩니다.</p>
+            <p>• 포털·공고문의 <code>모집인원</code>(예: 공항 3세 <code>12명</code>)은 <strong>우선+일반 전체 정원</strong>이며, 다자녀 등 기타 4순위는 <strong>70%까지만 우선 선발</strong>합니다.</p>
+            <p>• 우선모집 미달·포기 잔여석은 전량 <strong>일반모집(<code>11. 16. 18:00</code> 공개)</strong>으로 이월되어 본 페이지에 자동 반영됩니다.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ==================== TAB 2: 10 KINDERGARTENS ORIGINALS VIEWER ==================== -->
-    <section id="panel-originals" class="hidden space-y-5">
-      <div class="bg-white border border-slate-200/90 rounded-3xl p-5 shadow-sm space-y-4">
-        <div class="flex flex-col sm:flex-row gap-3">
-          <div class="relative flex-1">
-            <input id="searchInput" type="text" placeholder="10개원 원문 키워드 실시간 검색 (예: 통학차량, 아침돌봄, 서약서, 금강펜테리움, 15:30...)"
-                   class="w-full pl-4 pr-4 py-2.5 rounded-2xl text-xs sm:text-sm bg-slate-50 text-slate-900 border border-slate-300 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
-          </div>
-          <select id="regionFilter" class="px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold bg-slate-50 text-slate-900 border border-slate-300 focus:outline-none focus:border-blue-500">
+    <section id="panel-originals" class="hidden space-y-4 sm:space-y-5">
+      <div class="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-sm space-y-3.5">
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input id="searchInput" type="search" placeholder="원문 내 키워드 검색 (예: 통학차량, 아침돌봄, 서약서, 금강펜테리움...)"
+                 class="w-full min-h-[44px] px-4 py-2.5 rounded-2xl text-xs sm:text-sm bg-slate-50 text-slate-900 border border-slate-300 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
+          <select id="regionFilter" class="min-h-[44px] px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold bg-slate-50 text-slate-900 border border-slate-300 focus:outline-none focus:border-blue-500">
             <option value="ALL">전체 권역 (10개원)</option>
             <option value="중산">중산·하늘도시 (6개원)</option>
             <option value="운서">운서권역 (2개원)</option>
@@ -406,51 +481,53 @@
           </select>
         </div>
 
-        <!-- Kindergarten Selector Pills -->
-        <div id="tabBar" class="flex flex-wrap gap-2"></div>
+        <!-- Mobile: Single-Row Swipeable Kindergarten Selector Pills! Desktop: Wrap -->
+        <div class="space-y-1">
+          <div class="sm:hidden text-xs text-slate-400 px-1">유치원 선택 (좌우 스크롤) →</div>
+          <div id="tabBar" class="flex sm:flex-wrap gap-2 overflow-x-auto sm:overflow-visible no-scrollbar snap-x pb-1"></div>
+        </div>
       </div>
 
       <!-- Selected Kindergarten Original Detail Card -->
-      <div id="docContainer" class="bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-7 shadow-sm space-y-6"></div>
+      <div id="docContainer" class="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-7 shadow-sm space-y-5 sm:space-y-6"></div>
     </section>
 
     <!-- ==================== TAB 3: ATTACHMENTS 1~6 ORIGINAL FORMS ==================== -->
     <section id="panel-forms" class="hidden space-y-5">
-      <div class="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-sm space-y-5">
+      <div class="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-7 shadow-sm space-y-5">
         <div class="border-b border-slate-200 pb-4">
           <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">공통 붙임 1 ~ 6 원문</span>
-          <h2 class="text-xl font-extrabold text-slate-900 mt-2">&lt;붙임 1~6&gt; 우선모집 세부 자격기준 · 증빙서류 · 제출양식 원문 전문</h2>
-          <p class="text-xs sm:text-sm text-slate-600 mt-1">제출시점 기준 3개월 이내 발급 서류만 유효하며, 방문·이메일 제출 시 반드시 <strong>확인서 + 개인정보동의서</strong>를 함께 제출해야 합니다.</p>
+          <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-2">&lt;붙임 1~6&gt; 우선모집 세부 자격 · 증빙서류 · 제출양식</h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">제출시점 기준 3개월 이내 발급 서류만 유효하며, 방문·이메일 제출 시 반드시 <strong>확인서 + 개인정보동의서</strong>를 함께 제출해야 합니다.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div class="lg:col-span-2 border border-slate-200 rounded-2xl p-5 bg-slate-50/80 space-y-2.5">
+          <div class="lg:col-span-2 border border-slate-200 rounded-2xl p-4 sm:p-5 bg-slate-50/80 space-y-2.5">
             <h3 class="text-sm sm:text-base font-extrabold text-slate-900">&lt;붙임 1·2&gt; 순위별 세부 자격 및 필수 증빙서류</h3>
             <ul class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-800">
-              <li>• <strong>1~3순위 (법정저소득층 · 국가보훈대상자[자녀, 독립유공자는 손자녀까지] · 북한이탈주민)</strong>: 유보통합포털 접수 시 주민등록번호 입력으로 온라인 실시간 자격검증 (시스템 미확인 시에만 유치원에 별도 증명서 제출)</li>
+              <li>• <strong>1~3순위 (법정저소득층 · 국가보훈[독립유공자는 손자녀까지] · 북한이탈주민)</strong>: 유보통합포털 접수 시 실시간 자격검증 (미확인 시에만 별도 제출)</li>
               <li>• <strong>기타 4순위 — 다자녀(2자녀 이상, 출생신고자 한정·태아 제외·출생순서 무관) / 쌍생아 / 재원·본교 형제자매 / 졸업생 동생</strong>: 주민등록등본(또는 가족관계증명서) 1부 → <span class="text-blue-700 font-bold">공공마이데이터 온라인 간편 제출 가능</span></li>
-              <li>• <strong>기타 4순위 — 사회적 배려대상자</strong>: 아동복지시설(아동복지법 제16조), 여성폭력피해자 보호시설, 성매매피해자 지원시설, 모자(일시)보호시설 입소 확인서 1부</li>
-              <li>• <strong>기타 4순위 — 다문화 가정(내국인 자녀)</strong>: 주민등록등본 외 국적·귀화 확인 가능 서류(가족관계증명서, 기본증명서, 혼인관계증명서 등) 추가 제출</li>
-              <li>• <strong>기타 4순위 — 장애부모 가정('장애의 정도가 심한 장애인')</strong>: 장애인등록증 사본(또는 장애인증명서) 1부 + 등본/가족관계증명서 1부 (마이데이터 간편 제출 가능)</li>
+              <li>• <strong>기타 4순위 — 사회적 배려대상자</strong>: 아동복지시설, 여성폭력피해자 보호시설, 성매매피해자 지원시설, 모자(일시)보호시설 입소 확인서 1부</li>
+              <li>• <strong>기타 4순위 — 다문화 가정(내국인 자녀)</strong>: 등본 외 국적·귀화 확인 서류(가족관계·기본·혼인관계증명서 등) 추가 제출</li>
+              <li>• <strong>기타 4순위 — 장애부모 가정('장애의 정도가 심한 장애인')</strong>: 장애인등록증 사본(또는 장애인증명서) 1부 + 등본/가족관계증명서 1부</li>
               <li>• <strong>기타 4순위 — 한부모 가정</strong>: 보호자의 가족관계증명서 1부 (마이데이터 간편 제출 가능)</li>
-              <li>• <strong>온라인 간편 제출 가능 서류(총 13종)</strong>: 국민기초생활수급자증명서, 차상위계층확인서, 한부모가족증명서, 국가유공자확인서, 주민등록등(초)본, 가족관계증명서, 장애인증명서, 건강보험자격득실확인서, 고용보험피보험자격이력내역서, 국민연금가입자증명서, 사업자등록증, 소득금액증명서, 부가가치세과세표준증명원</li>
             </ul>
           </div>
 
-          <div class="border border-slate-200 rounded-2xl p-5 bg-slate-50/80 space-y-2.5">
+          <div class="border border-slate-200 rounded-2xl p-4 sm:p-5 bg-slate-50/80 space-y-2.5">
             <h3 class="text-sm sm:text-base font-extrabold text-slate-900">&lt;붙임 3&gt; 확 인 서 (방문·이메일 제출 시 필수)</h3>
             <div class="bg-white border border-slate-200 rounded-xl p-4 text-xs sm:text-sm leading-relaxed text-slate-800 space-y-2">
               <p>상기 보호자는 <strong>(해당 유치원)</strong>에 2027학년도 입학을 위해 제출한 증빙서류가 사실임을 확인하며, 만약 제출한 서류가 허위이거나 사실과 다를 경우 선발이 되었더라도 입학이 취소될 수 있음을 인지하고 있습니다.</p>
-              <p class="text-right font-semibold text-slate-600">2026. 11. &nbsp;&nbsp;. | 유아명 / 보호자명 (서명) | ○○유치원장 귀하</p>
+              <p class="text-right font-semibold text-slate-600">2026. 11. . | 유아명 / 보호자명 (서명)</p>
             </div>
           </div>
 
-          <div class="border border-slate-200 rounded-2xl p-5 bg-slate-50/80 space-y-2.5">
-            <h3 class="text-sm sm:text-base font-extrabold text-slate-900">&lt;붙임 4~6&gt; 개인정보 동의서 · 위임장 · 취학예정 서약서</h3>
+          <div class="border border-slate-200 rounded-2xl p-4 sm:p-5 bg-slate-50/80 space-y-2.5">
+            <h3 class="text-sm sm:text-base font-extrabold text-slate-900">&lt;붙임 4~6&gt; 개인정보 동의서 · 위임장 · 서약서</h3>
             <ul class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-800">
-              <li>• <strong>[개인정보 수집·이용 동의서]</strong>: 유아·보호자 필수 정보 및 자격 검증 민감정보 수집 동의 (미동의 시 선발 참여 불가)</li>
-              <li>• <strong>[위임장]</strong>: 온라인 접수가 어려워 유치원 현장접수를 위임할 때 작성 (신분증·등본·증빙 지참)</li>
-              <li>• <strong>[서약서 — 병설 1학년 입학예정 형제자매]</strong>: 취학통지서 수령 후 제출하며, 본교 미입학 시 유치원 입학 취소 인지 서약</li>
+              <li>• <strong>[개인정보 수집·이용 동의서]</strong>: 유아·보호자 필수 정보 및 자격 검증 민감정보 동의</li>
+              <li>• <strong>[위임장]</strong>: 온라인 접수가 어려워 현장접수를 위임할 때 작성 (신분증·등본·증빙 지참)</li>
+              <li>• <strong>[서약서 — 병설 1학년 입학예정 형제자매]</strong>: 취학통지서 수령 후 제출 및 본교 미입학 시 입학 취소 인지 서약</li>
             </ul>
           </div>
         </div>
@@ -459,9 +536,31 @@
 
     <!-- ==================== TAB 4: PRIVATE 4 KINDERGARTENS & SCHEDULE ==================== -->
     <section id="panel-private4" class="hidden space-y-5">
-      <div class="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-sm space-y-4">
-        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">2027학년도 인천광역시 유치원 공통 모집 일정</h2>
-        <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+      <div class="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-6 shadow-sm space-y-4">
+        <h2 class="text-base sm:text-xl font-extrabold text-slate-900">2027학년도 인천광역시 유치원 공통 모집 일정</h2>
+
+        <!-- Mobile Stacked Timeline Cards (<640px) -->
+        <div class="sm:hidden space-y-2.5 text-xs">
+          <div class="rounded-2xl border border-blue-200 bg-blue-50/50 p-3.5 space-y-1">
+            <div class="font-extrabold text-blue-700">우선모집 (최대 3곳 지원)</div>
+            <div>• <strong>접수</strong>: 2026. 11. 2.(월) 09:00 ~ 11. 4.(수) 18:00</div>
+            <div>• <strong>발표</strong>: 11. 9.(월) 모바일 15:00 / PC 15:10 (대기번호 없음)</div>
+            <div>• <strong>등록</strong>: 11. 10.(화) 09:00 ~ 11. 11.(수) 18:00</div>
+          </div>
+          <div class="rounded-2xl border border-emerald-200 bg-emerald-50/50 p-3.5 space-y-1">
+            <div class="font-extrabold text-emerald-700">일반모집 (선착순 아님 · 자동추첨)</div>
+            <div>• <strong>잔여석 공개</strong>: 2026. 11. 16.(월) 18:00 ~ (본 사이트 자동 반영)</div>
+            <div>• <strong>접수</strong>: 2026. 11. 17.(화) 09:00 ~ 11. 23.(월) 18:00</div>
+            <div>• <strong>발표 / 등록</strong>: 발표 11. 26.(목) 15:00 / 등록 11. 27.~11. 30.</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3.5 space-y-1">
+            <div class="font-extrabold text-slate-800">추가모집 (결원 발생 시 수시)</div>
+            <div>• <strong>기간</strong>: 2026. 12. 1.(화) ~ 2027. 2. 12.(금)</div>
+          </div>
+        </div>
+
+        <!-- Tablet/Desktop Table (>=640px) -->
+        <div class="hidden sm:block overflow-x-auto border border-slate-200 rounded-2xl">
           <table class="w-full text-left border-collapse text-xs sm:text-sm">
             <thead>
               <tr class="bg-slate-900 text-white">
@@ -484,51 +583,63 @@
         </div>
       </div>
 
-      <div class="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-sm space-y-4">
+      <div class="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-6 shadow-sm space-y-4">
         <div>
           <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-700">유치원알리미 공시 스펙</span>
-          <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1.5">유보통합포털 내부 게시 사립유치원 4개원 현황</h2>
-          <p class="text-xs sm:text-sm text-slate-600 mt-0.5">아래 4개 사립유치원은 외부 홈페이지 공고 없이 <strong>유보통합포털 로그인 → 유치원 찾기(인천 영종구)</strong>에서 2027학년도 모집요강을 확인하실 수 있습니다.</p>
+          <h2 class="text-base sm:text-xl font-extrabold text-slate-900 mt-1.5">유보통합포털 내부 게시 사립유치원 4개원 현황</h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-0.5">외부 홈페이지 공지 없이 <strong>유보통합포털 로그인 → 유치원 찾기(인천 영종구)</strong>에서 2027 모집요강을 확인하실 수 있습니다.</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="bento-card rounded-2xl border border-slate-200 p-5 bg-slate-50/60 space-y-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
+          <div class="bento-card rounded-2xl border border-slate-200 p-4 sm:p-5 bg-slate-50/60 space-y-2">
             <div class="flex items-center justify-between">
               <span class="font-extrabold text-base text-slate-900">무지개유치원</span>
               <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">통학버스 3대</span>
             </div>
-            <p class="text-xs text-slate-500">운서동 눈돌로 35 · 09:00~19:00 · ☎ 032-751-3008</p>
+            <p class="text-xs text-slate-500">운서동 눈돌로 35 · 09:00~19:00</p>
             <p class="text-xs sm:text-sm text-slate-800">• <strong>규모</strong>: 총 9학급 (정원 228명 — 3세 69 · 4세 75 · 5세 84)</p>
             <p class="text-xs sm:text-sm text-slate-800">• <strong>월 부담금(교육/방과후)</strong>: 3세 148,000/24,000원 · 4세 38,000/24,000원 · 5세 0/45,000원</p>
-            <a href="https://www.mujigaekinder.com/main/main.html" target="_blank" class="inline-block text-xs font-bold text-blue-600 hover:underline pt-1">공식 홈페이지 ↗</a>
+            <div class="flex items-center gap-2 pt-1">
+              <a href="tel:032-751-3008" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white">📞 032-751-3008</a>
+              <a href="https://www.mujigaekinder.com/main/main.html" target="_blank" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">홈페이지 ↗</a>
+            </div>
           </div>
-          <div class="bento-card rounded-2xl border border-slate-200 p-5 bg-slate-50/60 space-y-2">
+          <div class="bento-card rounded-2xl border border-slate-200 p-4 sm:p-5 bg-slate-50/60 space-y-2">
             <div class="flex items-center justify-between">
               <span class="font-extrabold text-base text-slate-900">이튼유치원</span>
               <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">통학버스 4대</span>
             </div>
-            <p class="text-xs text-slate-500">운남동 남디로안길 34-7 · 08:00~18:00 · ☎ 032-752-7110</p>
+            <p class="text-xs text-slate-500">운남동 남디로안길 34-7 · 08:00~18:00</p>
             <p class="text-xs sm:text-sm text-slate-800">• <strong>규모</strong>: 총 12학급 (정원 269명 — 3세 80 · 4세 92 · 5세 97)</p>
             <p class="text-xs sm:text-sm text-slate-800">• <strong>월 부담금(교육/방과후)</strong>: 3세 173,000/60,000원 · 4세 67,150/60,000원 · 5세 0/10,000원</p>
-            <span class="inline-block text-xs text-slate-500 pt-1">유선 예약 소그룹 개별상담 운영</span>
+            <div class="flex items-center gap-2 pt-1">
+              <a href="tel:032-752-7110" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white">📞 032-752-7110</a>
+              <span class="text-xs text-slate-500">소그룹 예약상담</span>
+            </div>
           </div>
-          <div class="bento-card rounded-2xl border border-slate-200 p-5 bg-slate-50/60 space-y-2">
+          <div class="bento-card rounded-2xl border border-slate-200 p-4 sm:p-5 bg-slate-50/60 space-y-2">
             <div class="flex items-center justify-between">
               <span class="font-extrabold text-base text-slate-900">초롱유치원</span>
               <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">통학버스 3대</span>
             </div>
-            <p class="text-xs text-slate-500">운서동 영종대로27번길 6 · 07:30~19:00 · ☎ 032-751-8400</p>
+            <p class="text-xs text-slate-500">운서동 영종대로27번길 6 · 07:30~19:00</p>
             <p class="text-xs sm:text-sm text-slate-800">• <strong>규모</strong>: 총 6학급 (정원 140명 — 3세 40 · 4세 48 · 5세 52)</p>
             <p class="text-xs sm:text-sm text-slate-800">• <strong>월 부담금(교육/방과후)</strong>: 3세 122,800/47,500원 · 4세 10,000/47,500원 · 5세 0/44,600원</p>
-            <a href="https://cafe.naver.com/chokids" target="_blank" class="inline-block text-xs font-bold text-blue-600 hover:underline pt-1">공식 네이버카페 ↗</a>
+            <div class="flex items-center gap-2 pt-1">
+              <a href="tel:032-751-8400" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white">📞 032-751-8400</a>
+              <a href="https://cafe.naver.com/chokids" target="_blank" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">네이버카페 ↗</a>
+            </div>
           </div>
-          <div class="bento-card rounded-2xl border border-slate-200 p-5 bg-slate-50/60 space-y-2">
+          <div class="bento-card rounded-2xl border border-slate-200 p-4 sm:p-5 bg-slate-50/60 space-y-2">
             <div class="flex items-center justify-between">
               <span class="font-extrabold text-base text-slate-900">해님나라유치원</span>
               <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">통학버스 4대</span>
             </div>
-            <p class="text-xs text-slate-500">운서동 은골로 42 · 09:00~19:00 · ☎ 032-752-7878</p>
+            <p class="text-xs text-slate-500">운서동 은골로 42 · 09:00~19:00</p>
             <p class="text-xs sm:text-sm text-slate-800">• <strong>규모</strong>: 총 8학급 (정원 196명 — 3세 68 · 4세 56 · 5세 72)</p>
             <p class="text-xs sm:text-sm text-slate-800">• <strong>월 부담금(교육/방과후)</strong>: 3세 69,949/40,000원 · 4세 0/40,000원 · 5세 0/60,000원</p>
+            <div class="flex items-center gap-2 pt-1">
+              <a href="tel:032-752-7878" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white">📞 032-752-7878</a>
+            </div>
           </div>
         </div>
       </div>
@@ -536,19 +647,19 @@
   </main>
 
   <!-- Minimal Modern Footer -->
-  <footer class="max-w-6xl mx-auto px-4 sm:px-6 py-8 border-t border-slate-200/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+  <footer class="max-w-6xl mx-auto px-4 sm:px-6 py-6 border-t border-slate-200/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
     <div>Yeongjong 2027 Originals Viewer · 인천 영종구 14개 유치원 공식 공고문 기반</div>
-    <div>자동 업데이트 스케줄: 매일 12:00 KST (GitHub Actions + Antigravity Automation)</div>
+    <div>자동 업데이트: 매일 12:00 KST (GitHub Actions + Antigravity Automation)</div>
   </footer>
 
-  <!-- Raw Full-Text Modal -->
-  <div id="rawModal" onclick="if(event.target===this) closeRawModal()" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200">
-      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-        <h3 id="rawModalTitle" class="font-extrabold text-slate-900 text-sm sm:text-base">공고문 무삭제 원문 전문</h3>
-        <button onclick="closeRawModal()" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-slate-900 text-white hover:bg-slate-700 transition">닫기 ✕</button>
+  <!-- Mobile Bottom-Sheet / Desktop Modal for Full Verbatim Text -->
+  <div id="rawModal" onclick="if(event.target===this) closeRawModal()" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden items-end sm:items-center justify-center sm:p-4">
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-4xl w-full h-[88vh] sm:h-auto sm:max-h-[88vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200">
+      <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between gap-2 bg-slate-50 shrink-0">
+        <h3 id="rawModalTitle" class="font-extrabold text-slate-900 text-xs sm:text-base truncate">공고문 무삭제 원문 전문</h3>
+        <button onclick="closeRawModal()" class="shrink-0 min-h-[38px] px-4 py-1.5 rounded-full text-xs font-bold bg-slate-900 text-white hover:bg-slate-700 transition">닫기 ✕</button>
       </div>
-      <pre id="rawModalBody" class="p-6 overflow-y-auto text-xs sm:text-sm leading-relaxed whitespace-pre-wrap text-slate-800 font-sans"></pre>
+      <pre id="rawModalBody" class="p-4 sm:p-6 overflow-y-auto text-xs sm:text-sm leading-relaxed whitespace-pre-wrap text-slate-800 font-sans flex-1"></pre>
     </div>
   </div>
 
@@ -1130,18 +1241,42 @@
       return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
-    function switchMainTab(tab) {
+    function extractFirstPhone(phoneStr) {
+      const m = String(phoneStr).match(/0\d{1,2}-\d{3,4}-\d{4}/);
+      return m ? m[0] : "";
+    }
+
+    function switchMainTab(tab, scrollToContent) {
       activeMainTab = tab;
       ["compare", "originals", "forms", "private4"].forEach(t => {
         document.getElementById(`panel-${t}`).classList.toggle("hidden", t !== tab);
+        // Desktop top pill
         const btn = document.getElementById(`nav-${t}`);
-        if (t === tab) {
-          btn.className = "px-4 py-2 rounded-full text-xs sm:text-sm font-bold border transition nav-pill-active";
-        } else {
-          btn.className = "px-4 py-2 rounded-full text-xs sm:text-sm font-semibold border border-slate-200 bg-white/90 text-slate-700 hover:bg-slate-100 transition";
+        if (btn) {
+          btn.className = (t === tab)
+            ? "px-4 py-2 rounded-full text-sm font-bold border transition nav-pill-active"
+            : "px-4 py-2 rounded-full text-sm font-semibold border border-slate-200 bg-white/90 text-slate-700 hover:bg-slate-100 transition";
+        }
+        // Mobile bottom tab
+        const mbtn = document.getElementById(`mnav-${t}`);
+        if (mbtn) {
+          const dot = mbtn.querySelector(".mob-tab-dot");
+          if (t === tab) {
+            mbtn.className = "relative flex flex-col items-center justify-center gap-0.5 text-xs mob-tab-active transition";
+            if (dot) dot.className = "mob-tab-dot absolute top-0 w-8 h-1 rounded-b-full bg-blue-600 transition-transform";
+          } else {
+            mbtn.className = "relative flex flex-col items-center justify-center gap-0.5 text-xs text-slate-500 font-semibold transition";
+            if (dot) dot.className = "mob-tab-dot absolute top-0 w-8 h-1 rounded-b-full bg-blue-600 opacity-0 scale-x-0 transition-transform";
+          }
         }
       });
       if (tab === "originals") renderOriginals();
+      if (scrollToContent) {
+        const target = window.innerWidth < 768
+          ? document.getElementById(`panel-${tab}`)
+          : document.getElementById("mainNavAnchor");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
 
     function setCompareView(mode) {
@@ -1149,15 +1284,15 @@
       document.getElementById("compareCardsGrid").classList.toggle("hidden", mode !== "cards");
       document.getElementById("compareTableWrap").classList.toggle("hidden", mode !== "table");
       document.getElementById("viewBtnCards").className = mode === "cards"
-        ? "px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition"
-        : "px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition";
+        ? "flex-1 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition whitespace-nowrap"
+        : "flex-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition whitespace-nowrap";
       document.getElementById("viewBtnTable").className = mode === "table"
-        ? "px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition"
-        : "px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition";
+        ? "flex-1 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition whitespace-nowrap"
+        : "flex-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition whitespace-nowrap";
     }
 
     window.quickFilterType = function(typeVal) {
-      switchMainTab("compare");
+      switchMainTab("compare", false);
       const sel = document.getElementById("cmpType");
       sel.value = (sel.value === typeVal) ? "ALL" : typeVal;
       renderCompareTable();
@@ -1173,8 +1308,7 @@
 
     window.openDocDetail = function(id) {
       activeDocId = id;
-      switchMainTab("originals");
-      document.getElementById("mainNavAnchor").scrollIntoView({ behavior: "smooth" });
+      switchMainTab("originals", true);
     };
 
     function formatCellSplit(cell) {
@@ -1183,8 +1317,8 @@
       }
       const pPct = Math.round((cell.pri / cell.tot) * 100);
       return `
-        <div><span class="font-bold text-blue-700">${cell.pri}명</span> <span class="text-slate-300">/</span> <span class="font-bold text-emerald-700">${cell.gen}명</span> <span class="text-slate-400 text-xs">(${cell.tot})</span></div>
-        <div class="w-20 mx-auto h-1.5 rounded-full bg-emerald-100 overflow-hidden mt-1 flex">
+        <div class="whitespace-nowrap"><span class="font-bold text-blue-700">${cell.pri}</span> <span class="text-slate-300">/</span> <span class="font-bold text-emerald-700">${cell.gen}</span> <span class="text-slate-400 text-xs">(${cell.tot})</span></div>
+        <div class="w-16 mx-auto h-1.5 rounded-full bg-emerald-100 overflow-hidden mt-1 flex">
           <div class="bg-blue-600 h-full" style="width:${pPct}%"></div>
           <div class="bg-emerald-500 h-full" style="width:${100 - pPct}%"></div>
         </div>
@@ -1194,25 +1328,24 @@
     function renderAgeMiniBar(label, cell) {
       if (cell.tot === 0) {
         return `
-          <div class="rounded-xl bg-slate-50 border border-slate-200/70 p-2.5 text-center">
-            <div class="text-xs font-semibold text-slate-500">${label}</div>
-            <div class="text-xs font-bold text-slate-400 mt-1">신입 미모집 (0명)</div>
-            <div class="w-full h-1.5 rounded-full bg-slate-200 mt-2"></div>
+          <div class="rounded-2xl bg-slate-50 border border-slate-200/70 p-2.5 flex sm:block items-center justify-between">
+            <div class="text-xs font-bold text-slate-500">${label}</div>
+            <div class="text-xs font-semibold text-slate-400 sm:mt-1.5">미모집 (0명)</div>
           </div>
         `;
       }
       const pPct = Math.round((cell.pri / cell.tot) * 100);
       return `
-        <div class="rounded-xl bg-slate-50/90 border border-slate-200/80 p-2.5">
-          <div class="flex items-center justify-between text-xs">
-            <span class="font-bold text-slate-700">${label}</span>
-            <span class="text-slate-500">총 ${cell.tot}명</span>
+        <div class="rounded-2xl bg-slate-50/90 border border-slate-200/80 p-2.5 space-y-1.5">
+          <div class="flex items-center justify-between text-xs gap-1">
+            <span class="font-extrabold text-slate-800 whitespace-nowrap">${label}</span>
+            <span class="text-slate-500 whitespace-nowrap">계 ${cell.tot}명</span>
           </div>
-          <div class="flex items-baseline justify-between mt-1 text-xs">
-            <span class="font-extrabold text-blue-700">우선 ${cell.pri}</span>
-            <span class="font-extrabold text-emerald-700">일반 ${cell.gen}</span>
+          <div class="flex items-center justify-between text-xs gap-1 whitespace-nowrap">
+            <span class="font-extrabold text-blue-700">우선 ${cell.pri}명</span>
+            <span class="font-extrabold text-emerald-700">일반 ${cell.gen}명</span>
           </div>
-          <div class="w-full h-2 rounded-full bg-emerald-100 overflow-hidden mt-1.5 flex">
+          <div class="w-full h-2 rounded-full bg-emerald-100 overflow-hidden flex">
             <div class="bg-gradient-to-r from-blue-600 to-indigo-500 h-full" style="width:${pPct}%"></div>
             <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full" style="width:${100 - pPct}%"></div>
           </div>
@@ -1254,31 +1387,31 @@
       const priShare = totAll > 0 ? Math.round((totPri / totAll) * 100) : 70;
 
       document.getElementById("kpiGrid").innerHTML = `
-        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/90">
-          <div class="text-xs text-slate-500 font-medium">필터 일치 유치원</div>
-          <div class="text-2xl font-extrabold text-slate-900 mt-1">${rows.length}개원</div>
-          <div class="text-xs text-slate-500 mt-0.5">전체 신입 ${totAll}명</div>
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/90">
+          <div class="text-xs text-slate-500 font-medium">조회 유치원</div>
+          <div class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">${rows.length}개원</div>
+          <div class="text-xs text-slate-500 mt-0.5">총 신입 ${totAll}명</div>
         </div>
-        <div class="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/70 border border-blue-200/80">
-          <div class="text-xs text-blue-700 font-bold">우선모집 배정 합계</div>
-          <div class="text-2xl font-extrabold text-blue-800 mt-1">${totPri}명</div>
-          <div class="text-xs text-blue-600/90 mt-0.5">전체의 약 ${priShare}%</div>
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/70 border border-blue-200/80">
+          <div class="text-xs text-blue-700 font-bold">우선모집 합계</div>
+          <div class="text-xl sm:text-2xl font-extrabold text-blue-800 mt-0.5">${totPri}명</div>
+          <div class="text-xs text-blue-600/90 mt-0.5">약 ${priShare}% 배정</div>
         </div>
-        <div class="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50/70 border border-emerald-200/80">
-          <div class="text-xs text-emerald-700 font-bold">일반모집 기본 합계</div>
-          <div class="text-2xl font-extrabold text-emerald-800 mt-1">${totGen}명+</div>
-          <div class="text-xs text-emerald-700/90 mt-0.5">우선 미달분 추가 이월</div>
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50/70 border border-emerald-200/80">
+          <div class="text-xs text-emerald-700 font-bold">일반모집 기본</div>
+          <div class="text-xl sm:text-2xl font-extrabold text-emerald-800 mt-0.5">${totGen}명+</div>
+          <div class="text-xs text-emerald-700/90 mt-0.5">우선 미달분 이월</div>
         </div>
-        <div class="p-4 rounded-2xl bg-slate-900 text-white flex flex-col justify-between">
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-900 text-white flex flex-col justify-between">
           <div class="flex items-center justify-between text-xs">
             <span class="text-sky-300 font-bold">우선 ${priShare}%</span>
             <span class="text-emerald-300 font-bold">일반 ${100 - priShare}%</span>
           </div>
-          <div class="w-full h-3 rounded-full bg-white/15 overflow-hidden my-2 flex">
+          <div class="w-full h-2.5 sm:h-3 rounded-full bg-white/15 overflow-hidden my-1.5 flex">
             <div class="bg-gradient-to-r from-sky-400 to-blue-500 h-full transition-all duration-500" style="width:${priShare}%"></div>
             <div class="bg-gradient-to-r from-emerald-400 to-teal-300 h-full transition-all duration-500" style="width:${100 - priShare}%"></div>
           </div>
-          <div class="text-xs text-slate-300">3세 ${a3Pri+a3Gen} · 4세 ${a4Pri+a4Gen} · 5세 ${a5Pri+a5Gen}명</div>
+          <div class="text-xs text-slate-300 truncate">3세 ${a3Pri+a3Gen}·4세 ${a4Pri+a4Gen}·5세 ${a5Pri+a5Gen}</div>
         </div>
       `;
 
@@ -1292,77 +1425,77 @@
         return;
       }
 
-      // Render Bento Cards
+      // Render Bento Cards (Automatically stacks 3세/4세/5세 cleanly on narrow phones, 3-col on wider screens!)
       cardsGrid.innerHTML = rows.map(d => {
         const genBadge = d.generalUpdated
-          ? `<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white">일반모집 반영됨</span>`
+          ? `<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white">일반모집 반영</span>`
           : ``;
         const exactBadge = d.exactQuotaBadge
-          ? `<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">원문 확정수치</span>`
+          ? `<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">확정수치</span>`
           : ``;
         const typeStyle = d.type === "사립"
           ? "bg-purple-100 text-purple-800 border-purple-200"
           : (d.type === "공립 단설" ? "bg-blue-600 text-white border-blue-600" : "bg-emerald-100 text-emerald-800 border-emerald-200");
         const busChip = d.hasBus
           ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-sky-50 text-blue-700 border border-sky-200">🚌 ${escapeHtml(d.busLabel)}</span>`
-          : `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-500">도보/개별등원</span>`;
+          : `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-500">개별등원</span>`;
         const isEarly = d.shortDeadline.includes("조기") || d.shortDeadline.includes("15:30") || d.shortDeadline.includes("17:00");
         const deadlineChip = isEarly
           ? `<span class="text-xs font-bold text-red-600">⏰ 11/4 ${escapeHtml(d.shortDeadline)}</span>`
           : `<span class="text-xs font-medium text-slate-600">⏰ 11/4 ${escapeHtml(d.shortDeadline)}</span>`;
 
         const ageBody = d.ageSplit.mixed
-          ? `<div class="rounded-2xl bg-amber-50/80 border border-amber-200/80 p-3.5 text-xs sm:text-sm text-slate-800 flex items-center justify-between">
+          ? `<div class="rounded-2xl bg-amber-50/80 border border-amber-200/80 p-3.5 text-xs sm:text-sm text-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                <span class="font-bold text-amber-950">3~5세 혼합연령 1학급 통합</span>
                <span><strong class="text-blue-700">우선 약 4명</strong> · <strong class="text-emerald-700">일반 약 2명</strong> (총 6명)</span>
              </div>`
-          : `<div class="grid grid-cols-3 gap-2.5">
-               ${renderAgeMiniBar("3세 (23년)", d.ageSplit.a3)}
-               ${renderAgeMiniBar("4세 (22년)", d.ageSplit.a4)}
-               ${renderAgeMiniBar("5세 (21년)", d.ageSplit.a5)}
+          : `<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+               ${renderAgeMiniBar("3세 (23년생)", d.ageSplit.a3)}
+               ${renderAgeMiniBar("4세 (22년생)", d.ageSplit.a4)}
+               ${renderAgeMiniBar("5세 (21년생)", d.ageSplit.a5)}
              </div>`;
 
         return `
-          <div onclick="openDocDetail('${d.id}')" class="bento-card cursor-pointer rounded-3xl bg-white border border-slate-200/90 hover:border-blue-300 p-5 flex flex-col justify-between gap-4 shadow-sm">
+          <div onclick="openDocDetail('${d.id}')" class="bento-card cursor-pointer rounded-3xl bg-white border border-slate-200/90 hover:border-blue-300 p-4 sm:p-5 flex flex-col justify-between gap-3.5 shadow-sm">
             <div class="space-y-3">
               <div class="flex items-start justify-between gap-2">
-                <div>
+                <div class="min-w-0">
                   <div class="flex items-center gap-1.5 flex-wrap">
                     <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border ${typeStyle}">${escapeHtml(d.type)}</span>
                     <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">${escapeHtml(d.regionLabel)}</span>
                     ${exactBadge}${genBadge}
                   </div>
-                  <h3 class="text-base sm:text-lg font-extrabold text-slate-900 mt-2">${escapeHtml(d.nameOnly)}</h3>
+                  <h3 class="text-base sm:text-lg font-extrabold text-slate-900 mt-1.5">${escapeHtml(d.nameOnly)}</h3>
                 </div>
                 <div class="text-right shrink-0 bg-slate-50 border border-slate-200/80 rounded-2xl px-3 py-1.5">
-                  <div class="text-xs text-slate-500">총 신입모집</div>
-                  <div class="text-base font-extrabold text-slate-900">${d.ageSplit.sum.tot}명</div>
+                  <div class="text-xs text-slate-500">우선/일반 합계</div>
+                  <div class="text-sm sm:text-base font-extrabold text-slate-900"><span class="text-blue-700">${d.ageSplit.sum.pri}</span>/<span class="text-emerald-700">${d.ageSplit.sum.gen}</span> <span class="text-xs font-semibold text-slate-500">(${d.ageSplit.sum.tot})</span></div>
                 </div>
               </div>
               ${ageBody}
             </div>
 
             <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
-              <div class="flex items-center gap-2 flex-wrap">
+              <div class="flex items-center gap-1.5 flex-wrap">
                 ${busChip}
                 <span class="text-xs text-slate-500">${escapeHtml(d.hoursLabel)}</span>
               </div>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center justify-between w-full sm:w-auto gap-2 pt-1 sm:pt-0">
                 ${deadlineChip}
-                <span class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white">원문 열람 →</span>
+                <span class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white shrink-0">원문 보기 →</span>
               </div>
             </div>
           </div>
         `;
       }).join("");
 
-      // Render Precision Table
+      // Render Precision Table (Sticky First Column on Mobile!)
       const bodyHtml = rows.map(d => {
         const genBadge = d.generalUpdated
-          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-bold bg-emerald-600 text-white">일반모집 반영됨</span>`
+          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-bold bg-emerald-600 text-white">일반반영</span>`
           : ``;
         const badge = (d.exactQuotaBadge
-          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-700">확정수치</span>`
+          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-700">확정</span>`
           : ``) + genBadge;
         const typeColor = d.type === "사립" ? "text-purple-700 bg-purple-50 border-purple-200" : (d.type === "공립 단설" ? "text-indigo-700 bg-indigo-50 border-indigo-200" : "text-emerald-700 bg-emerald-50 border-emerald-200");
         const busHtml = d.hasBus
@@ -1373,7 +1506,7 @@
           : "text-slate-700";
 
         const ageCols = d.ageSplit.mixed
-          ? `<td colspan="3" class="py-3 px-2.5 text-center bg-amber-50/60 text-slate-800 text-xs sm:text-sm">3~5세 혼합반 통합: <strong class="text-blue-700">우선 약 4명</strong> / <strong class="text-emerald-700">일반 약 2명</strong> (계 6명)</td>`
+          ? `<td colspan="3" class="py-3 px-2.5 text-center bg-amber-50/60 text-slate-800 text-xs whitespace-nowrap">혼합반: <strong class="text-blue-700">우선 ~4</strong> / <strong class="text-emerald-700">일반 ~2</strong> (6명)</td>`
           : `
             <td class="py-3 px-2.5 text-center whitespace-nowrap">${formatCellSplit(d.ageSplit.a3)}</td>
             <td class="py-3 px-2.5 text-center whitespace-nowrap">${formatCellSplit(d.ageSplit.a4)}</td>
@@ -1382,28 +1515,28 @@
 
         return `
           <tr class="hover:bg-blue-50/40 transition">
-            <td class="py-3.5 px-3.5">
+            <td class="sticky left-0 z-10 bg-white sticky-col-shadow py-3 px-3">
               <button onclick="openDocDetail('${d.id}')" class="text-left group">
-                <div class="font-bold text-slate-900 group-hover:text-blue-600 group-hover:underline">${escapeHtml(d.nameOnly)}${badge}</div>
-                <div class="flex items-center gap-1.5 mt-1">
+                <div class="font-bold text-slate-900 group-hover:text-blue-600 group-hover:underline whitespace-nowrap">${escapeHtml(d.nameOnly)}${badge}</div>
+                <div class="flex items-center gap-1 mt-1 whitespace-nowrap">
                   <span class="px-1.5 py-0.5 rounded border text-xs ${typeColor}">${escapeHtml(d.type)}</span>
                   <span class="text-xs text-slate-500">${escapeHtml(d.regionLabel)}</span>
                 </div>
               </button>
             </td>
             ${ageCols}
-            <td class="py-3.5 px-2.5 text-center whitespace-nowrap bg-slate-50/80 font-semibold">
-              <span class="text-blue-700 font-bold">${d.ageSplit.sum.pri}명</span> / <span class="text-emerald-700 font-bold">${d.ageSplit.sum.gen}명</span>
+            <td class="py-3 px-2.5 text-center whitespace-nowrap bg-slate-50/80 font-semibold">
+              <span class="text-blue-700 font-bold">${d.ageSplit.sum.pri}</span> / <span class="text-emerald-700 font-bold">${d.ageSplit.sum.gen}</span>
               <div class="text-xs text-slate-500 font-normal">총 ${d.ageSplit.sum.tot}명</div>
             </td>
-            <td class="py-3.5 px-2.5 text-center text-xs">
+            <td class="py-3 px-2.5 text-center text-xs whitespace-nowrap">
               <div>${busHtml}</div>
               <div class="text-slate-500 mt-0.5">${escapeHtml(d.hoursLabel)}</div>
             </td>
-            <td class="py-3.5 px-2.5 text-center text-xs ${earlyWarn}">${escapeHtml(d.shortDeadline)}</td>
-            <td class="py-3.5 px-2.5 text-center whitespace-nowrap">
+            <td class="py-3 px-2.5 text-center text-xs whitespace-nowrap ${earlyWarn}">${escapeHtml(d.shortDeadline)}</td>
+            <td class="py-3 px-2.5 text-center whitespace-nowrap">
               <button onclick="openDocDetail('${d.id}')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white hover:bg-blue-600 transition">
-                원문 보기
+                열기
               </button>
             </td>
           </tr>
@@ -1412,12 +1545,12 @@
 
       const totalRow = `
         <tr class="bg-slate-100 font-bold border-t-2 border-slate-300">
-          <td class="py-3.5 px-3.5 text-slate-900">합계 (${rows.length}개원 기준)<div class="text-xs font-normal text-slate-500">※ 혼합반(6명)은 전체합계에 합산</div></td>
-          <td class="py-3.5 px-2.5 text-center"><span class="text-blue-700">${a3Pri}명</span> / <span class="text-emerald-700">${a3Gen}명</span> <span class="text-xs text-slate-500 font-normal">(${a3Pri + a3Gen})</span></td>
-          <td class="py-3.5 px-2.5 text-center"><span class="text-blue-700">${a4Pri}명</span> / <span class="text-emerald-700">${a4Gen}명</span> <span class="text-xs text-slate-500 font-normal">(${a4Pri + a4Gen})</span></td>
-          <td class="py-3.5 px-2.5 text-center"><span class="text-blue-700">${a5Pri}명</span> / <span class="text-emerald-700">${a5Gen}명</span> <span class="text-xs text-slate-500 font-normal">(${a5Pri + a5Gen})</span></td>
-          <td class="py-3.5 px-2.5 text-center bg-slate-200/70"><span class="text-blue-800">${totPri}명</span> / <span class="text-emerald-800">${totGen}명</span><div class="text-xs text-slate-600">총 ${totAll}명</div></td>
-          <td colspan="3" class="py-3.5 px-2.5 text-center text-xs font-normal text-slate-600">11. 16.(월) 18:00 일반모집 확정 잔여석 공개</td>
+          <td class="sticky left-0 z-10 bg-slate-100 sticky-col-shadow py-3 px-3 text-slate-900 whitespace-nowrap">합계 (${rows.length}개원)</td>
+          <td class="py-3 px-2.5 text-center whitespace-nowrap"><span class="text-blue-700">${a3Pri}</span> / <span class="text-emerald-700">${a3Gen}</span> <span class="text-xs text-slate-500 font-normal">(${a3Pri + a3Gen})</span></td>
+          <td class="py-3 px-2.5 text-center whitespace-nowrap"><span class="text-blue-700">${a4Pri}</span> / <span class="text-emerald-700">${a4Gen}</span> <span class="text-xs text-slate-500 font-normal">(${a4Pri + a4Gen})</span></td>
+          <td class="py-3 px-2.5 text-center whitespace-nowrap"><span class="text-blue-700">${a5Pri}</span> / <span class="text-emerald-700">${a5Gen}</span> <span class="text-xs text-slate-500 font-normal">(${a5Pri + a5Gen})</span></td>
+          <td class="py-3 px-2.5 text-center bg-slate-200/70 whitespace-nowrap"><span class="text-blue-800">${totPri}</span> / <span class="text-emerald-800">${totGen}</span><div class="text-xs text-slate-600">총 ${totAll}명</div></td>
+          <td colspan="3" class="py-3 px-2.5 text-center text-xs font-normal text-slate-600 whitespace-nowrap">11. 16.(월) 18:00 일반모집 확정 잔여석 공개</td>
         </tr>
       `;
 
@@ -1466,15 +1599,45 @@
         const cls = isActive
           ? "subtab-active font-bold"
           : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 font-semibold";
-        return `<button onclick="selectDoc('${d.id}')" class="px-3.5 py-2 rounded-full text-xs border transition ${cls}">${escapeHtml(d.shortName)}</button>`;
+        return `<button id="docpill-${d.id}" onclick="selectDoc('${d.id}')" class="snap-start shrink-0 min-h-[38px] px-3.5 py-2 rounded-full text-xs border transition whitespace-nowrap ${cls}">${escapeHtml(d.shortName)}</button>`;
       }).join("");
 
+      // Auto-center active pill in mobile horizontal strip
+      requestAnimationFrame(() => {
+        const activePill = document.getElementById(`docpill-${activeDocId}`);
+        if (activePill && window.innerWidth < 640) {
+          activePill.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+        }
+      });
+
       const doc = filtered.find(d => d.id === activeDocId) || filtered[0];
+      const dialPhone = extractFirstPhone(doc.phone);
 
       const fileBtns = (doc.files || []).map(f => `
-        <a href="${f.url}" download class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition">
+        <a href="${f.url}" download class="inline-flex items-center justify-center min-h-[42px] gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition">
           ⬇ ${escapeHtml(f.label)}
         </a>
+      `).join("");
+
+      // Mobile Quota Stacked Cards (<640px) + Desktop Table (>=640px)
+      const mobileQuotaCards = doc.quotas.map(r => `
+        <div class="rounded-2xl border border-slate-200 bg-slate-50/80 p-3.5 space-y-2 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-sm text-slate-900">${highlightText(r.age, q)} <span class="text-xs font-semibold text-slate-500">(${escapeHtml(r.classes)})</span></span>
+            <span class="px-2.5 py-0.5 rounded-full font-extrabold bg-slate-900 text-white">신입 ${highlightText(r.recruit, q)}</span>
+          </div>
+          <div class="text-slate-500">출생기준: ${escapeHtml(r.birth)} · 정원 ${escapeHtml(r.cap)} (재학예정 ${escapeHtml(r.current)})</div>
+          <div class="grid grid-cols-2 gap-2 pt-0.5">
+            <div class="rounded-xl bg-blue-50 border border-blue-200/80 px-3 py-2">
+              <div class="text-blue-600 font-medium">우선모집</div>
+              <div class="text-sm font-extrabold text-blue-800 mt-0.5">${highlightText(r.pri, q)}</div>
+            </div>
+            <div class="rounded-xl bg-emerald-50 border border-emerald-200/80 px-3 py-2">
+              <div class="text-emerald-700 font-medium">일반모집</div>
+              <div class="text-sm font-extrabold text-emerald-800 mt-0.5">${highlightText(r.gen, q)}</div>
+            </div>
+          </div>
+        </div>
       `).join("");
 
       container.innerHTML = `
@@ -1484,39 +1647,49 @@
               <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-600 text-white">${escapeHtml(doc.type)}</span>
               <span class="text-xs sm:text-sm text-slate-500 font-medium">📍 ${escapeHtml(doc.address)}</span>
             </div>
-            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">${highlightText(doc.fullName, q)}</h2>
+            <h2 class="text-lg sm:text-2xl font-extrabold text-slate-900 mt-2 leading-snug">${highlightText(doc.fullName, q)}</h2>
           </div>
-          <div class="flex flex-wrap gap-2 shrink-0">
+          <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 shrink-0">
             <button onclick="openRawModal('${doc.slug}', '${escapeHtml(doc.fullName)}')"
-                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-white hover:bg-slate-800 shadow-sm transition">
-              📄 무삭제 전체원문 열기
+                    class="inline-flex items-center justify-center min-h-[42px] gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900 text-white hover:bg-slate-800 shadow-sm transition">
+              📄 무삭제 원문 열기
             </button>
             <a href="${doc.webUrl}" target="_blank" rel="noopener noreferrer"
-               class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-sm transition">
-              공식 홈페이지 공고글 ↗
+               class="inline-flex items-center justify-center min-h-[42px] gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 shadow-sm transition">
+              공식 홈페이지 ↗
             </a>
             ${fileBtns}
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs sm:text-sm">
-          <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/80">
-            <div class="text-xs text-slate-500 font-medium">📞 문의 전화</div>
-            <div class="font-extrabold text-slate-900 mt-1">${highlightText(doc.phone, q)}</div>
+        <!-- Actionable Contact & Deadline Cards (Tap-to-Call on Mobile!) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs sm:text-sm">
+          <div class="p-3.5 sm:p-4 rounded-2xl border border-slate-200 bg-slate-50/80 flex items-center justify-between gap-2">
+            <div>
+              <div class="text-xs text-slate-500 font-medium">📞 문의 전화</div>
+              <div class="font-extrabold text-slate-900 mt-0.5">${highlightText(doc.phone, q)}</div>
+            </div>
+            ${dialPhone ? `<a href="tel:${dialPhone}" class="sm:hidden shrink-0 px-3 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white">전화걸기</a>` : ``}
           </div>
-          <div class="p-4 rounded-2xl border border-slate-200 bg-slate-50/80">
-            <div class="text-xs text-slate-500 font-medium">✉️ 증빙서류 이메일</div>
-            <div class="font-extrabold text-slate-900 mt-1 break-all">${highlightText(doc.email, q)}</div>
+          <div class="p-3.5 sm:p-4 rounded-2xl border border-slate-200 bg-slate-50/80 flex items-center justify-between gap-2">
+            <div class="min-w-0">
+              <div class="text-xs text-slate-500 font-medium">✉️ 증빙서류 이메일</div>
+              <div class="font-extrabold text-slate-900 mt-0.5 break-all">${highlightText(doc.email, q)}</div>
+            </div>
+            <a href="mailto:${escapeHtml(doc.email)}" class="sm:hidden shrink-0 px-3 py-2 rounded-xl text-xs font-bold bg-slate-800 text-white">메일쓰기</a>
           </div>
-          <div class="p-4 rounded-2xl border border-red-200 bg-red-50/60">
+          <div class="p-3.5 sm:p-4 rounded-2xl border border-red-200 bg-red-50/60">
             <div class="text-xs text-red-700 font-bold">⏰ 11월 4일(수) 마감 시각</div>
-            <div class="font-extrabold text-red-950 mt-1">${highlightText(doc.deadline, q)}</div>
+            <div class="font-extrabold text-red-950 mt-0.5">${highlightText(doc.deadline, q)}</div>
           </div>
         </div>
 
         <div>
           <h3 class="text-sm sm:text-base font-extrabold text-slate-900 mb-2.5">연령별 정원 및 우선모집(70%) · 일반모집(30%) 배정 인원</h3>
-          <div class="overflow-x-auto border border-slate-200 rounded-2xl">
+          <!-- Mobile Cards -->
+          <div class="sm:hidden space-y-2.5">${mobileQuotaCards}</div>
+          <!-- Tablet/Desktop Table -->
+          <div class="hidden sm:block overflow-x-auto border border-slate-200 rounded-2xl">
             <table class="w-full text-left border-collapse text-xs sm:text-sm">
               <thead>
                 <tr class="bg-slate-900 text-white">
@@ -1548,9 +1721,9 @@
           </div>
         </div>
 
-        <div class="space-y-3.5">
+        <div class="space-y-3">
           ${doc.sections.map(sec => `
-            <div class="border border-slate-200 rounded-2xl p-5 bg-slate-50/70 space-y-2.5">
+            <div class="border border-slate-200 rounded-2xl p-4 sm:p-5 bg-slate-50/70 space-y-2">
               <h3 class="text-sm sm:text-base font-extrabold text-slate-900">${highlightText(sec.title, q)}</h3>
               <ul class="space-y-1.5 text-xs sm:text-sm leading-relaxed text-slate-800">
                 ${sec.lines.map(ln => `<li>${highlightText(ln, q)}</li>`).join("")}
@@ -1593,7 +1766,7 @@
 
     /* GENERAL_STATUS_EMBED_START */
     window.EMBEDDED_GENERAL_STATUS = {
-  "lastCheckedKst": "2026-10-30 20:58 KST",
+  "lastCheckedKst": "2026-10-30 21:25 KST",
   "generalNoticeWindow": "2026. 11. 12.(목) ~ 11. 16.(월) 18:00 순차 공고 예정",
   "generalApplyWindow": "2026. 11. 17.(화) 09:00 ~ 11. 23.(월) 18:00",
   "foundCount": 0,
@@ -1679,9 +1852,9 @@
       if (summaryEl) {
         const foundList = payload.kindergartens.filter(k => k.generalFound).map(k => k.name);
         if (payload.foundCount > 0) {
-          summaryEl.innerHTML = `최근 자동 점검: <strong>${escapeHtml(payload.lastCheckedKst)}</strong> · <strong class="text-emerald-700">일반모집 공고 ${payload.foundCount}/${payload.totalMonitored}개원 등록됨</strong> (${escapeHtml(foundList.join(", "))})`;
+          summaryEl.innerHTML = `최근 점검: <strong>${escapeHtml(payload.lastCheckedKst)}</strong> · <strong class="text-emerald-700">일반모집 ${payload.foundCount}/${payload.totalMonitored}개원 등록됨</strong> (${escapeHtml(foundList.join(", "))})`;
         } else {
-          summaryEl.innerHTML = `최근 자동 점검: <strong>${escapeHtml(payload.lastCheckedKst)}</strong> · 현재 일반모집 공고 게시 전 (<strong>0/${payload.totalMonitored}개원</strong> — 2026. 11. 12. ~ 11. 16. 18:00 순차 공고 즉시 자동 반영됩니다)`;
+          summaryEl.innerHTML = `최근 점검: <strong>${escapeHtml(payload.lastCheckedKst)}</strong> · 일반모집 공고 게시 전 (<strong>0/${payload.totalMonitored}개원</strong> — 11. 12. ~ 11. 16. 공고 즉시 반영)`;
         }
       }
 
@@ -1739,21 +1912,22 @@
       const dayMs = 86400000;
       if (now < priStart) {
         const d = Math.ceil((priStart - now) / dayMs);
-        el.textContent = `우선모집 접수 D-${d} (11. 2. ~ 11. 4.)`;
+        el.textContent = `우선모집 D-${d} (11.2~11.4)`;
       } else if (now <= priEnd) {
-        el.textContent = `🔥 현재 우선모집 접수 진행 중 (~11. 4. 18:00)`;
+        el.textContent = `🔥 우선모집 진행중 (~11.4)`;
       } else if (now < genStart) {
         const d = Math.ceil((genStart - now) / dayMs);
-        el.textContent = `일반모집 접수 D-${d} (11. 17. ~ 11. 23.)`;
+        el.textContent = `일반모집 D-${d} (11.17~11.23)`;
       } else if (now <= genEnd) {
-        el.textContent = `🔥 현재 일반모집 접수 진행 중 (~11. 23. 18:00)`;
+        el.textContent = `🔥 일반모집 진행중 (~11.23)`;
       } else {
-        el.textContent = `2027학년도 추가모집 기간 (12. 1. ~ 2. 12.)`;
+        el.textContent = `추가모집 기간`;
       }
     })();
 
-    // Interactive 3D Mouse Tilt on Hero Showcase
+    // Desktop-only 3D Mouse Tilt (Automatically disabled on touch smartphones for silky scrolling!)
     (function initHeroTilt() {
+      if (!window.matchMedia || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
       const card = document.getElementById("heroTiltCard");
       if (!card) return;
       card.addEventListener("mousemove", e => {
@@ -1767,7 +1941,7 @@
       });
     })();
 
-    // Subtle Ambient Bokeh Particles on Hero Canvas
+    // Adaptive Ambient Bokeh Particles (Lighter particle count on mobile to save battery!)
     (function initHeroParticles() {
       const canvas = document.getElementById("heroParticles");
       if (!canvas) return;
@@ -1779,13 +1953,14 @@
       };
       resize();
       window.addEventListener("resize", resize);
-      const dots = Array.from({ length: 28 }, () => ({
-        x: Math.random() * (w || 1200),
-        y: Math.random() * (h || 500),
-        r: Math.random() * 2.2 + 0.8,
-        vx: (Math.random() - 0.3) * 0.35,
-        vy: -Math.random() * 0.28 - 0.08,
-        a: Math.random() * 0.5 + 0.2
+      const count = window.innerWidth < 640 ? 12 : 26;
+      const dots = Array.from({ length: count }, () => ({
+        x: Math.random() * (w || 800),
+        y: Math.random() * (h || 400),
+        r: Math.random() * 2.0 + 0.8,
+        vx: (Math.random() - 0.3) * 0.3,
+        vy: -Math.random() * 0.25 - 0.08,
+        a: Math.random() * 0.45 + 0.2
       }));
       function step() {
         ctx.clearRect(0, 0, w, h);
