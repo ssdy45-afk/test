@@ -56,6 +56,23 @@
   </header>
 
   <main class="max-w-6xl mx-auto px-4 py-6 space-y-6">
+    <!-- General Recruitment Auto-Update Status Banner -->
+    <div id="generalAutoBanner" class="bg-emerald-50/80 border border-emerald-200 rounded-xl p-4 text-xs sm:text-sm text-emerald-950 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white">자동 업데이트 연동됨</span>
+          <span class="font-bold text-emerald-900">일반모집 요강 자동 감지 (매일 12:00 KST 자동 점검)</span>
+        </div>
+        <p id="generalAutoSummary" class="text-slate-700">최근 자동 점검 시각을 불러오는 중입니다... (일반모집 공고 예정: 2026. 11. 12. ~ 11. 16. 18:00)</p>
+      </div>
+      <div class="shrink-0 flex items-center gap-2 flex-wrap">
+        <a href="https://github.com/ssdy45-afk/test/actions/workflows/update_general_2027.yml" target="_blank" rel="noopener noreferrer"
+           class="px-3 py-2 rounded-lg text-xs font-bold bg-white text-emerald-800 border border-emerald-300 hover:bg-emerald-100 transition">
+          🔄 수동 즉시 업데이트 (GitHub Actions) ↗
+        </a>
+      </div>
+    </div>
+
     <!-- Urgent Key Rule Banner -->
     <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs sm:text-sm text-amber-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div class="space-y-1">
@@ -959,9 +976,12 @@
       }
 
       const bodyHtml = rows.map(d => {
-        const badge = d.exactQuotaBadge
-          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-700">확정수치</span>`
+        const genBadge = d.generalUpdated
+          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-bold bg-emerald-600 text-white">일반모집 반영됨</span>`
           : ``;
+        const badge = (d.exactQuotaBadge
+          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-700">확정수치</span>`
+          : ``) + genBadge;
         const typeColor = d.type === "사립" ? "text-purple-700 bg-purple-50 border-purple-200" : (d.type === "공립 단설" ? "text-indigo-700 bg-indigo-50 border-indigo-200" : "text-slate-600 bg-slate-100 border-slate-200");
         const busHtml = d.hasBus
           ? `<span class="font-semibold text-blue-700">${escapeHtml(d.busLabel)}</span>`
@@ -1189,7 +1209,146 @@
     document.getElementById("searchInput").addEventListener("input", renderOriginals);
     document.getElementById("regionFilter").addEventListener("change", renderOriginals);
 
+    /* GENERAL_STATUS_EMBED_START */
+    window.EMBEDDED_GENERAL_STATUS = {
+  "lastCheckedKst": "2026-10-30 20:22 KST",
+  "generalNoticeWindow": "2026. 11. 12.(목) ~ 11. 16.(월) 18:00 순차 공고 예정",
+  "generalApplyWindow": "2026. 11. 17.(화) 09:00 ~ 11. 23.(월) 18:00",
+  "foundCount": 0,
+  "totalMonitored": 10,
+  "kindergartens": [
+    {
+      "id": "01",
+      "slug": "01_yeongjong",
+      "name": "영종유치원",
+      "generalFound": false,
+      "boardStatus": "홈페이지 점검/응답지연 (기존 데이터 유지)"
+    },
+    {
+      "id": "02",
+      "slug": "02_gonghang",
+      "name": "인천공항유치원",
+      "generalFound": false,
+      "boardStatus": "홈페이지 점검/응답지연 (기존 데이터 유지)"
+    },
+    {
+      "id": "03",
+      "slug": "03_dalbit",
+      "name": "인천달빛초병설유치원",
+      "generalFound": false,
+      "boardStatus": "홈페이지 점검/응답지연 (기존 데이터 유지)"
+    },
+    {
+      "id": "04",
+      "slug": "04_starlight",
+      "name": "인천별빛초병설유치원",
+      "generalFound": false,
+      "boardStatus": "홈페이지 점검/응답지연 (기존 데이터 유지)"
+    },
+    {
+      "id": "05",
+      "slug": "05_yeongjong_es",
+      "name": "인천영종초병설유치원",
+      "generalFound": false,
+      "boardStatus": "홈페이지 점검/응답지연 (기존 데이터 유지)"
+    },
+    {
+      "id": "06",
+      "slug": "06_yongyu",
+      "name": "인천용유초병설유치원",
+      "generalFound": false,
+      "boardStatus": "홈페이지 점검/응답지연 (기존 데이터 유지)"
+    },
+    {
+      "id": "07",
+      "slug": "07_yunseul",
+      "name": "인천윤슬초병설유치원",
+      "generalFound": false,
+      "boardStatus": "홈페이지 점검/응답지연 (기존 데이터 유지)"
+    },
+    {
+      "id": "08",
+      "slug": "08_jungsan",
+      "name": "인천중산초병설유치원",
+      "generalFound": false,
+      "boardStatus": "홈페이지 점검/응답지연 (기존 데이터 유지)"
+    },
+    {
+      "id": "09",
+      "slug": "09_sky",
+      "name": "인천하늘초병설유치원",
+      "generalFound": false,
+      "boardStatus": "홈페이지 점검/응답지연 (기존 데이터 유지)"
+    },
+    {
+      "id": "10",
+      "slug": "10_dynamis",
+      "name": "뒤나미스유치원",
+      "generalFound": false,
+      "boardStatus": "정상 확인 (일반모집 공고 전)"
+    }
+  ]
+};
+    /* GENERAL_STATUS_EMBED_END */
+
+    function applyGeneralStatusPayload(payload) {
+      if (!payload || !Array.isArray(payload.kindergartens)) return;
+      const summaryEl = document.getElementById("generalAutoSummary");
+      if (summaryEl) {
+        const foundList = payload.kindergartens.filter(k => k.generalFound).map(k => k.name);
+        if (payload.foundCount > 0) {
+          summaryEl.innerHTML = `최근 자동 점검: <strong>${escapeHtml(payload.lastCheckedKst)}</strong> · <strong class="text-emerald-700">일반모집 공고 ${payload.foundCount}/${payload.totalMonitored}개원 등록됨</strong> (${escapeHtml(foundList.join(", "))})`;
+        } else {
+          summaryEl.innerHTML = `최근 자동 점검: <strong>${escapeHtml(payload.lastCheckedKst)}</strong> · 현재 일반모집 공고 게시 전 (<strong>0/${payload.totalMonitored}개원</strong> — 2026. 11. 12. ~ 11. 16. 18:00 순차 공고 즉시 자동 반영됩니다)`;
+        }
+      }
+
+      payload.kindergartens.forEach(item => {
+        if (!item.generalFound) return;
+        const doc = DOCS.find(d => d.id === item.id);
+        if (!doc || doc.generalUpdated) return;
+        doc.generalUpdated = true;
+        if (item.webUrl) doc.webUrl = item.webUrl;
+        if (Array.isArray(item.files) && item.files.length > 0) {
+          doc.files = [...item.files, ...(doc.files || [])];
+        }
+        const pq = item.parsedQuotas || {};
+        if (!doc.ageSplit.mixed && (pq.a3 !== undefined || pq.a4 !== undefined || pq.a5 !== undefined)) {
+          if (pq.a3 !== undefined) { doc.ageSplit.a3.gen = pq.a3; if (doc.quotas[0]) doc.quotas[0].gen = `${pq.a3}명 (일반확정)`; }
+          if (pq.a4 !== undefined) { doc.ageSplit.a4.gen = pq.a4; if (doc.quotas[1]) doc.quotas[1].gen = `${pq.a4}명 (일반확정)`; }
+          if (pq.a5 !== undefined) { doc.ageSplit.a5.gen = pq.a5; if (doc.quotas[2]) doc.quotas[2].gen = `${pq.a5}명 (일반확정)`; }
+          doc.ageSplit.sum.gen = doc.ageSplit.a3.gen + doc.ageSplit.a4.gen + doc.ageSplit.a5.gen;
+        }
+        if (item.extractedPreview) {
+          const previewLines = item.extractedPreview.split(/\r?\n/).filter(Boolean).slice(0, 35).map(l => `• ${l}`);
+          doc.sections.unshift({
+            title: `📢 [최신 자동수집] 2027학년도 일반모집 공고 (${item.postDate || "신규"} — ${item.postTitle || "원문"})`,
+            lines: previewLines
+          });
+        }
+      });
+
+      renderCompareTable();
+      renderOriginals();
+    }
+
+    async function initGeneralStatus() {
+      if (window.EMBEDDED_GENERAL_STATUS) {
+        applyGeneralStatusPayload(window.EMBEDDED_GENERAL_STATUS);
+      }
+      try {
+        const res = await fetch(`./yeongjong-2027-docs/general_status.json?t=${Date.now()}`);
+        if (res.ok) {
+          const livePayload = await res.json();
+          applyGeneralStatusPayload(livePayload);
+        }
+      } catch (_) {
+        // Offline / file:// fallback already handled via EMBEDDED_GENERAL_STATUS
+      }
+    }
+
     renderCompareTable();
+    initGeneralStatus();
   </script>
 </body>
 </html>

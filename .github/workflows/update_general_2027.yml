@@ -1,0 +1,43 @@
+name: Update Yeongjong 2027 General Recruitment
+
+on:
+  schedule:
+    # Runs daily at 03:00 UTC = 12:00 PM KST (Asia/Seoul)
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PDF text extractor
+        run: pip install --quiet pypdf
+
+      - name: Scan Yeongjong kindergartens & update viewer
+        run: python scripts/update_general_2027.py --write-status
+
+      - name: Commit & push updates if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add yeongjong-2027-docs/ yeongjong_2027_originals_viewer.html
+            git commit -m "chore: auto-update 2027 general recruitment status ($(TZ=Asia/Seoul date +'%Y-%m-%d %H:%M KST'))"
+            git pull --rebase origin main
+            git push origin main
+          else
+            echo "No changes detected."
+          fi
