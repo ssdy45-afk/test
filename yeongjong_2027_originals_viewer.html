@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yeongjong 2027 Originals Viewer — 영종도 유치원 모집요강 통합 뷰어</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .tab-active { background-color: #1e293b; color: #ffffff; border-color: #1e293b; }
+    .subtab-active { background-color: #2563eb; color: #ffffff; border-color: #2563eb; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen">
+  <!-- Top Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">2027학년도 신입생 모집</span>
+            <span class="text-xs text-slate-500">우선모집: 2026. 11. 2.(월) 09:00 ~ 11. 4.(수) 18:00</span>
+          </div>
+          <h1 class="text-xl md:text-2xl font-bold text-slate-900 mt-1">Yeongjong 2027 Originals Viewer</h1>
+          <p class="text-xs md:text-sm text-slate-600 mt-0.5">인천 영종도(영종구) 전체 14개 유치원 우선·일반 모집인원 비교 및 공고문 원문 통합 뷰어</p>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <a href="https://enter.childinfo.go.kr" target="_blank" rel="noopener noreferrer"
+             class="px-3.5 py-2 rounded-lg text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition shadow-sm">
+            유보통합포털 접수 바로가기 ↗
+          </a>
+          <a href="https://e-childschoolinfo.moe.go.kr" target="_blank" rel="noopener noreferrer"
+             class="px-3 py-2 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">
+            유치원알리미 ↗
+          </a>
+        </div>
+      </div>
+
+      <!-- Main Navigation Tabs -->
+      <nav class="mt-4 flex flex-wrap gap-2" id="mainNav">
+        <button onclick="switchMainTab('compare')" id="nav-compare" class="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold border transition tab-active">
+          우선·일반 모집인원 비교표
+        </button>
+        <button onclick="switchMainTab('originals')" id="nav-originals" class="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 transition">
+          10개원 모집요강 원문 뷰어
+        </button>
+        <button onclick="switchMainTab('forms')" id="nav-forms" class="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 transition">
+          붙임1~5 증빙서류·양식 원문
+        </button>
+        <button onclick="switchMainTab('private4')" id="nav-private4" class="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 transition">
+          사립 미공개 4개원 & 공통 일정
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6 space-y-6">
+    <!-- Urgent Key Rule Banner -->
+    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs sm:text-sm text-amber-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="space-y-1">
+        <div class="font-bold text-amber-900">2027학년도 핵심 체크포인트</div>
+        <p>• <strong>2자녀 이상 다자녀 가정(출생신고자, 출생순서 무관)</strong>이 올해부터 <strong>우선모집(기타 4순위, 모집정원의 70%)</strong> 대상에 포함되었습니다.</p>
+        <p>• 공립유치원은 교육과정 합격 시 <strong>맞벌이 여부와 무관하게 희망자 100% 방과후과정(돌봄)</strong> 이용이 보장됩니다. (국·공·사립 통합 최대 3곳 지원)</p>
+      </div>
+      <div class="shrink-0 bg-white border border-amber-200 rounded-lg px-3 py-2 text-xs">
+        <div class="text-slate-500">서류 조기마감 주의 (11/4 수)</div>
+        <div class="font-bold text-red-600 mt-0.5">용유 15:30 · 영종초/윤슬 16:00 · 뒤나미스 17:00</div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 1: PRIORITY VS GENERAL COMPARISON ==================== -->
+    <section id="panel-compare" class="space-y-5">
+      <!-- Filters & KPI Summary -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">우선모집(70%) vs 일반모집(30%) 인원수 한눈에 비교</h2>
+            <p class="text-xs text-slate-500 mt-0.5">유치원명을 클릭하면 해당 유치원의 공고문 원문 상세 페이지로 바로 이동합니다.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <select id="cmpRegion" onchange="renderCompareTable()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-50 border border-slate-200 text-slate-800">
+              <option value="ALL">전체 권역 (10개원)</option>
+              <option value="중산">중산·하늘도시 (6개원)</option>
+              <option value="운서">운서권역 (2개원)</option>
+              <option value="운남·용유">운남·용유권역 (2개원)</option>
+            </select>
+            <select id="cmpType" onchange="renderCompareTable()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-50 border border-slate-200 text-slate-800">
+              <option value="ALL">전체 설립유형</option>
+              <option value="공립 단설">공립 단설 (2)</option>
+              <option value="공립 병설">공립 병설 (7)</option>
+              <option value="사립">사립 (1)</option>
+            </select>
+            <label class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-50 border border-slate-200 cursor-pointer select-none">
+              <input type="checkbox" id="cmpBusOnly" onchange="renderCompareTable()" class="rounded text-blue-600" />
+              <span>통학버스 운행만</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- KPI Summary Boxes -->
+        <div id="kpiGrid" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+
+        <!-- Comparison Table -->
+        <div class="overflow-x-auto border border-slate-200 rounded-xl">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                <th class="py-3 px-3 font-bold">유치원명 (권역·설립)</th>
+                <th class="py-3 px-2.5 text-center font-bold">3세 (23년생)<br><span class="text-blue-700">우선</span> / <span class="text-emerald-700">일반</span> <span class="text-slate-400 font-normal">(계)</span></th>
+                <th class="py-3 px-2.5 text-center font-bold">4세 (22년생)<br><span class="text-blue-700">우선</span> / <span class="text-emerald-700">일반</span> <span class="text-slate-400 font-normal">(계)</span></th>
+                <th class="py-3 px-2.5 text-center font-bold">5세 (21년생)<br><span class="text-blue-700">우선</span> / <span class="text-emerald-700">일반</span> <span class="text-slate-400 font-normal">(계)</span></th>
+                <th class="py-3 px-2.5 text-center font-bold bg-slate-200/60">전체 합계<br><span class="text-blue-700">우선</span> / <span class="text-emerald-700">일반</span></th>
+                <th class="py-3 px-2.5 text-center font-bold">통학버스 / 시간</th>
+                <th class="py-3 px-2.5 text-center font-bold">11/4 서류마감</th>
+                <th class="py-3 px-2.5 text-center font-bold">원문</th>
+              </tr>
+            </thead>
+            <tbody id="compareTbody" class="divide-y divide-slate-200 bg-white"></tbody>
+          </table>
+        </div>
+
+        <!-- 3-Point Quota Rule Explanation -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs sm:text-sm space-y-1.5 text-slate-700">
+          <div class="font-bold text-slate-900">우선모집 · 일반모집 인원 산정 기준 및 변동 안내</div>
+          <p>1. <strong>70% : 30% 배정 원칙</strong>: 원문에 우선모집 인원을 직접 표기한 <strong>영종유치원(확정 수치)</strong> 외 9개원은 공고문 선발 기준인 <code>우선모집(기타 4순위) 70% : 일반모집 30%</code> 반올림 기준치입니다. 모집인원이 <code>5명·21명·31명</code>인 구간은 시스템 절사 여부에 따라 <code>±1명</code> 차이가 있을 수 있습니다.</p>
+          <p>2. <strong>우선모집 미달 시 일반모집 증가(+)</strong>: 우선모집에서 70% 인원이 미달되거나 합격자가 등록(<code>11/10~11/11</code>)을 포기하면, <strong>남은 정원이 전부 일반모집으로 이월</strong>되어 실제 일반모집 선발 인원이 늘어납니다.</p>
+          <p>3. <strong>1~3순위 최우선 선발 변수(-)</strong>: 법정저소득층·보훈·북한이탈(1~3순위)은 모집인원의 100%까지 우선 배정되므로 지원자 수에 따라 일반모집 인원이 변동될 수 있습니다. 확정된 일반모집 잔여석은 <strong><code>2026. 11. 16.(월) 18:00</code></strong> 유보통합포털에서 공개됩니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: 10 KINDERGARTENS ORIGINALS VIEWER ==================== -->
+    <section id="panel-originals" class="hidden space-y-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input id="searchInput" type="text" placeholder="10개원 원문 내 키워드 검색 (예: 통학차량, 아침돌봄, 서약서, 운서, 넙디, 15:30...)"
+                 class="flex-1 px-3.5 py-2 rounded-lg text-sm bg-slate-50 text-slate-900 border border-slate-300 focus:outline-none focus:border-blue-500" />
+          <select id="regionFilter" class="px-3 py-2 rounded-lg text-sm bg-slate-50 text-slate-900 border border-slate-300">
+            <option value="ALL">전체 권역 (10개원)</option>
+            <option value="중산">중산·하늘도시 (6개원)</option>
+            <option value="운서">운서권역 (2개원)</option>
+            <option value="운남·용유">운남·용유권역 (2개원)</option>
+          </select>
+        </div>
+
+        <!-- Kindergarten Selector Pills -->
+        <div id="tabBar" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <!-- Selected Kindergarten Original Detail Card -->
+      <div id="docContainer" class="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-sm space-y-5"></div>
+    </section>
+
+    <!-- ==================== TAB 3: ATTACHMENTS 1~5 ORIGINAL FORMS ==================== -->
+    <section id="panel-forms" class="hidden space-y-4">
+      <div class="bg-white border border-slate-200 rounded-xl p-5 md:p-6 shadow-sm space-y-5">
+        <div class="border-b border-slate-200 pb-4">
+          <span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-indigo-100 text-indigo-700">공통 붙임 1 ~ 6 원문</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-1.5">&lt;붙임 1~5&gt; 우선모집 세부 자격기준 · 증빙서류 · 제출양식 원문 전문</h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1">제출시점 기준 3개월 이내 발급 서류만 유효하며, 방문·이메일 제출 시 반드시 <strong>확인서 + 개인정보동의서</strong>를 함께 제출해야 합니다.</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-2">
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">&lt;붙임 1·2&gt; 순위별 세부 자격 및 필수 증빙서류</h3>
+            <ul class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-800">
+              <li>• <strong>1~3순위 (법정저소득층 · 국가보훈대상자[자녀, 독립유공자는 손자녀까지] · 북한이탈주민)</strong>: 유보통합포털 접수 시 주민등록번호 입력으로 온라인 실시간 자격검증 (시스템 미확인 시에만 유치원에 별도 증명서 제출)</li>
+              <li>• <strong>기타 4순위 — 다자녀(2자녀 이상, 출생신고자·출생순서 무관) / 쌍생아 / 재원·본교 형제자매 / 졸업생 동생</strong>: 주민등록등본(또는 가족관계증명서) 1부 → <span class="text-blue-700 font-semibold">공공마이데이터 온라인 간편 제출 가능</span> (졸업생 동생은 졸업대장/졸업증명 등 원별 확인)</li>
+              <li>• <strong>기타 4순위 — 사회적 배려대상자</strong>: 아동복지시설(아동복지법 제16조), 여성폭력피해자 보호시설, 성매매피해자 지원시설, 모자(일시)보호시설 입소 확인서 1부</li>
+              <li>• <strong>기타 4순위 — 다문화 가정(내국인 자녀)</strong>: 주민등록등본 외 국적·귀화 확인 가능 서류(가족관계증명서, 기본증명서, 혼인관계증명서 등) 추가 제출</li>
+              <li>• <strong>기타 4순위 — 장애부모 가정('장애의 정도가 심한 장애인')</strong>: 장애인등록증 사본(또는 장애인증명서) 1부 + 등본/가족관계증명서 1부 (마이데이터 온라인 간편 제출 가능)</li>
+              <li>• <strong>기타 4순위 — 한부모 가정</strong>: 보호자의 가족관계증명서 1부 (마이데이터 온라인 간편 제출 가능)</li>
+              <li>• <strong>온라인 간편 제출 가능 서류(총 13종)</strong>: 국민기초생활수급자증명서, 차상위계층확인서, 한부모가족증명서, 국가유공자확인서, 주민등록등(초)본, 가족관계증명서, 장애인증명서, 건강보험자격득실확인서, 고용보험피보험자격이력내역서, 국민연금가입자증명서, 사업자등록증, 소득금액증명서, 부가가치세과세표준증명원</li>
+            </ul>
+          </div>
+
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-2">
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">&lt;붙임 3&gt; 확 인 서 (방문·이메일 서류 제출 및 현장접수 시 필수 첨부)</h3>
+            <div class="bg-white border border-slate-200 rounded-lg p-4 text-xs sm:text-sm leading-relaxed text-slate-800 space-y-2">
+              <p>상기 보호자는 <strong>(해당 유치원)</strong>에 2027학년도 입학을 위해 제출한 증빙서류가 사실임을 확인하며, 만약 제출한 서류가 허위이거나 사실과 다를 경우 선발이 되었더라도 입학이 취소될 수 있음을 인지하고 있습니다.</p>
+              <p class="text-right font-medium">2026. 11. &nbsp;&nbsp;. &nbsp;&nbsp;|&nbsp;&nbsp; 유아명: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / 보호자명: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (서명) &nbsp;&nbsp;|&nbsp;&nbsp; ○○유치원장 귀하</p>
+            </div>
+          </div>
+
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-2">
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">&lt;붙임 4&gt; 개인정보 수집·이용 동의서 (방문·이메일 제출 및 현장접수 시 필수)</h3>
+            <ul class="space-y-1.5 text-xs sm:text-sm leading-relaxed text-slate-800">
+              <li>• <strong>수집·이용 목적</strong>: 유보통합포털을 통한 유아모집·선발 업무 처리, 자격 등 확인(조회 및 검증), 입학여부의 결정, 문자수신 서비스를 통한 입학안내</li>
+              <li>• <strong>수집 항목</strong>: [필수] 유아 정보(성명, 주민등록번호, 성별 등), 보호자 정보(성명, 유아와의 관계, 핸드폰번호, 주소) / [민감정보] 건강·자격 관련 검증 정보</li>
+              <li>• <strong>보유·이용 기간</strong>: 유아모집 종료 시까지 (입학 확정 유아는 졸업·퇴원 시까지) / 동의 거부 시 유아모집·선발 참여 불가</li>
+            </ul>
+          </div>
+
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50 space-y-2">
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">&lt;붙임 5·6&gt; 위임장(현장접수 시) 및 서약서(본교 1학년 취학예정 형제자매 해당 시)</h3>
+            <ul class="space-y-1.5 text-xs sm:text-sm leading-relaxed text-slate-800">
+              <li>• <strong>[위임장]</strong>: 온라인 접수가 어려워 유치원에 방문 현장접수를 위임할 때 작성 (보호자 신분증·등본·자격증빙서류 지참)</li>
+              <li>• <strong>[서약서 — 인천중산초병설 등 해당자]</strong>: "취학통지서 수령 후 유치원으로 제출하며, 2027학년도 형제·자매가 본교에 입학하지 않을 경우 상기 유아의 유치원 입학이 취소됨을 인지하였습니다."</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: PRIVATE 4 KINDERGARTENS & SCHEDULE ==================== -->
+    <section id="panel-private4" class="hidden space-y-5">
+      <!-- Common Schedule -->
+      <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+        <h2 class="text-lg font-bold text-slate-900">2027학년도 인천광역시 유치원 공통 모집 일정</h2>
+        <div class="overflow-x-auto border border-slate-200 rounded-lg">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                <th class="py-2.5 px-3 font-bold">전형 구분</th>
+                <th class="py-2.5 px-3 font-bold">세부 절차</th>
+                <th class="py-2.5 px-3 font-bold">일정</th>
+                <th class="py-2.5 px-3 font-bold">비고</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr><td class="py-2 px-3 font-semibold text-blue-700">우선모집</td><td class="py-2 px-3">원서 접수</td><td class="py-2 px-3 font-bold">2026. 11. 2.(월) 09:00 ~ 11. 4.(수) 18:00</td><td class="py-2 px-3">최대 3곳 지원 (재원 유지 시 타원 2곳)</td></tr>
+              <tr><td class="py-2 px-3 font-semibold text-blue-700">우선모집</td><td class="py-2 px-3">추첨 및 발표</td><td class="py-2 px-3">2026. 11. 9.(월) 모바일 15:00 / PC 15:10</td><td class="py-2 px-3">우선모집은 탈락 시 대기번호 없음</td></tr>
+              <tr><td class="py-2 px-3 font-semibold text-blue-700">우선모집</td><td class="py-2 px-3">등록</td><td class="py-2 px-3">2026. 11. 10.(화) 09:00 ~ 11. 11.(수) 18:00</td><td class="py-2 px-3">1곳만 등록 (등록 시 일반모집 지원 불가)</td></tr>
+              <tr><td class="py-2 px-3 font-semibold text-emerald-700">일반모집</td><td class="py-2 px-3">잔여 모집인원 공개</td><td class="py-2 px-3 font-bold">2026. 11. 16.(월) 18:00 ~</td><td class="py-2 px-3">우선모집 100% 충원 시 일반모집 0명 가능</td></tr>
+              <tr><td class="py-2 px-3 font-semibold text-emerald-700">일반모집</td><td class="py-2 px-3">원서 접수</td><td class="py-2 px-3 font-bold">2026. 11. 17.(화) 09:00 ~ 11. 23.(월) 18:00</td><td class="py-2 px-3">선착순 아님 · 희망순 중복선발제한 추첨</td></tr>
+              <tr><td class="py-2 px-3 font-semibold text-emerald-700">일반모집</td><td class="py-2 px-3">추첨 발표 / 등록</td><td class="py-2 px-3">발표 11. 26.(목) 15:00 / 등록 11. 27.~11. 30.</td><td class="py-2 px-3">대기자 순번 12. 1. ~ 12. 31. 운영</td></tr>
+              <tr><td class="py-2 px-3 font-semibold text-slate-700">추가모집</td><td class="py-2 px-3">결원 발생 시 수시</td><td class="py-2 px-3">2026. 12. 1.(화) ~ 2027. 2. 12.(금)</td><td class="py-2 px-3">유보통합포털 또는 유치원 개별 모집</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Private 4 Kindergartens -->
+      <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">유보통합포털 내부 게시 사립유치원 4개원 현황 (유치원알리미 공시 기준)</h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-0.5">아래 4개 사립유치원은 외부 홈페이지 공지 없이 <strong>유보통합포털 로그인 → 유치원 찾기(인천 영종구)</strong>에서 2027학년도 모집요강을 조회하실 수 있습니다.</p>
+        </div>
+        <div class="overflow-x-auto border border-slate-200 rounded-lg">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                <th class="py-2.5 px-3 font-bold">유치원명</th>
+                <th class="py-2.5 px-3 font-bold">권역·주소</th>
+                <th class="py-2.5 px-3 font-bold">연령별 학급·정원 (공시 기준)</th>
+                <th class="py-2.5 px-3 font-bold">운영시간 / 통학버스</th>
+                <th class="py-2.5 px-3 font-bold">월 학부모부담금 (교육 / 방과후)</th>
+                <th class="py-2.5 px-3 font-bold">연락처 / 채널</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="py-2.5 px-3 font-bold">무지개유치원</td>
+                <td class="py-2.5 px-3">운서동 눈돌로 35</td>
+                <td class="py-2.5 px-3">총 9학급 (228명)<br><span class="text-slate-500 text-xs">3세 69 · 4세 75 · 5세 84</span></td>
+                <td class="py-2.5 px-3">09:00~19:00<br><span class="text-blue-700 font-semibold">통학버스 3대</span></td>
+                <td class="py-2.5 px-3 text-xs">3세: 148,000원 / 24,000원<br>4세: 38,000원 / 24,000원<br>5세: 0원 / 45,000원</td>
+                <td class="py-2.5 px-3">032-751-3008<br><a href="https://www.mujigaekinder.com/main/main.html" target="_blank" class="text-blue-600 underline text-xs">홈페이지 ↗</a></td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-bold">이튼유치원</td>
+                <td class="py-2.5 px-3">운남동 남디로안길 34-7</td>
+                <td class="py-2.5 px-3">총 12학급 (269명)<br><span class="text-slate-500 text-xs">3세 80 · 4세 92 · 5세 97</span></td>
+                <td class="py-2.5 px-3">08:00~18:00<br><span class="text-blue-700 font-semibold">통학버스 4대</span></td>
+                <td class="py-2.5 px-3 text-xs">3세: 173,000원 / 60,000원<br>4세: 67,150원 / 60,000원<br>5세: 0원 / 10,000원</td>
+                <td class="py-2.5 px-3">032-752-7110<br><span class="text-slate-500 text-xs">소그룹 개별상담</span></td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-bold">초롱유치원</td>
+                <td class="py-2.5 px-3">운서동 영종대로27번길 6</td>
+                <td class="py-2.5 px-3">총 6학급 (140명)<br><span class="text-slate-500 text-xs">3세 40 · 4세 48 · 5세 52</span></td>
+                <td class="py-2.5 px-3">07:30~19:00<br><span class="text-blue-700 font-semibold">통학버스 3대</span></td>
+                <td class="py-2.5 px-3 text-xs">3세: 122,800원 / 47,500원<br>4세: 10,000원 / 47,500원<br>5세: 0원 / 44,600원</td>
+                <td class="py-2.5 px-3">032-751-8400<br><a href="https://cafe.naver.com/chokids" target="_blank" class="text-blue-600 underline text-xs">네이버카페 ↗</a></td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3 font-bold">해님나라유치원</td>
+                <td class="py-2.5 px-3">운서동 은골로 42</td>
+                <td class="py-2.5 px-3">총 8학급 (196명)<br><span class="text-slate-500 text-xs">3세 68 · 4세 56 · 5세 72</span></td>
+                <td class="py-2.5 px-3">09:00~19:00<br><span class="text-blue-700 font-semibold">통학버스 4대</span></td>
+                <td class="py-2.5 px-3 text-xs">3세: 69,949원 / 40,000원<br>4세: 0원 / 40,000원<br>5세: 0원 / 60,000원</td>
+                <td class="py-2.5 px-3">032-752-7878</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Raw Full-Text Modal -->
+  <div id="rawModal" class="fixed inset-0 bg-slate-900/60 z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <h3 id="rawModalTitle" class="font-bold text-slate-900 text-sm sm:text-base">공고문 무삭제 원문 전문</h3>
+        <button onclick="closeRawModal()" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-200 text-slate-800 hover:bg-slate-300">닫기 ✕</button>
+      </div>
+      <pre id="rawModalBody" class="p-5 overflow-y-auto text-xs sm:text-sm leading-relaxed whitespace-pre-wrap text-slate-800 font-sans"></pre>
+    </div>
+  </div>
+
+  <script>
+    const DOCS = [
+      {
+        id: "01",
+        slug: "01_yeongjong",
+        shortName: "① 영종유치원",
+        nameOnly: "영종유치원",
+        exactQuotaBadge: true,
+        fullName: "2027학년도 영종유치원 유아모집(우선모집) 요강",
+        type: "공립 단설",
+        region: "중산",
+        regionLabel: "중산(하늘)",
+        hasBus: true,
+        busLabel: "운행(8대)",
+        hoursLabel: "08:50~19:00",
+        shortDeadline: "방문 16:00 / 메일 18:00",
+        address: "인천 영종구 백운로 57-25 (중산동)",
+        phone: "032-747-1082 (맑은관 2층 연수실)",
+        email: "young345@korea.kr",
+        deadline: "현장접수·방문서류: 11. 4.(수) 16:00 / 이메일서류: 11. 4.(수) 18:00",
+        webUrl: "https://yeongjong.icekg.kr/boardCnts/updateCnt.do?action=view&m=0906&s=yeongjongu&boardID=306950&boardSeq=34292526&viewBoardID=306950&lev=0",
+        files: [
+          { label: "원본 HWP 다운로드", url: "./yeongjong-2027-docs/hwp/01_yeongjong_guideline.hwp" }
+        ],
+        ageSplit: {
+          a3: { pri: 31, gen: 13, tot: 44 },
+          a4: { pri: 14, gen: 6, tot: 20 },
+          a5: { pri: 7, gen: 3, tot: 10 },
+          sum: { pri: 52, gen: 22, tot: 74 },
+          mixed: false
+        },
+        quotas: [
+          { age: "3세반", classes: "4학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "48명", current: "4명", pri: "31명 (확정)", gen: "13명", recruit: "44명" },
+          { age: "4세반", classes: "4학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "68명", current: "48명", pri: "14명 (확정)", gen: "6명", recruit: "20명" },
+          { age: "5세반", classes: "4학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "76명", current: "66명", pri: "7명 (확정)", gen: "3명", recruit: "10명" }
+        ],
+        sections: [
+          {
+            title: "1~2. 모집대상 및 운영 안내 (원문)",
+            lines: [
+              "• 조기입학유아, 취학유예자, 미숙아 안내: 우선모집 해당 사항 없음",
+              "• [교육과정] 운영시간: 08:50 ~ 13:10 / [방과후과정] 운영시간: 13:10 ~ 19:00 (맞벌이 무관 희망 시 100% 입학 가능)",
+              "• 우선모집과 일반모집의 비율을 우선모집 70%, 일반모집 30%로 나누어 선발 (공고문 표에 우선모집 인원 31명·14명·7명 직접 명시)",
+              "• 특수교육대상유아는 최우선순위로 배치함에 따라 3세반 재원 예정 유아 수는 특수교육지원센터 배치에 따름",
+              "• 예비소집 안내: 1차(2026년 12월 15일경 입학서류 우편 발송 예정), 2차(2027년 2월 중 예정)"
+            ]
+          },
+          {
+            title: "3~4. 모집 일정 및 우선순위 기준 (원문)",
+            lines: [
+              "• 우선모집 접수: 2026. 11. 2.(월) 09:00 ~ 11. 4.(수) 18:00 (유보통합포털 온라인 및 현장 교차접수 가능)",
+              "• 우선모집 현장접수 일시/장소: 2026. 11. 2.(월) ~ 11. 4.(수) 10:00~16:00 / 영종유치원 맑은관 2층 연수실",
+              "• 증빙서류 마감: 현장제출 11. 4.(수) 16:00 도착분 / 이메일(young345@korea.kr) 11. 4.(수) 18:00 도착분",
+              "• 1순위(100%): 법정저소득층 가정 / 2순위(연령별 모집인원의 3%): 국가보훈대상자 / 3순위(3%): 북한이탈주민",
+              "• 기타 4순위 이하(모집인원 내 70% 선발): 쌍생아, 본원 재학 유아 형제·자매, 사회적 배려 대상자, 다자녀 가정(2자녀 이상, 출생신고자), 다문화 가정, 장애부모 가정, 한부모 가정, 졸업생 동생"
+            ]
+          },
+          {
+            title: "5. 통학차량 운행 안내 (원문 중요사항)",
+            lines: [
+              "• 운행 지역: 운남동 일부(전소, 하늘도시), 운북동, 중산동(하늘도시) 반경 약 4km 내외(30분 이내 코스)",
+              "• 방학 중 방과후과정 이용 유아도 통학차량 운행",
+              "• ※ 미운행 지역 필독: 운서동, 운서지구, 넙디 일대는 통학차량을 운행하지 않음 (개별 등·하원 가능 가정만 지원 요망)"
+            ]
+          }
+        ]
+      },
+      {
+        id: "02",
+        slug: "02_gonghang",
+        shortName: "② 인천공항유치원",
+        nameOnly: "인천공항유치원",
+        exactQuotaBadge: false,
+        fullName: "2027학년도 인천공항유치원 유아모집 요강 [우선모집]",
+        type: "공립 단설",
+        region: "운서",
+        regionLabel: "운서",
+        hasBus: true,
+        busLabel: "운행(3대)",
+        hoursLabel: "아침08:00~19:00",
+        shortDeadline: "방문 16:00 / 메일 18:00",
+        address: "인천 영종구 신도시남로 43 (운서동)",
+        phone: "대표 032-751-8896 / 연수실 032-765-8896",
+        email: "gonghang-kg@ice.go.kr",
+        deadline: "현장접수·방문서류: 11. 4.(수) 16:00 / 온라인·이메일서류: 11. 4.(수) 18:00",
+        webUrl: "https://gonghang-kg.icekg.kr/boardCnts/updateCnt.do?action=view&m=0706&s=gonghang_kg&boardID=302116&boardSeq=34287374&viewBoardID=302116&lev=0",
+        files: [
+          { label: "운영안내 리플렛 PDF", url: "./yeongjong-2027-docs/pdf/02_gonghang_brochure.pdf" },
+          { label: "원본 HWP 다운로드", url: "./yeongjong-2027-docs/hwp/02_gonghang_guideline.hwp" }
+        ],
+        ageSplit: {
+          a3: { pri: 8, gen: 4, tot: 12 },
+          a4: { pri: 15, gen: 6, tot: 21 },
+          a5: { pri: 4, gen: 2, tot: 6 },
+          sum: { pri: 27, gen: 12, tot: 39 },
+          mixed: false
+        },
+        quotas: [
+          { age: "3세반", classes: "1학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "12명", current: "0명", pri: "8명 (70%)", gen: "4명 (30%)", recruit: "12명" },
+          { age: "4세반", classes: "2학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "34명", current: "13명", pri: "15명 (14~15)", gen: "6명 (6~7)", recruit: "21명" },
+          { age: "5세반", classes: "2학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "38명", current: "32명", pri: "4명 (70%)", gen: "2명 (30%)", recruit: "6명" }
+        ],
+        sections: [
+          {
+            title: "1~2. 운영시간 및 돌봄 안내 (요강 및 운영안내 리플렛 원문)",
+            lines: [
+              "• [아침돌봄] 08:00 ~ 08:50 / [교육과정] 08:50 ~ 13:20 / [방과후 과정] 13:20 ~ 19:00",
+              "• 안심 돌봄: 8시 아침돌봄~19시 방과후 과정, 교육과정 선발 시 맞벌이 무관 희망 유아 100% 참여 가능",
+              "• 방학 중 방과후 과정 운영: 08:30 ~ 19:00 (급·간식 제공 및 통학차량 운행 / 여름·학기말 방학 각 5일 휴원 예정)",
+              "• 특성화 프로그램(2026 기준): 미술, 영어, 체육 (수요조사 후 변경 가능)"
+            ]
+          },
+          {
+            title: "3~4. 접수 마감 및 우선순위 기준 (원문)",
+            lines: [
+              "• 현장접수 시간: 11. 2.(월) 14:00 ~ 11. 4.(수) 16:00까지 방문 접수 가능",
+              "• 증빙서류 제출 마감: 온라인·이메일(gonghang-kg@ice.go.kr) 11. 4.(수) 18:00까지 (방문 제출은 평일 16:00까지)",
+              "• 1순위(100%): 법정저소득층 / 2·3순위(연령별 모집인원 3% 기준 원장 자율): 국가보훈·북한이탈주민",
+              "• 기타 4순위(모집인원 내 70%): 쌍생아, 본원 재학 형제·자매, 사회적 배려 대상자, 다자녀 가정(2자녀 이상, 출생신고자), 다문화 가정, 장애부모 가정, 한부모 가정, 졸업생 동생"
+            ]
+          },
+          {
+            title: "5. 통학차량 노선 (3대 · 3코스 원문 수록 단지)",
+            lines: [
+              "• 운서권역 3개 노선 운행 (방과후 하원 통학차량 16:20~16:30 지도 및 출발)",
+              "• 주요 운행 단지: 운서역 금강펜테리움, 영종하늘도시 푸르지오더스카이, 운서 SK뷰스카이시티 1·2차, 호반써밋스카이센트럴 2차, 운서역 반도유보라, 제일풍경채디오션, 영종베르힐, 영종유승한내들, 풍림아이원 6단지, 금광누리에뜰, 창보밀레시티 3·5단지 등"
+            ]
+          }
+        ]
+      },
+      {
+        id: "03",
+        slug: "03_dalbit",
+        shortName: "③ 인천달빛초병설",
+        nameOnly: "인천달빛초병설",
+        exactQuotaBadge: false,
+        fullName: "2027학년도 인천달빛초등학교병설유치원 표준모집요강 (우선모집)",
+        type: "공립 병설",
+        region: "중산",
+        regionLabel: "중산(하늘)",
+        hasBus: false,
+        busLabel: "미운행",
+        hoursLabel: "08:40~19:00",
+        shortDeadline: "방문 16:00 / 메일 18:00",
+        address: "인천 영종구 은하수로 142 (중산동)",
+        phone: "032-458-1000",
+        email: "ekfqlc123@korea.kr",
+        deadline: "현장·방문서류: 11. 4.(수) 16:00 (평일 14~16시) / 이메일서류: 11. 4.(수) 18:00",
+        webUrl: "https://dalbit.icees.kr/boardCnts/updateCnt.do?action=view&m=0404&s=dalbit&boardID=317792&boardSeq=34266418&viewBoardID=317792&lev=0",
+        files: [
+          { label: "공고문 원본 HWP", url: "./yeongjong-2027-docs/hwp/03_dalbit_guideline.hwp" },
+          { label: "증빙서류 안내 HWP", url: "./yeongjong-2027-docs/hwp/03_dalbit_attachments.hwp" }
+        ],
+        ageSplit: {
+          a3: { pri: 8, gen: 4, tot: 12 },
+          a4: { pri: 7, gen: 3, tot: 10 },
+          a5: { pri: 0, gen: 0, tot: 0 },
+          sum: { pri: 15, gen: 7, tot: 22 },
+          mixed: false
+        },
+        quotas: [
+          { age: "3세반", classes: "1학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "12명", current: "0명", pri: "8명 (70%)", gen: "4명 (30%)", recruit: "12명" },
+          { age: "4세반", classes: "2학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "34명", current: "24명", pri: "7명 (70%)", gen: "3명 (30%)", recruit: "10명" },
+          { age: "5세반", classes: "1학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "19명", current: "19명(특수4 포함)", pri: "0명", gen: "0명", recruit: "0명 (미모집)" }
+        ],
+        sections: [
+          {
+            title: "1~3. 모집 및 운영 핵심 내용 (원문)",
+            lines: [
+              "• ※ 5세반은 재원 유아(19명, 특수교육대상 4명 포함) 충원으로 2027학년도 신입 유아를 모집하지 않음(0명)",
+              "• [교육과정] 08:40 ~ 13:00 / [방과후 과정] 13:00 ~ 19:00 (맞벌이 무관 희망자 100% 참여 가능)",
+              "• 우선모집 최우선·1~3순위 100%, 4순위 70%, 일반모집 30%로 하며 최종 일반모집 인원은 우선모집 결과에 따라 결정됨",
+              "• 통학버스: 미운영 (개별 등·하원) / 1차 예비소집일: 2026. 12. 10.(목)"
+            ]
+          },
+          {
+            title: "4. 우선순위 기준 (원문)",
+            lines: [
+              "• 1~3순위(모집인원 내 100% 선발): 법정저소득층, 국가보훈대상자, 북한이탈주민",
+              "• 기타 4순위 이하(모집인원 내 70% 선발): 쌍생아, 본원 재학 유아의 형제·자매, 본교(인천달빛초) 재학생의 형제·자매, 사회적 배려 대상자, 다자녀 가정(2자녀 이상: 출생신고자에 한함), 다문화 가정, 장애부모 가정, 한부모 가정, 졸업생 동생"
+            ]
+          }
+        ]
+      },
+      {
+        id: "04",
+        slug: "04_starlight",
+        shortName: "④ 인천별빛초병설",
+        nameOnly: "인천별빛초병설",
+        exactQuotaBadge: false,
+        fullName: "2027학년도 인천별빛초등학교병설유치원 유아모집 요강 (우선모집)",
+        type: "공립 병설",
+        region: "운남·용유",
+        regionLabel: "운남",
+        hasBus: false,
+        busLabel: "미운행",
+        hoursLabel: "08:40~19:00",
+        shortDeadline: "방문 16:00 / 메일 18:00",
+        address: "인천 영종구 은하수로 402 (운남동)",
+        phone: "대표 032-455-8788 / 연수실 032-455-8700",
+        email: "starlight20@korea.kr",
+        deadline: "현장·방문서류: 11. 4.(수) 16:00 (14~16시) / 이메일서류: 11. 4.(수) 18:00",
+        webUrl: "https://starlight.icees.kr/boardCnts/updateCnt.do?action=view&m=060501&s=starlight&boardID=301738&boardSeq=34287188&viewBoardID=301738&lev=0",
+        files: [
+          { label: "실내외 사진자료 PDF", url: "./yeongjong-2027-docs/pdf/04_starlight_photos.pdf" },
+          { label: "공고문 원본 HWP", url: "./yeongjong-2027-docs/hwp/04_starlight_guideline.hwp" },
+          { label: "확인서·동의서·위임장 HWP", url: "./yeongjong-2027-docs/hwp/04_starlight_attachments.hwp" }
+        ],
+        ageSplit: {
+          a3: { pri: 8, gen: 4, tot: 12 },
+          a4: { pri: 4, gen: 1, tot: 5 },
+          a5: { pri: 14, gen: 6, tot: 20 },
+          sum: { pri: 26, gen: 11, tot: 37 },
+          mixed: false
+        },
+        quotas: [
+          { age: "3세반", classes: "1학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "12명", current: "0명", pri: "8명 (70%)", gen: "4명 (30%)", recruit: "12명" },
+          { age: "4세반", classes: "1학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "17명", current: "12명", pri: "4명 (3~4명)", gen: "1명 (1~2명)", recruit: "5명" },
+          { age: "5세반", classes: "2학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "38명", current: "18명", pri: "14명 (70%)", gen: "6명 (30%)", recruit: "20명" }
+        ],
+        sections: [
+          {
+            title: "1~3. 모집 및 운영 핵심 내용 (원문)",
+            lines: [
+              "• [교육과정] 08:40 ~ 13:10 / [방과후 과정] 13:10 ~ 19:00 (맞벌이 여부 관계없이 희망 시 100% 입학 가능)",
+              "• 공립유치원 중 5세반 신입 모집인원(20명: 우선 14명 / 일반 6명)이 가장 많음",
+              "• 통학버스: 미운영 (개별 등·하원)",
+              "• 현장접수 마감: 11. 4.(수) 16:00까지 방문 / 이메일(starlight20@korea.kr) 서류 마감: 11. 4.(수) 18:00 도착분"
+            ]
+          },
+          {
+            title: "4. 우선순위 기준 (원문)",
+            lines: [
+              "• 1~3순위(모집인원 내 100%): 법정저소득층, 국가보훈대상자, 북한이탈주민",
+              "• 기타 4순위 이하(모집인원 내 70% 선발): 쌍생아, 본원 재학 유아 형제·자매, 본교(인천별빛초) 재학생 형제·자매, 사회적 배려 대상자, 다자녀 가정(2자녀 이상: 출생신고자), 다문화 가정, 장애부모 가정, 한부모 가정, 졸업생 동생"
+            ]
+          }
+        ]
+      },
+      {
+        id: "05",
+        slug: "05_yeongjong_es",
+        shortName: "⑤ 인천영종초병설",
+        nameOnly: "인천영종초병설",
+        exactQuotaBadge: false,
+        fullName: "2027학년도 인천영종초등학교병설유치원 유아모집 선발 공고 (우선모집)",
+        type: "공립 병설",
+        region: "중산",
+        regionLabel: "중산(하늘)",
+        hasBus: false,
+        busLabel: "미운행",
+        hoursLabel: "09:00~19:00",
+        shortDeadline: "전체 16:00 조기마감",
+        address: "인천 영종구 하늘달빛로 133 (중산동)",
+        phone: "유치원 032-627-9881 / 교무실 032-458-9777",
+        email: "yj2020@korea.kr",
+        deadline: "※ 현장접수 및 모든 증빙서류(이메일 포함) 11. 4.(수) 16:00 도착분 마감!",
+        webUrl: "https://yj.icees.kr/boardCnts/updateCnt.do?action=view&m=0901&s=iyoungjonges&boardID=275247&boardSeq=34278258&viewBoardID=275247&lev=0",
+        files: [
+          { label: "선발공고 원본 HWP", url: "./yeongjong-2027-docs/hwp/05_yeongjong_es_guideline.hwp" }
+        ],
+        ageSplit: {
+          a3: { pri: 8, gen: 4, tot: 12 },
+          a4: { pri: 4, gen: 1, tot: 5 },
+          a5: { pri: 1, gen: 1, tot: 2 },
+          sum: { pri: 13, gen: 6, tot: 19 },
+          mixed: false
+        },
+        quotas: [
+          { age: "3세반", classes: "1학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "12명", current: "0명", pri: "8명 (70%)", gen: "4명 (30%)", recruit: "12명" },
+          { age: "4세반", classes: "1학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "17명", current: "12명", pri: "4명 (3~4명)", gen: "1명 (1~2명)", recruit: "5명" },
+          { age: "5세반", classes: "1학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "19명", current: "17명", pri: "1명 (70%)", gen: "1명 (30%)", recruit: "2명" }
+        ],
+        sections: [
+          {
+            title: "1~3. 모집 및 운영 핵심 내용 (원문)",
+            lines: [
+              "• [교육과정] 09:00 ~ 13:30 / [방과후 과정] 13:30 ~ 19:00 (여름·겨울방학 중 각 5일간 돌봄 미운영)",
+              "• 통학버스 미운영 (개별 등·하원) / 외국국적 유아는 우선모집 해당없음",
+              "• ※ 마감시간 필독: 현장접수 마감시간 및 증빙서류 제출 마감시간 모두 2026. 11. 4.(수) 16:00까지 도착분에 한함!",
+              "• 이메일 제출처: yj2020@korea.kr (방문·이메일 제출 시 확인서 및 개인정보동의서 필수 첨부)"
+            ]
+          },
+          {
+            title: "4. 우선순위 기준 (원문)",
+            lines: [
+              "• 1~3순위(모집정원의 100%): 법정저소득층, 국가보훈대상자, 북한이탈주민",
+              "• 기타 4순위(모집정원의 70%): 쌍생아, 본원 재학 형제·자매, 본교(인천영종초) 재학생 형제·자매, 사회적 배려 대상자, 다자녀 가정(2자녀 이상, 출생신고자), 다문화 가정, 장애부모 가정, 한부모 가정, 졸업생 동생"
+            ]
+          }
+        ]
+      },
+      {
+        id: "06",
+        slug: "06_yongyu",
+        shortName: "⑥ 인천용유초병설",
+        nameOnly: "인천용유초병설",
+        exactQuotaBadge: false,
+        fullName: "2027학년도 인천용유초등학교 병설유치원 표준모집요강 (우선모집)",
+        type: "공립 병설",
+        region: "운남·용유",
+        regionLabel: "남북(용유)",
+        hasBus: true,
+        busLabel: "운행(초등1~4호)",
+        hoursLabel: "08:40~19:00",
+        shortDeadline: "전체 15:30 최조기마감",
+        address: "인천 영종구 남북로87번길 4 (남북동)",
+        phone: "유치원 032-746-7595 / 교무실 032-510-6388",
+        email: "in_u26@ice.go.kr",
+        deadline: "※ 현장접수 및 모든 증빙서류 11. 4.(수) 15:30 마감! (영종도 내 가장 빠름)",
+        webUrl: "https://yongyu.icees.kr/boardCnts/updateCnt.do?action=view&m=0404&s=yongyu&boardID=257997&boardSeq=34262376&viewBoardID=257997&lev=0",
+        files: [
+          { label: "표준모집요강 원본 HWP", url: "./yeongjong-2027-docs/hwp/06_yongyu_guideline.hwp" }
+        ],
+        ageSplit: {
+          a3: { pri: 0, gen: 0, tot: 0 },
+          a4: { pri: 0, gen: 0, tot: 0 },
+          a5: { pri: 0, gen: 0, tot: 0 },
+          sum: { pri: 4, gen: 2, tot: 6 },
+          mixed: true
+        },
+        quotas: [
+          { age: "3~5세 혼합반", classes: "1학급", birth: "2021. 1. 1. ~ 2023. 12. 31.", cap: "15명", current: "7명(5세)", pri: "약 4명 (70%)", gen: "약 2명 (30%)", recruit: "6명 (통합)" }
+        ],
+        sections: [
+          {
+            title: "1~3. 운영시간 및 마감 안내 (원문)",
+            lines: [
+              "• 3~5세 혼합연령 1학급 운영 (특수학급 별도)",
+              "• [교육과정] 08:40 ~ 13:00 / [방과후 과정] 13:00 ~ 19:00 원칙 (2026학년도는 협의회·운영위 심의 거쳐 18:00까지 운영)",
+              "• ※ 조기 마감 주의: 현장접수 마감시간 및 증빙서류 제출 마감시간 모두 11. 4.(수) 15:30까지 도착분에 한함"
+            ]
+          },
+          {
+            title: "4~5. 초등학교 공유 통학버스 세부 노선 (1~4호차 원문)",
+            lines: [
+              "• 1호차: 왕산마을회관입구 – 을왕리 입구 – 둥개마을 입구 – 오성주유소 – 학교",
+              "• 2호차: 광명식당 – 중구하나개로 – 남성네고개 버스정류장 – 학교",
+              "• 3호차: 희망나무 노인보호센터 – 영종국제물류고 앞 – 넙디마을 입구 – 영종도서관 앞 – 학교",
+              "• 4호차: 솔잎문화센터 앞 – 우미린 1단지 정문 – 스카이시티자이 정문 앞 – 한라비발디 건너편 – 영종한양수자인 후문 – 영종복합문화센터 – 학교"
+            ]
+          }
+        ]
+      },
+      {
+        id: "07",
+        slug: "07_yunseul",
+        shortName: "⑦ 인천윤슬초병설",
+        nameOnly: "인천윤슬초병설",
+        exactQuotaBadge: false,
+        fullName: "2027학년도 인천윤슬초등학교병설유치원 유아모집(우선모집) 요강",
+        type: "공립 병설",
+        region: "운서",
+        regionLabel: "운서",
+        hasBus: false,
+        busLabel: "미운행",
+        hoursLabel: "08:30~19:00",
+        shortDeadline: "전체 16:00 조기마감",
+        address: "인천 영종구 영종대로278번길 34 (운서동)",
+        phone: "032-500-1810",
+        email: "ys2026@korea.kr",
+        deadline: "※ 현장접수 및 모든 증빙서류(이메일 포함) 11. 4.(수) 16:00 마감!",
+        webUrl: "https://yunseul.icees.kr/boardCnts/updateCnt.do?action=view&m=0605&s=yunseul&boardID=318322&boardSeq=34285144&viewBoardID=318322&lev=0",
+        files: [
+          { label: "모집요강 원본 HWP", url: "./yeongjong-2027-docs/hwp/07_yunseul_guideline.hwp" }
+        ],
+        ageSplit: {
+          a3: { pri: 8, gen: 4, tot: 12 },
+          a4: { pri: 6, gen: 3, tot: 9 },
+          a5: { pri: 1, gen: 1, tot: 2 },
+          sum: { pri: 15, gen: 8, tot: 23 },
+          mixed: false
+        },
+        quotas: [
+          { age: "3세반", classes: "1학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "12명", current: "0명", pri: "8명 (70%)", gen: "4명 (30%)", recruit: "12명" },
+          { age: "4세반", classes: "2학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "34명", current: "25명", pri: "6명 (70%)", gen: "3명 (30%)", recruit: "9명" },
+          { age: "5세반", classes: "1학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "19명", current: "17명", pri: "1명 (70%)", gen: "1명 (30%)", recruit: "2명" }
+        ],
+        sections: [
+          {
+            title: "1~3. 모집 및 운영 핵심 내용 (원문)",
+            lines: [
+              "• 2026년 3월 신설 개원 / 특수학급(4~5세 혼합반) 별도 운영",
+              "• [교육과정] 08:30 ~ 13:00 / [방과후 과정] 13:00 ~ 19:00 (맞벌이 무관 희망자 100% 참여 가능)",
+              "• 통학버스 미운영 / ※ 현장접수 및 증빙서류(이메일 ys2026@korea.kr 포함) 모두 11. 4.(수) 16:00 마감",
+              "• 예비소집일: 1차 2026. 12. 10.(목), 2차 2027. 2. 25.(목)"
+            ]
+          },
+          {
+            title: "4. 우선순위 간소화 안내 (원문 특징)",
+            lines: [
+              "• 1순위 법정저소득층(100%), 2·3순위 국가보훈·북한이탈주민(연령별 3%)",
+              "• 기타 4순위(모집인원 내 70% 선발): 다자녀 가정(2자녀 이상, 출생신고자), 사회적 배려 대상자, 다문화 가정, 장애부모 가정, 한부모 가정",
+              "• ※ 쌍생아·재원/본교 형제자매·졸업생 동생은 모두 2자녀 이상에 해당하므로 온라인 증빙이 간편한 '다자녀 가정'으로 지원 안내"
+            ]
+          }
+        ]
+      },
+      {
+        id: "08",
+        slug: "08_jungsan",
+        shortName: "⑧ 인천중산초병설",
+        nameOnly: "인천중산초병설",
+        exactQuotaBadge: false,
+        fullName: "2027학년도 인천중산초등학교병설유치원 유아 우선모집 요강 (제2026-55호)",
+        type: "공립 병설",
+        region: "중산",
+        regionLabel: "중산(하늘)",
+        hasBus: false,
+        busLabel: "미운행",
+        hoursLabel: "08:40~19:00",
+        shortDeadline: "방문 16:00 / 메일 18:00",
+        address: "인천 영종구 두미포로 100 (중산동)",
+        phone: "032-509-3600",
+        email: "js5093600@korea.kr",
+        deadline: "현장·방문(평일 14~16시): 11. 4.(수) 16:00 / 온라인·이메일: 11. 4.(수) 18:00",
+        webUrl: "https://ijse.icees.kr/boardCnts/updateCnt.do?action=view&m=0604&s=ijse&boardID=284149&boardSeq=34277946&viewBoardID=284149&lev=0",
+        files: [
+          { label: "선발요강 원본 PDF", url: "./yeongjong-2027-docs/pdf/08_jungsan_guideline.pdf" },
+          { label: "선발안내문 PDF", url: "./yeongjong-2027-docs/pdf/08_jungsan_notice.pdf" },
+          { label: "제출서류 양식 HWPX", url: "./yeongjong-2027-docs/hwp/08_jungsan_forms.hwpx" }
+        ],
+        ageSplit: {
+          a3: { pri: 8, gen: 4, tot: 12 },
+          a4: { pri: 15, gen: 7, tot: 22 },
+          a5: { pri: 4, gen: 2, tot: 6 },
+          sum: { pri: 27, gen: 13, tot: 40 },
+          mixed: false
+        },
+        quotas: [
+          { age: "3세반", classes: "1학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "12명", current: "-", pri: "8명 (70%)", gen: "4명 (30%)", recruit: "12명" },
+          { age: "4세반", classes: "2학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "34명", current: "12명", pri: "15명 (70%)", gen: "7명 (30%)", recruit: "22명" },
+          { age: "5세반", classes: "2학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "38명", current: "32명", pri: "4명 (70%)", gen: "2명 (30%)", recruit: "6명" }
+        ],
+        sections: [
+          {
+            title: "1~3. 모집 및 운영 핵심 내용 (PDF 원문 전문)",
+            lines: [
+              "• 신입 모집 합계: 정원 84명 중 재학예정 44명 제외 총 40명 모집 (병설 중 4세 모집 22명 최다)",
+              "• [교육과정] 08:40 ~ 13:20 / [방과후 과정] 13:20 ~ 19:00 (여름·겨울방학 중 각 5일간 돌봄 미운영)",
+              "• 교육비: 수익자 부담금 없음 (유아학비 지원금, 방과후 과정 운영비에서 전액 지원 명시)",
+              "• 이메일(js5093600@korea.kr) 제출 시 반드시 유치원에 전화 확인 필수!"
+            ]
+          },
+          {
+            title: "4. 우선순위 및 1학년 취학예정 형제자매 서약서 제도 (원문)",
+            lines: [
+              "• 1~3순위(모집인원 내 100% 선발): 법정저소득층, 국가보훈대상자, 북한이탈주민",
+              "• 기타 4순위(모집인원 내 70% 선발, 기타 4순위 내 우선순위 없음): 다자녀(2자녀 이상, 쌍생아·재원/본교 형제자매·졸업생 동생 포함), 사회적 배려대상자, 다문화 가정, 장애부모 가정, 한부모 가정",
+              "• ※ 본교(인천중산초) 2027학년도 1학년 취학예정자의 형제·자매가 입학 희망 시 [붙임5] 서약서 작성 제출 가능"
+            ]
+          }
+        ]
+      },
+      {
+        id: "09",
+        slug: "09_sky",
+        shortName: "⑨ 인천하늘초병설",
+        nameOnly: "인천하늘초병설",
+        exactQuotaBadge: false,
+        fullName: "2027학년도 인천하늘초등학교병설유치원 유아 우선모집 요강 (제2026-61호)",
+        type: "공립 병설",
+        region: "중산",
+        regionLabel: "중산(하늘)",
+        hasBus: false,
+        busLabel: "미운행",
+        hoursLabel: "아침08:00~19:00",
+        shortDeadline: "방문 16:00 / 메일 18:00",
+        address: "인천 영종구 은하수로 294 (중산동)",
+        phone: "032-745-6770",
+        email: "insky@korea.kr",
+        deadline: "현장·방문·우편: 11. 4.(수) 16:00 / 온라인·이메일: 11. 4.(수) 18:00",
+        webUrl: "https://sky.icees.kr/boardCnts/updateCnt.do?action=view&m=070401&s=skyes&boardID=286865&boardSeq=34281138&viewBoardID=286865&lev=0",
+        files: [
+          { label: "유아모집 리플렛 PDF", url: "./yeongjong-2027-docs/pdf/09_sky_leaflet.pdf" },
+          { label: "표준모집요강 원본 HWP", url: "./yeongjong-2027-docs/hwp/09_sky_guideline.hwp" }
+        ],
+        ageSplit: {
+          a3: { pri: 8, gen: 4, tot: 12 },
+          a4: { pri: 4, gen: 1, tot: 5 },
+          a5: { pri: 1, gen: 1, tot: 2 },
+          sum: { pri: 13, gen: 6, tot: 19 },
+          mixed: false
+        },
+        quotas: [
+          { age: "3세반", classes: "1학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "12명", current: "0명", pri: "8명 (70%)", gen: "4명 (30%)", recruit: "12명" },
+          { age: "4세반", classes: "1학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "17명", current: "12명", pri: "4명 (3~4명)", gen: "1명 (1~2명)", recruit: "5명" },
+          { age: "5세반", classes: "1학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "19명", current: "17명", pri: "1명 (70%)", gen: "1명 (30%)", recruit: "2명" }
+        ],
+        sections: [
+          {
+            title: "1~3. 아침돌봄 및 운영 안내 (원문)",
+            lines: [
+              "• [아침돌봄] 운영시간: 08:00 ~ 09:00 운영 명시!",
+              "• [교육과정] 운영시간: 09:00 ~ 13:20 / [방과후 과정] 운영시간: 13:20 ~ 19:00 (맞벌이 무관 100% 참여 가능)",
+              "• 통학버스 미운영 (개별 등·하원)",
+              "• 현장접수·방문·우편 마감: 11. 4.(수) 16:00 / 온라인·이메일(insky@korea.kr) 마감: 11. 4.(수) 18:00"
+            ]
+          },
+          {
+            title: "4. 우선순위 기준 (원문)",
+            lines: [
+              "• 1~3순위(모집인원 내 100% 선발): 법정저소득층, 국가보훈대상자, 북한이탈주민",
+              "• 기타 4순위(모집인원 내 70% 선발): 쌍생아, 본원 재원 유아 형제·자매, 본교(인천하늘초) 재학생 형제·자매, 사회적 배려 대상자, 다자녀 가정(2자녀 이상, 출생신고자·출생순서 무관), 다문화 가정, 장애부모 가정, 한부모 가정, 졸업생 동생"
+            ]
+          }
+        ]
+      },
+      {
+        id: "10",
+        slug: "10_dynamis",
+        shortName: "⑩ 뒤나미스유치원",
+        nameOnly: "뒤나미스유치원",
+        exactQuotaBadge: false,
+        fullName: "2027학년도 뒤나미스유치원 유아모집 요강 (우선모집 | 사립)",
+        type: "사립",
+        region: "중산",
+        regionLabel: "중산(하늘)",
+        hasBus: true,
+        busLabel: "운행(4대)",
+        hoursLabel: "08:30~19:00",
+        shortDeadline: "전체 17:00 마감",
+        address: "인천 영종구 오작로 116 (중산동)",
+        phone: "032-752-9897",
+        email: "dynamis_9897@naver.com",
+        deadline: "※ 현장접수 및 온라인·방문·이메일 증빙서류 모두 11. 4.(수) 17:00 마감!",
+        webUrl: "https://blog.naver.com/PostView.naver?blogId=dynafable&logNo=224455411476",
+        files: [
+          { label: "우선모집요강 원본 PDF", url: "./yeongjong-2027-docs/pdf/10_dynamis_guideline.pdf" }
+        ],
+        ageSplit: {
+          a3: { pri: 70, gen: 30, tot: 100 },
+          a4: { pri: 22, gen: 9, tot: 31 },
+          a5: { pri: 8, gen: 4, tot: 12 },
+          sum: { pri: 100, gen: 43, tot: 143 },
+          mixed: false
+        },
+        quotas: [
+          { age: "3세반", classes: "4학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "100명", current: "0명", pri: "70명 (70%)", gen: "30명 (30%)", recruit: "100명" },
+          { age: "4세반", classes: "5학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "130명", current: "99명", pri: "22명 (21~22)", gen: "9명 (9~10)", recruit: "31명" },
+          { age: "5세반", classes: "5학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "140명", current: "128명", pri: "8명 (70%)", gen: "4명 (30%)", recruit: "12명" }
+        ],
+        sections: [
+          {
+            title: "1~3. 운영시간, 입학설명회 및 접수 마감 (PDF 원문 전문)",
+            lines: [
+              "• [교육과정] 운영시간: 08:30 ~ 12:30 / [방과후 과정] 운영시간: 12:30 ~ 19:00 (희망 시 100% 참여 가능)",
+              "• ※ 서류 및 현장접수 마감 필독: 온라인 제출, 방문(평일 09:00~17:00), 이메일(dynamis_9897@naver.com) 모두 2026. 11. 4.(수) 17:00까지 도착분에 한함!",
+              "• 입학설명회 신청: 1차 11. 5.(목, 3세 대상: https://naver.me/FgEIAny5) / 2차 11. 6.(금, 3~5세 대상: https://naver.me/FqIQJgfU)",
+              "• 공시 기준 월 학부모부담금 참고: 기본(3세 229,400원 / 4세 119,300원 / 5세 0원), 방과후(3·4세 88,000원 / 5세 40,000원)"
+            ]
+          },
+          {
+            title: "4~5. 우선순위(사립 자체 4순위) 및 통학차량 노선 (원문)",
+            lines: [
+              "• 1순위 법정저소득층(100%), 2순위 국가보훈대상자(연령별 3%), 3순위 북한이탈주민(연령별 3%)",
+              "• 기타 4순위 이하(모집인원 내 70% 선발 — 아래 3개 항목 해당자):",
+              "  ① 본원 재학 유아의 형제·자매 — 주민등록등본(또는 가족관계증명서) 1부",
+              "  ② 졸업생 동생 — 졸업대장 및 주민등록등본 등 1부",
+              "  ③ 다자녀 가정(2자녀 이상, 출생신고자에 한함) — 자동연계시스템(마이데이터) 온라인 증빙",
+              "• 통학차량 노선: 하늘도시 내 운행(중산동) / ※ 운서·운남지구 차량지원 불가 (개별 등하원 시 지원 가능)"
+            ]
+          }
+        ]
+      }
+    ];
+
+    let activeMainTab = "compare";
+    let activeDocId = "01";
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function switchMainTab(tab) {
+      activeMainTab = tab;
+      ["compare", "originals", "forms", "private4"].forEach(t => {
+        document.getElementById(`panel-${t}`).classList.toggle("hidden", t !== tab);
+        const btn = document.getElementById(`nav-${t}`);
+        if (t === tab) {
+          btn.className = "px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold border transition tab-active";
+        } else {
+          btn.className = "px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 transition";
+        }
+      });
+      if (tab === "originals") renderOriginals();
+    }
+
+    function openDocDetail(id) {
+      activeDocId = id;
+      document.getElementById("regionFilter").value = "ALL";
+      document.getElementById("searchInput").value = "";
+      switchMainTab("originals");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function formatCellSplit(cell) {
+      if (cell.tot === 0) {
+        return `<span class="text-slate-400 text-xs">미모집 (0)</span>`;
+      }
+      return `<span class="font-bold text-blue-700">${cell.pri}명</span> <span class="text-slate-300">/</span> <span class="font-bold text-emerald-700">${cell.gen}명</span> <span class="text-slate-400 text-xs">(${cell.tot})</span>`;
+    }
+
+    function renderCompareTable() {
+      const region = document.getElementById("cmpRegion").value;
+      const type = document.getElementById("cmpType").value;
+      const busOnly = document.getElementById("cmpBusOnly").checked;
+
+      const rows = DOCS.filter(d => {
+        if (region !== "ALL" && d.region !== region) return false;
+        if (type !== "ALL" && d.type !== type) return false;
+        if (busOnly && !d.hasBus) return false;
+        return true;
+      });
+
+      let totPri = 0, totGen = 0, totAll = 0;
+      let a3Pri = 0, a3Gen = 0, a4Pri = 0, a4Gen = 0, a5Pri = 0, a5Gen = 0;
+
+      rows.forEach(d => {
+        totPri += d.ageSplit.sum.pri;
+        totGen += d.ageSplit.sum.gen;
+        totAll += d.ageSplit.sum.tot;
+        if (!d.ageSplit.mixed) {
+          a3Pri += d.ageSplit.a3.pri; a3Gen += d.ageSplit.a3.gen;
+          a4Pri += d.ageSplit.a4.pri; a4Gen += d.ageSplit.a4.gen;
+          a5Pri += d.ageSplit.a5.pri; a5Gen += d.ageSplit.a5.gen;
+        }
+      });
+
+      document.getElementById("kpiGrid").innerHTML = `
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="text-xs text-slate-500">조회된 유치원 수</div>
+          <div class="text-xl font-bold text-slate-900 mt-0.5">${rows.length}개원</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-blue-50 border border-blue-200">
+          <div class="text-xs text-blue-700 font-medium">우선모집 배정 합계 (70%)</div>
+          <div class="text-xl font-bold text-blue-800 mt-0.5">${totPri}명</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200">
+          <div class="text-xs text-emerald-700 font-medium">일반모집 기본 합계 (30%)</div>
+          <div class="text-xl font-bold text-emerald-800 mt-0.5">${totGen}명</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-100 border border-slate-300">
+          <div class="text-xs text-slate-600 font-medium">2027 전체 신입모집 합계</div>
+          <div class="text-xl font-bold text-slate-900 mt-0.5">${totAll}명</div>
+        </div>
+      `;
+
+      const tbody = document.getElementById("compareTbody");
+      if (rows.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-500">선택한 필터 조건에 해당하는 유치원이 없습니다.</td></tr>`;
+        return;
+      }
+
+      const bodyHtml = rows.map(d => {
+        const badge = d.exactQuotaBadge
+          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-700">확정수치</span>`
+          : ``;
+        const typeColor = d.type === "사립" ? "text-purple-700 bg-purple-50 border-purple-200" : (d.type === "공립 단설" ? "text-indigo-700 bg-indigo-50 border-indigo-200" : "text-slate-600 bg-slate-100 border-slate-200");
+        const busHtml = d.hasBus
+          ? `<span class="font-semibold text-blue-700">${escapeHtml(d.busLabel)}</span>`
+          : `<span class="text-slate-400">미운행</span>`;
+        const earlyWarn = d.shortDeadline.includes("조기") || d.shortDeadline.includes("17:00")
+          ? "text-red-600 font-bold"
+          : "text-slate-700";
+
+        const ageCols = d.ageSplit.mixed
+          ? `<td colspan="3" class="py-3 px-2.5 text-center bg-amber-50/50 text-slate-700 text-xs sm:text-sm">3~5세 혼합반 통합 선발: <strong class="text-blue-700">우선 약 4명</strong> / <strong class="text-emerald-700">일반 약 2명</strong> (계 6명)</td>`
+          : `
+            <td class="py-3 px-2.5 text-center whitespace-nowrap">${formatCellSplit(d.ageSplit.a3)}</td>
+            <td class="py-3 px-2.5 text-center whitespace-nowrap">${formatCellSplit(d.ageSplit.a4)}</td>
+            <td class="py-3 px-2.5 text-center whitespace-nowrap">${formatCellSplit(d.ageSplit.a5)}</td>
+          `;
+
+        return `
+          <tr class="hover:bg-blue-50/40 transition">
+            <td class="py-3 px-3">
+              <button onclick="openDocDetail('${d.id}')" class="text-left group">
+                <div class="font-bold text-slate-900 group-hover:text-blue-600 underline-offset-2 group-hover:underline">${escapeHtml(d.nameOnly)}${badge}</div>
+                <div class="flex items-center gap-1.5 mt-1">
+                  <span class="px-1.5 py-0.5 rounded border text-xs ${typeColor}">${escapeHtml(d.type)}</span>
+                  <span class="text-xs text-slate-500">${escapeHtml(d.regionLabel)}</span>
+                </div>
+              </button>
+            </td>
+            ${ageCols}
+            <td class="py-3 px-2.5 text-center whitespace-nowrap bg-slate-50 font-semibold">
+              <span class="text-blue-700 font-bold">${d.ageSplit.sum.pri}명</span> / <span class="text-emerald-700 font-bold">${d.ageSplit.sum.gen}명</span>
+              <div class="text-xs text-slate-500 font-normal">총 ${d.ageSplit.sum.tot}명</div>
+            </td>
+            <td class="py-3 px-2.5 text-center text-xs">
+              <div>${busHtml}</div>
+              <div class="text-slate-500 mt-0.5">${escapeHtml(d.hoursLabel)}</div>
+            </td>
+            <td class="py-3 px-2.5 text-center text-xs ${earlyWarn}">${escapeHtml(d.shortDeadline)}</td>
+            <td class="py-3 px-2.5 text-center whitespace-nowrap">
+              <button onclick="openDocDetail('${d.id}')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-white hover:bg-blue-600 transition">
+                원문 보기
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      const totalRow = `
+        <tr class="bg-slate-100 font-bold border-t-2 border-slate-300">
+          <td class="py-3 px-3 text-slate-900">합계 (${rows.length}개원 기준)<div class="text-xs font-normal text-slate-500">※ 혼합반(6명)은 전체합계에만 합산</div></td>
+          <td class="py-3 px-2.5 text-center"><span class="text-blue-700">${a3Pri}명</span> / <span class="text-emerald-700">${a3Gen}명</span> <span class="text-xs text-slate-500 font-normal">(${a3Pri + a3Gen})</span></td>
+          <td class="py-3 px-2.5 text-center"><span class="text-blue-700">${a4Pri}명</span> / <span class="text-emerald-700">${a4Gen}명</span> <span class="text-xs text-slate-500 font-normal">(${a4Pri + a4Gen})</span></td>
+          <td class="py-3 px-2.5 text-center"><span class="text-blue-700">${a5Pri}명</span> / <span class="text-emerald-700">${a5Gen}명</span> <span class="text-xs text-slate-500 font-normal">(${a5Pri + a5Gen})</span></td>
+          <td class="py-3 px-2.5 text-center bg-slate-200/70"><span class="text-blue-800">${totPri}명</span> / <span class="text-emerald-800">${totGen}명</span><div class="text-xs text-slate-600">총 ${totAll}명</div></td>
+          <td colspan="3" class="py-3 px-2.5 text-center text-xs font-normal text-slate-600">11. 16.(월) 18:00 일반모집 확정 잔여석 공개</td>
+        </tr>
+      `;
+
+      tbody.innerHTML = bodyHtml + totalRow;
+    }
+
+    function highlightText(text, query) {
+      const safe = escapeHtml(text);
+      if (!query) return safe;
+      const escapedQ = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const re = new RegExp(`(${escapedQ})`, "gi");
+      return safe.replace(re, '<mark class="px-1 rounded bg-yellow-200 text-slate-900 font-semibold">$1</mark>');
+    }
+
+    function renderOriginals() {
+      const region = document.getElementById("regionFilter").value;
+      const q = document.getElementById("searchInput").value.trim();
+      const qLower = q.toLowerCase();
+
+      const filtered = DOCS.filter(d => {
+        if (region !== "ALL" && d.region !== region) return false;
+        if (!qLower) return true;
+        const blob = [
+          d.shortName, d.fullName, d.type, d.address, d.phone, d.email, d.deadline,
+          ...d.quotas.map(r => `${r.age} ${r.classes} ${r.pri} ${r.gen} ${r.recruit}`),
+          ...d.sections.flatMap(s => [s.title, ...s.lines])
+        ].join(" ").toLowerCase();
+        return blob.includes(qLower);
+      });
+
+      const tabBar = document.getElementById("tabBar");
+      const container = document.getElementById("docContainer");
+
+      if (filtered.length === 0) {
+        tabBar.innerHTML = `<span class="text-xs text-slate-500">조건에 일치하는 유치원 원문이 없습니다. 검색어를 지우거나 권역 필터를 변경해 보세요.</span>`;
+        container.innerHTML = `<p class="text-sm text-slate-500">검색 결과가 없습니다.</p>`;
+        return;
+      }
+
+      if (!filtered.some(d => d.id === activeDocId)) {
+        activeDocId = filtered[0].id;
+      }
+
+      tabBar.innerHTML = filtered.map(d => {
+        const isActive = d.id === activeDocId;
+        const cls = isActive
+          ? "subtab-active font-bold shadow-sm"
+          : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200 font-medium";
+        return `<button onclick="selectDoc('${d.id}')" class="px-3 py-1.5 rounded-lg text-xs border transition ${cls}">${escapeHtml(d.shortName)}</button>`;
+      }).join("");
+
+      const doc = filtered.find(d => d.id === activeDocId) || filtered[0];
+
+      const fileBtns = (doc.files || []).map(f => `
+        <a href="${f.url}" download class="inline-flex items-center gap-1 px-3 py-2 rounded-lg text-xs font-semibold border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition">
+          ⬇ ${escapeHtml(f.label)}
+        </a>
+      `).join("");
+
+      container.innerHTML = `
+        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3 border-b border-slate-200 pb-4">
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-blue-100 text-blue-800">${escapeHtml(doc.type)}</span>
+              <span class="text-xs text-slate-500">${escapeHtml(doc.address)}</span>
+            </div>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900 mt-1.5">${highlightText(doc.fullName, q)}</h2>
+          </div>
+          <div class="flex flex-wrap gap-2 shrink-0">
+            <button onclick="openRawModal('${doc.slug}', '${escapeHtml(doc.fullName)}')"
+                    class="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg text-xs font-bold bg-slate-800 text-white hover:bg-slate-900 transition">
+              📄 무삭제 전체원문 열기
+            </button>
+            <a href="${doc.webUrl}" target="_blank" rel="noopener noreferrer"
+               class="inline-flex items-center gap-1 px-3.5 py-2 rounded-lg text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition">
+              공식 홈페이지 공고글 ↗
+            </a>
+            ${fileBtns}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs sm:text-sm">
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50">
+            <div class="text-xs text-slate-500">문의 전화</div>
+            <div class="font-bold text-slate-900 mt-0.5">${highlightText(doc.phone, q)}</div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50">
+            <div class="text-xs text-slate-500">증빙서류 이메일</div>
+            <div class="font-bold text-slate-900 mt-0.5 break-all">${highlightText(doc.email, q)}</div>
+          </div>
+          <div class="p-3.5 rounded-xl border border-red-200 bg-red-50/50">
+            <div class="text-xs text-red-700 font-medium">11월 4일(수) 마감 시각</div>
+            <div class="font-bold text-red-900 mt-0.5">${highlightText(doc.deadline, q)}</div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 mb-2">연령별 정원 및 우선모집(70%) · 일반모집(30%) 배정 인원</h3>
+          <div class="overflow-x-auto border border-slate-200 rounded-xl">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                  <th class="py-2.5 px-3 font-bold">모집대상</th>
+                  <th class="py-2.5 px-3 font-bold">학급수</th>
+                  <th class="py-2.5 px-3 font-bold">출생 기준일</th>
+                  <th class="py-2.5 px-3 font-bold">총 정원</th>
+                  <th class="py-2.5 px-3 font-bold">재학예정</th>
+                  <th class="py-2.5 px-3 font-bold text-blue-700 bg-blue-50/60">우선모집 인원</th>
+                  <th class="py-2.5 px-3 font-bold text-emerald-700 bg-emerald-50/60">일반모집 기본인원</th>
+                  <th class="py-2.5 px-3 font-bold">신입모집 합계</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200">
+                ${doc.quotas.map(r => `
+                  <tr>
+                    <td class="py-2.5 px-3 font-bold">${highlightText(r.age, q)}</td>
+                    <td class="py-2.5 px-3">${escapeHtml(r.classes)}</td>
+                    <td class="py-2.5 px-3 text-slate-500">${escapeHtml(r.birth)}</td>
+                    <td class="py-2.5 px-3">${escapeHtml(r.cap)}</td>
+                    <td class="py-2.5 px-3">${escapeHtml(r.current)}</td>
+                    <td class="py-2.5 px-3 font-bold text-blue-700 bg-blue-50/30">${highlightText(r.pri, q)}</td>
+                    <td class="py-2.5 px-3 font-bold text-emerald-700 bg-emerald-50/30">${highlightText(r.gen, q)}</td>
+                    <td class="py-2.5 px-3 font-bold text-slate-900">${highlightText(r.recruit, q)}</td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          ${doc.sections.map(sec => `
+            <div class="border border-slate-200 rounded-xl p-4 bg-slate-50/70 space-y-2">
+              <h3 class="text-sm font-bold text-slate-900">${highlightText(sec.title, q)}</h3>
+              <ul class="space-y-1.5 text-xs sm:text-sm leading-relaxed text-slate-800">
+                ${sec.lines.map(ln => `<li>${highlightText(ln, q)}</li>`).join("")}
+              </ul>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    window.selectDoc = function(id) {
+      activeDocId = id;
+      renderOriginals();
+    };
+
+    window.openRawModal = async function(slug, title) {
+      const modal = document.getElementById("rawModal");
+      const body = document.getElementById("rawModalBody");
+      document.getElementById("rawModalTitle").textContent = `${title} — 무삭제 원문 전문`;
+      body.textContent = "원문 데이터를 불러오는 중입니다...";
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      try {
+        const res = await fetch(`./yeongjong-2027-docs/${slug}.md`);
+        if (!res.ok) throw new Error("파일 로드 실패");
+        body.textContent = await res.text();
+      } catch (e) {
+        body.textContent = "브라우저 로컬 보안 정책(file://)에서는 직접 fetch가 제한될 수 있습니다. GitHub Pages 웹 주소로 접속하시거나 yeongjong-2027-docs 폴더 내 .md 파일을 열어주세요.";
+      }
+    };
+
+    window.closeRawModal = function() {
+      const modal = document.getElementById("rawModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    };
+
+    document.getElementById("searchInput").addEventListener("input", renderOriginals);
+    document.getElementById("regionFilter").addEventListener("change", renderOriginals);
+
+    renderCompareTable();
+  </script>
+</body>
+</html>
