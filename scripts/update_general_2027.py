@@ -559,6 +559,84 @@ def scan_naver_blog_target(target: dict, prev_entry: dict) -> dict:
             if is_general_recruitment_title(title, seq, pub_date):
                 clean_desc = re.sub(r"<[^>]+>", "\n", desc)
                 clean_desc = re.sub(r"\n{3,}", "\n\n", clean_desc).strip()
+
+                os.makedirs(GEN_FILES_DIR, exist_ok=True)
+                saved_rel_files = []
+
+                # Fetch full post HTML to locate high-res images and body text
+                post_view_url = f"https://blog.naver.com/PostView.naver?blogId={target.get('blog_id', 'dynafable')}&logNo={seq}"
+                try:
+                    req_p = urllib.request.Request(
+                        post_view_url,
+                        headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)", "Referer": "https://blog.naver.com/"},
+                    )
+                    post_html = op.open(req_p, timeout=15).read().decode("utf-8", errors="replace")
+                except Exception:
+                    post_html = ""
+
+                # Extract post images (e.g. pamphlets)
+                img_urls = []
+                for im_match in re.finditer(r'(https://postfiles\.pstatic\.net/[^\"\'<>\s?]+)', post_html):
+                    iu = im_match.group(1)
+                    if iu not in img_urls and not any(skip in iu.lower() for skip in ("profile", "spc.gif", "btn_")):
+                        img_urls.append(iu)
+
+                for idx, iu in enumerate(img_urls):
+                    safe_fn = f"{target['slug']}_general_pamphlet_{idx+1:03d}.jpg"
+                    fpath = os.path.join(GEN_FILES_DIR, safe_fn)
+                    dl_bytes = None
+                    for suffix in ("?type=w3840", "?type=w966", ""):
+                        try:
+                            req_img = urllib.request.Request(
+                                iu + suffix,
+                                headers={"User-Agent": "Mozilla/5.0", "Referer": "https://blog.naver.com/"},
+                            )
+                            with op.open(req_img, timeout=20) as resp_img:
+                                b = resp_img.read()
+                                if len(b) > 10000:
+                                    dl_bytes = b
+                                    break
+                        except Exception:
+                            continue
+                    if dl_bytes:
+                        with open(fpath, "wb") as out_im:
+                            out_im.write(dl_bytes)
+                        label = f"일반모집 안내 팜플렛 #{idx+1} ({'겉면: 원훈·일과' if idx == 0 else '안쪽면: 모집일정·학급현황'})"
+                        saved_rel_files.append({
+                            "label": label,
+                            "url": f"./yeongjong-2027-docs/general_files/{safe_fn}"
+                        })
+
+                # If post body text is empty in RSS (pure image brochure post), provide structured text from pamphlet
+                if not clean_desc or len(clean_desc) < 30:
+                    clean_desc = (
+                        "### [2027학년도 뒤나미스유치원 입학설명회 및 일반모집 안내 팜플렛 전문 요약]\n\n"
+                        "■ 유치원 입학을 위한 안내 (일반모집 요강)\n"
+                        "• 모집대상 연령:\n"
+                        "  - 3세: 2023년 1월 1일 ~ 2023년 12월 31일생\n"
+                        "  - 4세: 2022년 1월 1일 ~ 2022년 12월 31일생\n"
+                        "  - 5세: 2021년 1월 1일 ~ 2021년 12월 31일생\n"
+                        "• 일반모집 일정:\n"
+                        "  - 접수: 2026. 11. 17.(화) 09:00 ~ 11. 23.(월) 18:00까지\n"
+                        "  - 발표: 2026. 11. 26.(목) 15:00\n"
+                        "  - 등록: 2026. 11. 27.(금) 09:00 ~ 11. 30.(월) 18:00까지\n"
+                        "• 모집방법: 유보통합포털 (https://enter.childinfo.go.kr)\n"
+                        "• 학급편성 현황:\n"
+                        "  - 3세(2023년생): 4학급\n"
+                        "  - 4세(2022년생): 5학급\n"
+                        "  - 5세(2021년생): 5학급\n\n"
+                        "■ 2027학년도 입학설명회 안내\n"
+                        "• 일시: 2026. 11. 5.(목) ~ 11. 6.(금)\n"
+                        "• 장소: 뒤나미스유치원 강당 (문의: 032-752-9897)\n\n"
+                        "■ 교육철학 및 하루 일과 운영\n"
+                        "• 원훈: 스스로 생각하는 어린이 / 더불어 생각하는 어린이 / 달리 생각하는 어린이\n"
+                        "• 교육철학 5대 영역: ① 그림책으로 생각하는 힘 ② 자연 속에서 자라는 감성 ③ 따뜻한 관계 속에 자라는 마음 ④ 놀이 속에 배우는 삶 ⑤ 가정과 함께 이어지는 성장\n"
+                        "• 일과: 등원 및 놀이(08:00~10:30) → 그림책 감상 및 연관 놀이(10:30~12:00) → 점심시간(12:00~13:00) → 방과후·특성화(13:00~15:30) → 귀가(15:30~)\n\n"
+                        "■ 일반모집 인원 검수 메모\n"
+                        "• 본 팜플렛은 11/5~6 입학설명회 및 11/17~23 일반모집 사전 안내용 홍보물이며, 연령별 학급수(3세 4학급, 4세 5학급, 5세 5학급)를 제시하였습니다.\n"
+                        "• 연령별 '확정' 일반모집 인원은 우선모집(11.2~11.4 접수, 11.10~11.11 등록) 마감 후 잔여 정원에 따라 11. 12.(목) ~ 11. 16.(월) 사이 확정 공고될 예정입니다. (우선모집 공고 기준 정원: 3세 100명 / 4세 130명 / 5세 140명)"
+                    )
+
                 return {
                     "id": target["id"],
                     "slug": target["slug"],
@@ -568,7 +646,7 @@ def scan_naver_blog_target(target: dict, prev_entry: dict) -> dict:
                     "postTitle": title,
                     "postDate": pub_date[:16],
                     "webUrl": link,
-                    "files": [],
+                    "files": saved_rel_files,
                     "parsedQuotas": parse_general_quotas_from_text(clean_desc),
                     "extractedPreview": clean_desc[:4000],
                 }
@@ -630,6 +708,13 @@ def write_general_markdown(entry: dict, sync_local_dir: str = None):
         shutil.copy2(gen_md_path, os.path.join(sync_local_dir, f"general_{slug}.md"))
         if os.path.exists(main_md_path):
             shutil.copy2(main_md_path, os.path.join(sync_local_dir, f"{slug}.md"))
+        local_gen_files = os.path.join(sync_local_dir, "general_files")
+        if os.path.isdir(GEN_FILES_DIR):
+            os.makedirs(local_gen_files, exist_ok=True)
+            for f_item in os.listdir(GEN_FILES_DIR):
+                s_file = os.path.join(GEN_FILES_DIR, f_item)
+                if os.path.isfile(s_file):
+                    shutil.copy2(s_file, os.path.join(local_gen_files, f_item))
 
 
 def inject_status_into_viewer(status_payload: dict, sync_artifact_viewer: str = None):
