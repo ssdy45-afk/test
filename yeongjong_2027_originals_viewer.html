@@ -1894,7 +1894,7 @@
           doc.ageSplit.sum.gen = doc.ageSplit.a3.gen + doc.ageSplit.a4.gen + doc.ageSplit.a5.gen;
         }
         if (item.extractedPreview) {
-          const previewLines = item.extractedPreview.split(/\r?\n/).filter(Boolean).slice(0, 35).map(l => `• ${l}`);
+          const previewLines = item.extractedPreview.split(/\r?\n/).filter(Boolean).slice(0, 35).map(l => /^[•■\-#\s]/.test(l) ? l : `• ${l}`);
           const hasSection = (doc.sections || []).some(s => s.title.includes("일반모집"));
           if (!hasSection) {
             doc.sections.unshift({
@@ -1902,9 +1902,6 @@
               lines: previewLines
             });
           }
-        }
-            lines: previewLines
-          });
         }
       });
 
