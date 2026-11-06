@@ -9,6 +9,13 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: update-general-2027
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   check-and-update:
     runs-on: ubuntu-latest
@@ -33,11 +40,20 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain)" ]; then
-            git add yeongjong-2027-docs/ yeongjong_2027_originals_viewer.html
+          git add yeongjong-2027-docs/ yeongjong_2027_originals_viewer.html
+          if ! git diff --cached --quiet; then
             git commit -m "chore: auto-update 2027 general recruitment status ($(TZ=Asia/Seoul date +'%Y-%m-%d %H:%M KST'))"
-            git pull --rebase origin main
-            git push origin main
+            for attempt in 1 2 3; do
+              if git pull --rebase -X theirs origin main && git push origin main; then
+                echo "Pushed successfully on attempt ${attempt}."
+                exit 0
+              fi
+              echo "Attempt ${attempt} failed; retrying in 5s..."
+              git rebase --abort 2>/dev/null || true
+              sleep 5
+            done
+            echo "Failed to push after 3 attempts."
+            exit 1
           else
             echo "No changes detected."
           fi
