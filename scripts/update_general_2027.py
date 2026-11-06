@@ -39,9 +39,10 @@ KNOWN_PRIORITY_SEQS = {
     "34292526", "34292535", "34287374", "34291408", "34269012",
     "34283433", "34286125", "34292301", "34291294", "34290766",
     "34277946", "34288595", "34288607", "224455411476",
+    "467", "101", "487", "458",
 }
 
-EXCLUDED_TITLE_WORDS = ("특수", "영재", "독서", "아이리더", "강사", "채용", "기간제", "급식", "입찰")
+EXCLUDED_TITLE_WORDS = ("특수", "영재", "독서", "아이리더", "강사", "채용", "기간제", "급식", "입찰", "초등학교")
 
 TARGETS = [
     {
@@ -148,6 +149,17 @@ TARGETS = [
         "kind": "naver_blog",
         "blog_id": "dynafable",
         "rss_url": "https://rss.blog.naver.com/dynafable.xml",
+    },
+    {
+        "id": "11",
+        "slug": "11_mujigae",
+        "name": "무지개유치원",
+        "kind": "anyboard",
+        "base": "https://www.mujigaekinder.com",
+        "pages": [
+            "/main/sub.html?pageCode=16",
+            "/main/sub.html?pageCode=11",
+        ],
     },
 ]
 
@@ -670,6 +682,209 @@ def scan_naver_blog_target(target: dict, prev_entry: dict) -> dict:
         return kept
 
 
+def scan_anyboard_target(target: dict, prev_entry: dict) -> dict:
+    """Scan an Anyboard-based kindergarten website (e.g. mujigaekinder.com)."""
+    op = make_opener()
+    checked_pages = 0
+    maintenance = False
+    found_posts = []
+    seen_keys = set()
+
+    for page_path in target.get("pages", []):
+        list_url = target["base"] + page_path
+        try:
+            raw = op.open(list_url, timeout=15).read().decode("utf-8", errors="replace")
+            if "<a " not in raw and "<table" not in raw:
+                maintenance = True
+                continue
+            checked_pages += 1
+
+            for m_link in re.finditer(
+                r'<a[^>]+href=["\']([^"\']*Mode=view[^"\']*)["\'][^>]*>(.*?)</a>',
+                raw,
+                flags=re.S | re.I,
+            ):
+                href = m_link.group(1).replace("&amp;", "&").strip()
+                title = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", m_link.group(2))).strip()
+                if not title:
+                    continue
+                parsed_u = urllib.parse.urlparse(href)
+                qs = dict(urllib.parse.parse_qsl(parsed_u.query))
+                board_id = qs.get("boardID", "")
+                num = qs.get("num", "")
+                if not num:
+                    continue
+                dedup_key = f"{board_id}:{num}"
+                if dedup_key in seen_keys:
+                    continue
+                seen_keys.add(dedup_key)
+
+                is_newer_www16_recruit = (
+                    board_id == "www16"
+                    and num.isdigit()
+                    and int(num) > 467
+                    and num not in KNOWN_PRIORITY_SEQS
+                    and not any(w in title for w in EXCLUDED_TITLE_WORDS)
+                    and "2027" in title
+                    and "우선" not in title
+                    and any(kw in title for kw in ("모집", "요강", "신입", "유아"))
+                )
+                if not (is_general_recruitment_title(title, num, "") or is_newer_www16_recruit):
+                    continue
+
+                view_url = (
+                    href
+                    if href.startswith("http")
+                    else target["base"] + (href if href.startswith("/") else "/" + href)
+                )
+                vhtml = op.open(view_url, timeout=15).read().decode("utf-8", errors="replace")
+
+                os.makedirs(GEN_FILES_DIR, exist_ok=True)
+                saved_rel_files = []
+                extracted_chunks = []
+
+                for idx_f, fm in enumerate(
+                    re.finditer(r'(/core/anyboard/download\.php\?[^"\'\s<>]+)', vhtml)
+                ):
+                    rel_dl = fm.group(1).replace("&amp;", "&")
+                    full_dl = target["base"] + rel_dl
+                    try:
+                        req_dl = urllib.request.Request(
+                            full_dl,
+                            headers={"Referer": view_url, "User-Agent": "Mozilla/5.0"},
+                        )
+                        with op.open(req_dl, timeout=20) as resp_dl:
+                            fbytes = resp_dl.read()
+                            if fbytes.lstrip().startswith(b"<script") or len(fbytes) < 512:
+                                continue
+                            cd = resp_dl.headers.get("Content-Disposition", "")
+                            ext = ".pdf" if fbytes[:4] == b"%PDF" else ".hwp"
+                            raw_fn = f"attachment_{idx_f}{ext}"
+                            m_fn = re.search(r"filename\*?=(?:UTF-8'')?[\"']?([^\"';\r\n]+)", cd, re.I)
+                            if m_fn:
+                                raw_fn = urllib.parse.unquote(m_fn.group(1).strip())
+                                _, parsed_ext = os.path.splitext(raw_fn)
+                                if parsed_ext:
+                                    ext = parsed_ext.lower()
+                            safe_fn = f"{target['slug']}_general_{num}_{idx_f}{ext}"
+                            fpath = os.path.join(GEN_FILES_DIR, safe_fn)
+                            with open(fpath, "wb") as out_f:
+                                out_f.write(fbytes)
+                            saved_rel_files.append(
+                                {
+                                    "label": raw_fn,
+                                    "url": f"./yeongjong-2027-docs/general_files/{safe_fn}",
+                                }
+                            )
+                            doc_txt = extract_document_text(fbytes, raw_fn)
+                            if doc_txt:
+                                extracted_chunks.append(f"### 첨부파일: {raw_fn}\n\n{doc_txt}")
+                    except Exception:
+                        pass
+
+                img_rels = []
+                for im in re.finditer(
+                    r'(/user/saveDir/board/[^"\'\s<>]+\.(?:jpg|jpeg|png|gif|webp))',
+                    vhtml,
+                    flags=re.I,
+                ):
+                    ir = im.group(1)
+                    if ir not in img_rels:
+                        img_rels.append(ir)
+
+                for idx_im, ir in enumerate(img_rels):
+                    full_im = target["base"] + ir
+                    _, im_ext = os.path.splitext(ir)
+                    im_ext = (im_ext or ".jpg").lower()
+                    safe_im = f"{target['slug']}_general_{num}_p{idx_im+1:02d}{im_ext}"
+                    fpath_im = os.path.join(GEN_FILES_DIR, safe_im)
+                    try:
+                        req_im = urllib.request.Request(
+                            full_im,
+                            headers={"Referer": view_url, "User-Agent": "Mozilla/5.0"},
+                        )
+                        with op.open(req_im, timeout=20) as resp_im:
+                            ibytes = resp_im.read()
+                            if len(ibytes) > 2000 and not ibytes.lstrip().startswith(b"<"):
+                                with open(fpath_im, "wb") as out_im:
+                                    out_im.write(ibytes)
+                                saved_rel_files.append(
+                                    {
+                                        "label": f"공고문 원문 이미지 #{idx_im+1}",
+                                        "url": f"./yeongjong-2027-docs/general_files/{safe_im}",
+                                    }
+                                )
+                    except Exception:
+                        pass
+
+                vclean = re.sub(
+                    r"<script.*?</script>|<style.*?</style>|<span class=['\"]ANYSECURE['\"].*?</span>",
+                    "",
+                    vhtml,
+                    flags=re.S | re.I,
+                )
+                body_txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", vclean)).strip()
+                m_vdate = re.search(r"(202[67][.\-/]\s*\d{1,2}[.\-/]\s*\d{1,2})", body_txt)
+                post_date = m_vdate.group(1) if m_vdate else datetime.datetime.now(KST).strftime("%Y-%m-%d")
+                pos_t = body_txt.find(title[:10])
+                post_snippet = body_txt[max(0, pos_t) : pos_t + 2000] if pos_t != -1 else body_txt[:1500]
+                if not extracted_chunks and saved_rel_files:
+                    extracted_chunks.append(
+                        f"### {title}\n\n• 원문 페이지 이미지 {len(saved_rel_files)}장이 자동 수집되었습니다. 첨부 이미지에서 연령별 확정 일반모집 인원을 확인하세요.\n\n{post_snippet}"
+                    )
+                full_extracted = "\n\n---\n\n".join(extracted_chunks) if extracted_chunks else post_snippet
+
+                found_posts.append(
+                    {
+                        "seq": num,
+                        "title": title[:140],
+                        "date": post_date,
+                        "webUrl": view_url,
+                        "files": saved_rel_files,
+                        "extractedText": full_extracted,
+                        "parsedQuotas": parse_general_quotas_from_text(full_extracted),
+                    }
+                )
+        except Exception as exc:
+            print(f"  [WARN] {target['name']} ({list_url}): {exc}")
+            maintenance = True
+
+    if found_posts:
+        latest = found_posts[0]
+        return {
+            "id": target["id"],
+            "slug": target["slug"],
+            "name": target["name"],
+            "generalFound": True,
+            "boardStatus": "일반모집 공고 확인됨",
+            "postTitle": latest["title"],
+            "postDate": latest["date"],
+            "webUrl": latest["webUrl"],
+            "files": latest["files"],
+            "parsedQuotas": latest["parsedQuotas"],
+            "extractedPreview": latest["extractedText"][:4000],
+        }
+
+    if checked_pages == 0 and maintenance:
+        kept = dict(prev_entry) if prev_entry else {
+            "id": target["id"],
+            "slug": target["slug"],
+            "name": target["name"],
+            "generalFound": False,
+        }
+        kept["boardStatus"] = "홈페이지 점검/응답지연 (기존 데이터 유지)"
+        return kept
+
+    return {
+        "id": target["id"],
+        "slug": target["slug"],
+        "name": target["name"],
+        "generalFound": bool(prev_entry and prev_entry.get("generalFound")),
+        "boardStatus": "정상 확인 (일반모집 공고 전)" if not (prev_entry and prev_entry.get("generalFound")) else prev_entry.get("boardStatus", "일반모집 공고 확인됨"),
+        **({k: prev_entry[k] for k in ("postTitle", "postDate", "webUrl", "files", "parsedQuotas", "extractedPreview") if prev_entry and k in prev_entry} if (prev_entry and prev_entry.get("generalFound")) else {}),
+    }
+
+
 def write_general_markdown(entry: dict, sync_local_dir: str = None):
     if not entry.get("generalFound") or not entry.get("extractedPreview"):
         return
@@ -764,6 +979,8 @@ def main():
         prev_entry = prev_data.get(target["id"])
         if target["kind"] == "ice":
             entry = scan_ice_target(target, prev_entry)
+        elif target["kind"] == "anyboard":
+            entry = scan_anyboard_target(target, prev_entry)
         else:
             entry = scan_naver_blog_target(target, prev_entry)
         if entry.get("generalFound"):
@@ -784,6 +1001,8 @@ def main():
     if args.write_status:
         with open(STATUS_JSON_PATH, "w", encoding="utf-8", newline="\n") as f:
             json.dump(payload, f, ensure_ascii=False, indent=2)
+        if args.sync_local and os.path.isdir(args.sync_local):
+            shutil.copy2(STATUS_JSON_PATH, os.path.join(args.sync_local, "general_status.json"))
         inject_status_into_viewer(payload, args.sync_artifact or None)
         print(f"\nSaved status -> {STATUS_JSON_PATH} (found {found_count}/{len(TARGETS)})")
 
