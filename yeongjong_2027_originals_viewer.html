@@ -1801,13 +1801,19 @@
       body.textContent = "원문 데이터를 불러오는 중입니다...";
       modal.classList.remove("hidden");
       modal.classList.add("flex");
-      try {
-        const res = await fetch(`./yeongjong-2027-docs/${slug}.md`);
-        if (!res.ok) throw new Error("파일 로드 실패");
-        body.textContent = await res.text();
-      } catch (e) {
-        body.textContent = "로컬 보안 정책(file://) 환경에서는 직접 fetch가 제한될 수 있습니다. GitHub Pages 웹 주소(https://ssdy45-afk.github.io/test/yeongjong_2027_originals_viewer.html)로 접속하시거나 yeongjong-2027-docs 폴더 내 .md 파일을 열어주세요.";
+      const urls = window.location.protocol === "file:"
+        ? [`https://ssdy45-afk.github.io/test/yeongjong-2027-docs/${slug}.md`]
+        : [`./yeongjong-2027-docs/${slug}.md`, `https://ssdy45-afk.github.io/test/yeongjong-2027-docs/${slug}.md`];
+      for (const u of urls) {
+        try {
+          const res = await fetch(u);
+          if (res.ok) {
+            body.textContent = await res.text();
+            return;
+          }
+        } catch (_) {}
       }
+      body.textContent = "원문 파일을 불러오지 못했습니다. 인터넷 연결을 확인하시거나 yeongjong-2027-docs 폴더 내 .md 파일을 직접 열어주세요.";
     };
 
     window.closeRawModal = function() {
