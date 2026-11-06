@@ -1,9 +1,9 @@
 {
-  "lastCheckedKst": "2026-11-06 12:30 KST",
+  "lastCheckedKst": "2026-11-06 16:43 KST",
   "generalNoticeWindow": "2026. 11. 12.(목) ~ 11. 16.(월) 18:00 순차 공고 예정",
   "generalApplyWindow": "2026. 11. 17.(화) 09:00 ~ 11. 23.(월) 18:00",
   "foundCount": 1,
-  "totalMonitored": 11,
+  "totalMonitored": 14,
   "kindergartens": [
     {
       "id": "01",
@@ -96,6 +96,27 @@
       "name": "무지개유치원",
       "generalFound": false,
       "boardStatus": "정상 확인 (일반모집 공고 전)"
+    },
+    {
+      "id": "12",
+      "slug": "12_eton",
+      "name": "이튼유치원",
+      "generalFound": false,
+      "boardStatus": "정상 확인 (유보통합포털 일반모집 11/16 18:00 공개 예정)"
+    },
+    {
+      "id": "13",
+      "slug": "13_chorong",
+      "name": "초롱유치원",
+      "generalFound": false,
+      "boardStatus": "정상 확인 (유보통합포털 일반모집 11/16 18:00 공개 예정)"
+    },
+    {
+      "id": "14",
+      "slug": "14_haenim",
+      "name": "해님나라유치원",
+      "generalFound": false,
+      "boardStatus": "정상 확인 (유보통합포털 일반모집 11/16 18:00 공개 예정)"
     }
   ]
 }

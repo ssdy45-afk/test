@@ -49,6 +49,7 @@ TARGETS = [
         "id": "01",
         "slug": "01_yeongjong",
         "name": "영종유치원",
+        "presch_cd": "E100002007",
         "kind": "ice",
         "base": "https://yeongjong.icekg.kr",
         "boards": [
@@ -60,6 +61,7 @@ TARGETS = [
         "id": "02",
         "slug": "02_gonghang",
         "name": "인천공항유치원",
+        "presch_cd": "E100002232",
         "kind": "ice",
         "base": "https://gonghang-kg.icekg.kr",
         "boards": [
@@ -71,6 +73,7 @@ TARGETS = [
         "id": "03",
         "slug": "03_dalbit",
         "name": "인천달빛초병설유치원",
+        "presch_cd": "9000001405",
         "kind": "ice",
         "base": "https://dalbit.icees.kr",
         "boards": [
@@ -82,6 +85,7 @@ TARGETS = [
         "id": "04",
         "slug": "04_starlight",
         "name": "인천별빛초병설유치원",
+        "presch_cd": "9000000766",
         "kind": "ice",
         "base": "https://starlight.icees.kr",
         "boards": [
@@ -93,6 +97,7 @@ TARGETS = [
         "id": "05",
         "slug": "05_yeongjong_es",
         "name": "인천영종초병설유치원",
+        "presch_cd": "E100000583",
         "kind": "ice",
         "base": "https://yj.icees.kr",
         "boards": [
@@ -103,6 +108,7 @@ TARGETS = [
         "id": "06",
         "slug": "06_yongyu",
         "name": "인천용유초병설유치원",
+        "presch_cd": "9000000758",
         "kind": "ice",
         "base": "https://yongyu.icees.kr",
         "boards": [
@@ -114,6 +120,7 @@ TARGETS = [
         "id": "07",
         "slug": "07_yunseul",
         "name": "인천윤슬초병설유치원",
+        "presch_cd": "9000001404",
         "kind": "ice",
         "base": "https://yunseul.icees.kr",
         "boards": [
@@ -124,6 +131,7 @@ TARGETS = [
         "id": "08",
         "slug": "08_jungsan",
         "name": "인천중산초병설유치원",
+        "presch_cd": "9000000763",
         "kind": "ice",
         "base": "https://ijse.icees.kr",
         "boards": [
@@ -135,6 +143,7 @@ TARGETS = [
         "id": "09",
         "slug": "09_sky",
         "name": "인천하늘초병설유치원",
+        "presch_cd": "E100002230",
         "kind": "ice",
         "base": "https://sky.icees.kr",
         "boards": [
@@ -146,6 +155,7 @@ TARGETS = [
         "id": "10",
         "slug": "10_dynamis",
         "name": "뒤나미스유치원",
+        "presch_cd": "9000000768",
         "kind": "naver_blog",
         "blog_id": "dynafable",
         "rss_url": "https://rss.blog.naver.com/dynafable.xml",
@@ -154,12 +164,36 @@ TARGETS = [
         "id": "11",
         "slug": "11_mujigae",
         "name": "무지개유치원",
+        "presch_cd": "E100002196",
         "kind": "anyboard",
         "base": "https://www.mujigaekinder.com",
         "pages": [
             "/main/sub.html?pageCode=16",
             "/main/sub.html?pageCode=11",
         ],
+    },
+    {
+        "id": "12",
+        "slug": "12_eton",
+        "name": "이튼유치원",
+        "presch_cd": "9000000772",
+        "kind": "firstschool_portal",
+    },
+    {
+        "id": "13",
+        "slug": "13_chorong",
+        "name": "초롱유치원",
+        "presch_cd": "E100002225",
+        "naver_cafe_clubid": "30749203",
+        "naver_cafe_url": "https://cafe.naver.com/chokids",
+        "kind": "firstschool_portal",
+    },
+    {
+        "id": "14",
+        "slug": "14_haenim",
+        "name": "해님나라유치원",
+        "presch_cd": "E100001941",
+        "kind": "firstschool_portal",
     },
 ]
 
@@ -885,6 +919,197 @@ def scan_anyboard_target(target: dict, prev_entry: dict) -> dict:
     }
 
 
+def scan_firstschool_portal_target(target: dict, prev_entry: dict) -> dict:
+    """
+    Scan 유보통합포털 / 처음학교로 public guideline page (go-firstschool.go.kr/PAMS_SS/selectPridInfo.do)
+    for confirmed 2027 General Recruitment (RC928_002) data and attachments, plus optional Naver Cafe.
+    """
+    op = make_opener()
+    presch_cd = target.get("presch_cd", "")
+    portal_url = (
+        f"https://www.go-firstschool.go.kr/PAMS_SS/selectPridInfo.do"
+        f"?PRESCH_CD={presch_cd}&UPPER_EDU_OFFICE_CD=E100000001&EDU_OFFICE_CD=E100000082"
+        f"&AID_YEAR=2026&USER_ID=&FST_DFLT_GB=RC928_002&PARENT_YN=N&CODE=ISPOP"
+    )
+
+    # 1) Optional Naver Cafe check (e.g. 초롱유치원 clubid=30749203)
+    cafe_clubid = target.get("naver_cafe_clubid")
+    if cafe_clubid:
+        try:
+            cafe_api = (
+                f"https://apis.naver.com/cafe-web/cafe2/ArticleListV2dot1.json"
+                f"?search.clubid={cafe_clubid}&search.page=1&search.perPage=15&search.boardtype=L"
+            )
+            req_c = urllib.request.Request(
+                cafe_api,
+                headers={"User-Agent": "Mozilla/5.0", "Referer": target.get("naver_cafe_url", "https://cafe.naver.com/")},
+            )
+            cdata = json.loads(op.open(req_c, timeout=12).read().decode("utf-8", errors="replace"))
+            articles = cdata.get("message", {}).get("result", {}).get("articleList", [])
+            for art in articles:
+                aid = str(art.get("articleId", ""))
+                subj = (art.get("subject") or "").strip()
+                ts_ms = art.get("writeDateTimestamp") or 0
+                pdate = (
+                    datetime.datetime.fromtimestamp(ts_ms / 1000.0, tz=KST).strftime("%Y.%m.%d")
+                    if ts_ms
+                    else ""
+                )
+                if aid.isdigit() and int(aid) > 1673 and is_general_recruitment_title(subj, aid, pdate):
+                    art_url = f"{target.get('naver_cafe_url', 'https://cafe.naver.com/chokids')}/{aid}"
+                    return {
+                        "id": target["id"],
+                        "slug": target["slug"],
+                        "name": target["name"],
+                        "generalFound": True,
+                        "boardStatus": "일반모집 공고 확인됨 (네이버카페)",
+                        "postTitle": subj[:140],
+                        "postDate": pdate,
+                        "webUrl": art_url,
+                        "files": [],
+                        "parsedQuotas": {},
+                        "extractedPreview": f"### {subj}\n\n• 공식 네이버 카페에 신규 일반모집 관련 게시글이 등록되었습니다: {art_url}",
+                    }
+        except Exception as exc:
+            print(f"  [WARN] {target['name']} Cafe API: {exc}")
+
+    # 2) Official 유보통합포털 selectPridInfo.do check (FST_DFLT_GB=RC928_002)
+    try:
+        req_p = urllib.request.Request(
+            portal_url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                "Referer": "https://enter.childinfo.go.kr/",
+            },
+        )
+        html = op.open(req_p, timeout=15).read().decode("utf-8", errors="replace")
+
+        m_disable = re.search(r'id=["\']GA10_DFLT_DISABLE_GUIDE["\'][^>]*value=["\']([^"\']*)["\']', html)
+        dflt_disabled = (m_disable.group(1).strip() if m_disable else "Y") == "Y"
+        m_pdf_fn = re.search(r'id=["\']GA10_PDF_FILE_NAME["\'][^>]*value=["\']([^"\']*)["\']', html)
+        pdf_title = m_pdf_fn.group(1).strip() if m_pdf_fn else ""
+        m_data_gb = re.search(r'id=["\']GA10_DATA_FST_DFLT_GB["\'][^>]*value=["\']([^"\']*)["\']', html)
+        data_gb = m_data_gb.group(1).strip() if m_data_gb else ""
+
+        is_general_active = (not dflt_disabled) and ("일반" in pdf_title or data_gb == "RC928_002")
+
+        if is_general_active:
+            os.makedirs(GEN_FILES_DIR, exist_ok=True)
+            saved_rel_files = []
+            extracted_chunks = []
+
+            for idx_f, (rel_dl, label) in enumerate(
+                re.findall(r"window\.open\(encodeURI\('([^']+)'\)\)\">([^<]+)</a>", html)
+            ):
+                clean_label = re.sub(r"\(\d+byte\)$", "", label.strip())
+                if "우선" in clean_label and "일반" not in clean_label:
+                    continue
+                full_dl = "https://www.go-firstschool.go.kr/PAMS_SS/" + rel_dl
+                _, ext = os.path.splitext(clean_label)
+                ext = (ext or ".hwp").lower()
+                safe_fn = f"{target['slug']}_portal_general_{idx_f}{ext}"
+                fpath = os.path.join(GEN_FILES_DIR, safe_fn)
+                try:
+                    req_dl = urllib.request.Request(
+                        full_dl,
+                        headers={"Referer": portal_url, "User-Agent": "Mozilla/5.0"},
+                    )
+                    with op.open(req_dl, timeout=20) as resp_dl:
+                        fbytes = resp_dl.read()
+                        if len(fbytes) > 512 and not fbytes.lstrip().startswith(b"<!DOCTYPE"):
+                            with open(fpath, "wb") as out_f:
+                                out_f.write(fbytes)
+                            saved_rel_files.append(
+                                {
+                                    "label": clean_label,
+                                    "url": f"./yeongjong-2027-docs/general_files/{safe_fn}",
+                                }
+                            )
+                            doc_txt = extract_document_text(fbytes, clean_label)
+                            if doc_txt:
+                                extracted_chunks.append(f"### 포털 첨부파일: {clean_label}\n\n{doc_txt}")
+                except Exception:
+                    pass
+
+            # Extract general quotas from #tableTbody or #recruitTargetListDiv
+            portal_quotas = {}
+            tbody_m = re.search(r'<tbody id=["\']tableTbody["\']>(.*?)</tbody>', html, flags=re.S)
+            if tbody_m:
+                for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", tbody_m.group(1), flags=re.S):
+                    cells = [
+                        re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", c)).strip()
+                        for c in re.findall(r"<td[^>]*>(.*?)</td>", tr, flags=re.S)
+                    ]
+                    row_join = " ".join(cells)
+                    if "교육과정" in row_join:
+                        for ak, apat in (("a3", "3세"), ("a4", "4세"), ("a5", "5세")):
+                            if apat in row_join:
+                                nums = [int(x) for x in re.findall(r"\b(\d+)\b", " ".join(cells[2:])) if int(x) < 300]
+                                if nums:
+                                    portal_quotas[ak] = nums[-1]
+
+            table_lines = [f"### 유보통합포털 일반모집 요강 ({pdf_title or target['name']})"]
+            for tbl in re.findall(r"<table[^>]*>.*?</table>", html, flags=re.S)[:4]:
+                for tr in re.findall(r"<tr[^>]*>.*?</tr>", tbl, flags=re.S):
+                    cells = [
+                        re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", c)).strip()
+                        for c in re.findall(r"<t[hd][^>]*>(.*?)</t[hd]>", tr, flags=re.S)
+                    ]
+                    if any(cells):
+                        table_lines.append("• " + " | ".join(c for c in cells if c))
+
+            combined_txt = "\n".join(table_lines)
+            if extracted_chunks:
+                combined_txt = combined_txt + "\n\n---\n\n" + "\n\n---\n\n".join(extracted_chunks)
+            if not portal_quotas:
+                portal_quotas = parse_general_quotas_from_text(combined_txt)
+
+            return {
+                "id": target["id"],
+                "slug": target["slug"],
+                "name": target["name"],
+                "generalFound": True,
+                "boardStatus": "일반모집 공고 확인됨 (유보통합포털)",
+                "postTitle": pdf_title or f"2027학년도 {target['name']} 일반모집 모집요강",
+                "postDate": datetime.datetime.now(KST).strftime("%Y.%m.%d"),
+                "webUrl": portal_url,
+                "files": saved_rel_files,
+                "parsedQuotas": portal_quotas,
+                "extractedPreview": combined_txt[:4000],
+            }
+
+        return {
+            "id": target["id"],
+            "slug": target["slug"],
+            "name": target["name"],
+            "generalFound": bool(prev_entry and prev_entry.get("generalFound")),
+            "boardStatus": (
+                "정상 확인 (유보통합포털 일반모집 11/16 18:00 공개 예정)"
+                if not (prev_entry and prev_entry.get("generalFound"))
+                else prev_entry.get("boardStatus", "일반모집 공고 확인됨")
+            ),
+            **(
+                {
+                    k: prev_entry[k]
+                    for k in ("postTitle", "postDate", "webUrl", "files", "parsedQuotas", "extractedPreview")
+                    if prev_entry and k in prev_entry
+                }
+                if (prev_entry and prev_entry.get("generalFound"))
+                else {}
+            ),
+        }
+    except Exception as exc:
+        print(f"  [WARN] {target['name']} Portal: {exc}")
+        kept = dict(prev_entry) if prev_entry else {
+            "id": target["id"],
+            "slug": target["slug"],
+            "name": target["name"],
+            "generalFound": False,
+        }
+        kept["boardStatus"] = "포털 응답지연 (기존 데이터 유지)"
+        return kept
+
+
 def write_general_markdown(entry: dict, sync_local_dir: str = None):
     if not entry.get("generalFound") or not entry.get("extractedPreview"):
         return
@@ -981,8 +1206,21 @@ def main():
             entry = scan_ice_target(target, prev_entry)
         elif target["kind"] == "anyboard":
             entry = scan_anyboard_target(target, prev_entry)
+        elif target["kind"] == "firstschool_portal":
+            entry = scan_firstschool_portal_target(target, prev_entry)
         else:
             entry = scan_naver_blog_target(target, prev_entry)
+
+        # Fallback: if homepage/blog has not posted confirmed general quotas yet, also check 유보통합포털 RC928_002
+        if (
+            target["kind"] != "firstschool_portal"
+            and target.get("presch_cd")
+            and (not entry.get("generalFound") or not entry.get("parsedQuotas"))
+        ):
+            portal_entry = scan_firstschool_portal_target(target, prev_entry)
+            if portal_entry.get("generalFound"):
+                entry = portal_entry
+
         if entry.get("generalFound"):
             found_count += 1
             write_general_markdown(entry, args.sync_local or None)
