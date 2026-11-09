@@ -178,13 +178,13 @@
               <div class="text-xs text-slate-300 hidden sm:block">영종 전수 원문확보</div>
             </div>
             <div class="rounded-2xl bg-blue-500/20 border border-blue-300/25 p-2.5 sm:p-3 backdrop-blur-md">
-              <div class="text-xs text-blue-200">우선 (12곳 확정)</div>
-              <div class="text-base sm:text-xl font-extrabold text-sky-200 mt-0.5">454명+</div>
+              <div class="text-xs text-blue-200">우선 (14개원 합산)</div>
+              <div class="text-base sm:text-xl font-extrabold text-sky-200 mt-0.5">약 578명</div>
               <div class="text-xs text-slate-300 hidden sm:block">2자녀 출생신고자</div>
             </div>
             <div class="rounded-2xl bg-emerald-500/20 border border-emerald-300/25 p-2.5 sm:p-3 backdrop-blur-md">
               <div class="text-xs text-emerald-200">일반 (기본+이월)</div>
-              <div class="text-base sm:text-xl font-extrabold text-emerald-200 mt-0.5">130명+</div>
+              <div class="text-base sm:text-xl font-extrabold text-emerald-200 mt-0.5">약 156명+</div>
               <div class="text-xs text-slate-300 hidden sm:block">우선 미달분 이월</div>
             </div>
           </div>
@@ -631,8 +631,8 @@
                 <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800">버스 4대 · 우선100%</span>
               </div>
               <p class="text-xs text-slate-500">운남동 남디로안길 34-7 · 09:00~19:00</p>
-              <p class="text-xs sm:text-sm text-slate-800">• <strong>2027 규모</strong>: 총 12학급 <strong>정원 269명</strong> (3세 80 · 4세 89 · 5세 100 / 신입 잔여석 11/16 공개)</p>
-              <p class="text-xs sm:text-sm text-slate-800">• <strong>우선모집 비율</strong>: <strong>전원 우선 100% 선발</strong> (재원형제·졸업생동생·2자녀 이상·쌍생아)</p>
+              <p class="text-xs sm:text-sm text-slate-800">• <strong>2027 신입</strong>: 총 12학급 정원 269명 중 <strong>신입 약 98명 전원 우선100%</strong> (3세 80 · 4세 ~9 · 5세 ~9 / 4·5세 공시추정)</p>
+              <p class="text-xs sm:text-sm text-slate-800">• <strong>우선모집 비율</strong>: <strong>전원 우선 100% 선발</strong> (미달분만 일반 이월 · 재원형제·졸업생동생·2자녀 이상·쌍생아)</p>
               <p class="text-xs sm:text-sm text-slate-800">• <strong>공시 월부담금(교육/방과후)</strong>: 3세 173,000/60,000원 · 4세 67,150/60,000원 · 5세 0/10,000원</p>
             </div>
             <div class="flex items-center gap-2 pt-1.5 flex-wrap">
@@ -645,11 +645,11 @@
             <div class="space-y-1.5">
               <div class="flex items-center justify-between gap-2">
                 <span class="font-extrabold text-base text-slate-900">⑬ 초롱유치원</span>
-                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">버스 3대 · 일반50%</span>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">버스 3대 · 우선50%</span>
               </div>
               <p class="text-xs text-slate-500">운서동 영종대로27번길 6 · 09:00~19:00</p>
-              <p class="text-xs sm:text-sm text-slate-800">• <strong>2027 규모</strong>: 총 6학급 <strong>정원 140명</strong> (3세 40 · 4세 48 · 5세 52 / 신입 잔여석 11/16 공개)</p>
-              <p class="text-xs sm:text-sm text-slate-800">• <strong>4순위 비율</strong>: <strong>모집인원의 50% 선발</strong> (일반모집 기본배정 50%로 높음!)</p>
+              <p class="text-xs sm:text-sm text-slate-800">• <strong>2027 신입</strong>: 총 6학급 정원 140명 중 <strong>신입 약 52명</strong> (3세 40[20/20] · 4세 ~8[~4/~4] · 5세 ~4[~2/~2] / 4·5세 공시추정)</p>
+              <p class="text-xs sm:text-sm text-slate-800">• <strong>우선·일반 비율</strong>: <strong>우선 50% · 일반 기본 50% 선발</strong> (일반모집 기본 배정 비율 높음!)</p>
               <p class="text-xs sm:text-sm text-slate-800">• <strong>공시 월부담금(교육/방과후)</strong>: 3세 122,800/47,500원 · 4세 10,000/47,500원 · 5세 0/44,600원</p>
             </div>
             <div class="flex items-center gap-2 pt-1.5 flex-wrap">
@@ -1233,7 +1233,7 @@
           { label: "우선모집요강 원본 PDF", url: "./yeongjong-2027-docs/pdf/10_dynamis_guideline.pdf" }
         ],
         ageSplit: {
-          priRule: "4순위 70%",
+          priRule: "우선 70%",
           a3: { pri: 70, gen: 30, tot: 100 },
           a4: { pri: 22, gen: 9, tot: 31 },
           a5: { pri: 8, gen: 4, tot: 12 },
@@ -1360,29 +1360,27 @@
           { label: "입학설명회·OPEN DAY 안내문 PDF", url: "./yeongjong-2027-docs/pdf/12_eton_brochure.pdf" }
         ],
         ageSplit: {
-          pendingQuota: true,
-          capA3: 80,
-          capA4: 89,
-          capA5: 100,
+          estNote: "4·5세 공시추정",
           capTot: 269,
-          priRule: "4순위 100%",
-          a3: { pri: 0, gen: 0, tot: 0 },
-          a4: { pri: 0, gen: 0, tot: 0 },
-          a5: { pri: 0, gen: 0, tot: 0 },
-          sum: { pri: 0, gen: 0, tot: 0 },
+          priRule: "우선 100%",
+          a3: { pri: 80, gen: 0, tot: 80 },
+          a4: { pri: 9, gen: 0, tot: 9, est: true },
+          a5: { pri: 9, gen: 0, tot: 9, est: true },
+          sum: { pri: 98, gen: 0, tot: 98, est: true },
           mixed: false
         },
         quotas: [
-          { age: "3세반", classes: "4학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "80명", current: "미기재 (진급없음)", pri: "4순위 100% 선발", gen: "11. 16. 18:00 공개", recruit: "정원 80명" },
-          { age: "4세반", classes: "4학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "89명", current: "첨부 미기재", pri: "4순위 100% 선발", gen: "11. 16. 18:00 공개", recruit: "11/16 공개" },
-          { age: "5세반", classes: "4학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "100명", current: "첨부 미기재", pri: "4순위 100% 선발", gen: "11. 16. 18:00 공개", recruit: "11/16 공개" }
+          { age: "3세반", classes: "4학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "80명", current: "0명 (진급없음)", pri: "80명 (100% 선발)", gen: "0명 (우선 미달분 이월)", recruit: "80명" },
+          { age: "4세반", classes: "4학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "89명", current: "약 80명 (공시 3세 현원)", pri: "약 9명 (100% 선발)", gen: "0명 (우선 미달분 이월)", recruit: "약 9명 (추정)" },
+          { age: "5세반", classes: "4학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "100명", current: "약 91명 (공시 4세 현원)", pri: "약 9명 (100% 선발)", gen: "0명 (우선 미달분 이월)", recruit: "약 9명 (추정)" }
         ],
         sections: [
           {
-            title: "0~2. 입학설명회·OPEN DAY 및 운영 안내 (포털·PDF 원문 전문)",
+            title: "0~2. 모집정원·입학설명회·OPEN DAY 및 운영 안내 (포털·PDF 원문 전문)",
             lines: [
               "• 슬로건: ☆'책을 즐기는 어린이, 땀흘려 노는 어린이' 이튼유치원☆ (총 12학급 정원 269명: 3세 80 · 4세 89 · 5세 100 / 공시 연동 현원 263명)",
-              "• ※ 유보통합포털 우선모집 화면은 전체 편성 총 정원만 표기하며, 첨부 HWP가 <붙임 1~5>만 수록하여 재원생 차감 신입 잔여석은 11. 16.(월) 18:00 일반모집 공고 시 자동 반영됩니다.",
+              "• 연령별 신입 모집 규모: 3세반은 진급 재원생이 없어 정원 80명 전원을 신입 모집하며, 4·5세반은 첨부 HWP(<붙임 1~5>)에 재학예정 인원이 미기재되어 포털 공시 현원(2026학년도 3세 80명·4세 91명) 진급 기준 약 9명씩(총 신입 약 98명)으로 추산했습니다(확정 일반모집 잔여석은 11. 16. 18:00 자동 반영).",
+              "• ★ 우선모집 100% 선발 유의: 유보통합포털 공식 요강에 1순위 및 기타 4순위 모두 '모집인원 내 100% 선발'로 등록되어 있어 신입 모집인원 전원(3세 80명 · 4세 약 9명 · 5세 약 9명)을 우선모집에서 100% 선발하며, 우선모집 미달·미등록 잔여석만 일반모집(11. 16. 18:00 공개)으로 이월됩니다(전원 충원 시 일반모집 0명).",
               "• 입학설명회 영상 공개일: 2026. 11. 2.(월) / Open Day: 11. 3.(화)~11. 4.(수) [1타임 17:30~18:00 / 2타임 18:00~18:30, 타임별 50명 사전예약제: https://naver.me/F05Lk4iR]",
               "• [교육과정] 09:00 ~ 13:00 / [방과후 과정] ~ 19:00 원칙 (맞벌이 무관 교육과정 선발 시 방과후 100% 입학)",
               "• 증빙서류 마감: 온라인·이메일(etonkinder@naver.com, 제목 '홍길동-0세 서류 제출') 11. 4.(수) 18:00 도착분 / 방문 제출은 평일 10:00~15:00",
@@ -1390,7 +1388,7 @@
             ]
           },
           {
-            title: "3~4. 우선순위 기준 — 기타 4순위 100% 선발 (원문)",
+            title: "3~4. 우선순위 기준 — 우선모집(1·4순위) 100% 선발 (원문)",
             lines: [
               "• 최우선순위: 본원 재학 유아, 교육지원청 선정·배치 특수교육(예정)대상자(100%)",
               "• 1순위(모집인원 내 100%): 법정저소득층 가정 / 2·3순위(연령별 최소 3% 원장 자율): 국가보훈대상자·북한이탈주민",
@@ -1434,29 +1432,27 @@
           { label: "우선모집 표준요강 원본 PDF (3쪽)", url: "./yeongjong-2027-docs/pdf/13_chorong_guideline.pdf" }
         ],
         ageSplit: {
-          pendingQuota: true,
-          capA3: 40,
-          capA4: 48,
-          capA5: 52,
+          estNote: "4·5세 공시추정",
           capTot: 140,
-          priRule: "4순위 50%",
-          a3: { pri: 0, gen: 0, tot: 0 },
-          a4: { pri: 0, gen: 0, tot: 0 },
-          a5: { pri: 0, gen: 0, tot: 0 },
-          sum: { pri: 0, gen: 0, tot: 0 },
+          priRule: "우선 50%",
+          a3: { pri: 20, gen: 20, tot: 40 },
+          a4: { pri: 4, gen: 4, tot: 8, est: true },
+          a5: { pri: 2, gen: 2, tot: 4, est: true },
+          sum: { pri: 26, gen: 26, tot: 52, est: true },
           mixed: false
         },
         quotas: [
-          { age: "3세반", classes: "2학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "40명", current: "미기재 (진급없음)", pri: "4순위 50% 선발", gen: "기본 50%+ (11/16 공개)", recruit: "정원 40명" },
-          { age: "4세반", classes: "2학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "48명", current: "첨부 미기재", pri: "4순위 50% 선발", gen: "기본 50%+ (11/16 공개)", recruit: "11/16 공개" },
-          { age: "5세반", classes: "2학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "52명", current: "첨부 미기재", pri: "4순위 50% 선발", gen: "기본 50%+ (11/16 공개)", recruit: "11/16 공개" }
+          { age: "3세반", classes: "2학급", birth: "2023. 1. 1. ~ 2023. 12. 31.", cap: "40명", current: "0명 (진급없음)", pri: "20명 (50% 선발)", gen: "20명 (기본 50%+이월)", recruit: "40명" },
+          { age: "4세반", classes: "2학급", birth: "2022. 1. 1. ~ 2022. 12. 31.", cap: "48명", current: "약 40명 (공시 3세 현원)", pri: "약 4명 (50% 선발)", gen: "약 4명 (기본 50%+이월)", recruit: "약 8명 (추정)" },
+          { age: "5세반", classes: "2학급", birth: "2021. 1. 1. ~ 2021. 12. 31.", cap: "52명", current: "약 48명 (공시 4세 현원)", pri: "약 2명 (50% 선발)", gen: "약 2명 (기본 50%+이월)", recruit: "약 4명 (추정)" }
         ],
         sections: [
           {
-            title: "0~2. 교육방향·특색활동·운영시간 안내 (포털 원문 전문)",
+            title: "0~2. 모집정원·교육방향·특색활동·운영시간 안내 (포털 원문 전문)",
             lines: [
               "• '아름다운 꿈을 키우는 아이들의 처음학교, 초롱유치원' (총 6학급 정원 140명: 3세 40 · 4세 48 · 5세 52 / 공시 연동 현원 132명)",
-              "• ※ 유보통합포털 우선모집 화면은 총 정원만 표기하며, 첨부 PDF(3쪽)가 <붙임 1~2>만 수록하여 신입 확정 잔여석은 11. 16.(월) 18:00 일반모집 공고 시 자동 반영됩니다.",
+              "• 연령별 신입 모집 규모: 3세반은 진급 재원생이 없어 정원 40명 전원(우선 20명 · 일반 20명)을 신입 모집하며, 4·5세반은 첨부 PDF(3쪽)에 재학예정 인원이 미기재되어 포털 공시 현원(2026학년도 3세 40명·4세 48명) 진급 기준 4세 약 8명(우선 4 · 일반 4), 5세 약 4명(우선 2 · 일반 2), 합계 약 52명으로 추산했습니다(확정 일반모집 잔여석은 11. 16. 18:00 자동 반영).",
+              "• ★ 우선모집 50% · 일반모집 50% 선발 특징: 유보통합포털 공식 요강에 기타 4순위가 '모집인원의 50프로'로 등록되어 있어, 타 원(우선 70~100%)과 달리 신입 정원의 절반(50%)이 일반모집 기본 인원으로 배정되며 우선모집 미달·미등록분도 추가 이월됩니다.",
               "• [교육과정] 09:00 ~ 14:00 / [방과후과정] 14:00 ~ 19:00 (재원생 유아 전체 대상 방과후 운영 / 통학버스 3대 운행)",
               "• 5대 중점 교육활동: ① 프로젝트 활동 ② 놀이중심 체험활동 ③ 다문화 언어활동 ④ 실생활 경제활동(시장놀이·직업활동) ⑤ 방과후 특색활동(축구, 요리, 생태과학, 한글수, 코딩)",
               "• 교육환경 및 급식: 실외 놀이터·축구장, 모래놀이터, 느티나무 도서관, 요리교실·강당·다문화교실 / 친환경 급식(저염데이, 절기 식단, 이달의 나라 식단, 알레르기 대응 급식)",
@@ -1628,9 +1624,10 @@
         return `<span class="text-slate-400 text-xs">미모집 (0)</span>`;
       }
       const pPct = Math.round((cell.pri / cell.tot) * 100);
-      const genText = (cell.gen === 0 && pPct === 100) ? "0(이월)" : cell.gen;
+      const pfx = cell.est ? "~" : "";
+      const genText = (cell.gen === 0 && pPct === 100) ? "0(이월)" : `${pfx}${cell.gen}`;
       return `
-        <div class="whitespace-nowrap"><span class="font-bold text-blue-700">${cell.pri}</span> <span class="text-slate-300">/</span> <span class="font-bold text-emerald-700">${genText}</span> <span class="text-slate-400 text-xs">(${cell.tot})</span></div>
+        <div class="whitespace-nowrap"><span class="font-bold text-blue-700">${pfx}${cell.pri}</span> <span class="text-slate-300">/</span> <span class="font-bold text-emerald-700">${genText}</span> <span class="text-slate-400 text-xs">(${pfx}${cell.tot})</span></div>
         <div class="w-16 mx-auto h-1.5 rounded-full bg-emerald-100 overflow-hidden mt-1 flex">
           <div class="bg-blue-600 h-full" style="width:${pPct}%"></div>
           <div class="bg-emerald-500 h-full" style="width:${100 - pPct}%"></div>
@@ -1648,13 +1645,14 @@
         `;
       }
       const pPct = Math.round((cell.pri / cell.tot) * 100);
-      const priLabel = pPct === 100 ? `우선 ${cell.pri}명(100%)` : `우선 ${cell.pri}명`;
-      const genLabel = (cell.gen === 0 && pPct === 100) ? `일반 미달이월` : `일반 ${cell.gen}명`;
+      const pfx = cell.est ? "~" : "";
+      const priLabel = pPct === 100 ? `우선 ${pfx}${cell.pri}명(100%)` : `우선 ${pfx}${cell.pri}명`;
+      const genLabel = (cell.gen === 0 && pPct === 100) ? `일반 미달이월` : `일반 ${pfx}${cell.gen}명`;
       return `
         <div class="rounded-2xl bg-slate-50/90 border border-slate-200/80 p-2.5 space-y-1.5">
           <div class="flex items-center justify-between text-xs gap-1">
             <span class="font-extrabold text-slate-800 whitespace-nowrap">${label}</span>
-            <span class="text-slate-500 whitespace-nowrap">계 ${cell.tot}명</span>
+            <span class="text-slate-500 whitespace-nowrap">계 ${pfx}${cell.tot}명</span>
           </div>
           <div class="flex items-center justify-between text-xs gap-1 whitespace-nowrap">
             <span class="font-extrabold text-blue-700">${priLabel}</span>
@@ -1685,7 +1683,7 @@
         return true;
       });
 
-      let totPri = 0, totGen = 0, totAll = 0, pendingCount = 0;
+      let totPri = 0, totGen = 0, totAll = 0, pendingCount = 0, estCount = 0;
       let a3Pri = 0, a3Gen = 0, a4Pri = 0, a4Gen = 0, a5Pri = 0, a5Gen = 0;
 
       rows.forEach(d => {
@@ -1693,6 +1691,7 @@
           pendingCount++;
           return;
         }
+        if (d.ageSplit.sum.est && !d.generalUpdated) estCount++;
         totPri += d.ageSplit.sum.pri;
         totGen += d.ageSplit.sum.gen;
         totAll += d.ageSplit.sum.tot;
@@ -1704,9 +1703,10 @@
       });
 
       const priShare = totAll > 0 ? Math.round((totPri / totAll) * 100) : 70;
+      const approxPfx = estCount > 0 ? "약 " : "";
       const confirmedSub = pendingCount > 0
         ? `신입확정 ${rows.length - pendingCount}곳 ${totAll}명 (+정원표기 ${pendingCount}곳)`
-        : `총 신입 ${totAll}명`;
+        : (estCount > 0 ? `총 신입 약 ${totAll}명 (${estCount}곳 4·5세 공시추정)` : `총 신입 ${totAll}명`);
 
       document.getElementById("kpiGrid").innerHTML = `
         <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/90">
@@ -1716,12 +1716,12 @@
         </div>
         <div class="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/70 border border-blue-200/80">
           <div class="text-xs text-blue-700 font-bold">우선모집 합계</div>
-          <div class="text-xl sm:text-2xl font-extrabold text-blue-800 mt-0.5">${totPri}명${pendingCount > 0 ? "+" : ""}</div>
+          <div class="text-xl sm:text-2xl font-extrabold text-blue-800 mt-0.5">${approxPfx}${totPri}명${pendingCount > 0 ? "+" : ""}</div>
           <div class="text-xs text-blue-600/90 mt-0.5">약 ${priShare}% 배정</div>
         </div>
         <div class="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50/70 border border-emerald-200/80">
           <div class="text-xs text-emerald-700 font-bold">일반모집 기본</div>
-          <div class="text-xl sm:text-2xl font-extrabold text-emerald-800 mt-0.5">${totGen}명+</div>
+          <div class="text-xl sm:text-2xl font-extrabold text-emerald-800 mt-0.5">${approxPfx}${totGen}명+</div>
           <div class="text-xs text-emerald-700/90 mt-0.5">우선 미달분 이월</div>
         </div>
         <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-900 text-white flex flex-col justify-between">
@@ -1733,7 +1733,7 @@
             <div class="bg-gradient-to-r from-sky-400 to-blue-500 h-full transition-all duration-500" style="width:${priShare}%"></div>
             <div class="bg-gradient-to-r from-emerald-400 to-teal-300 h-full transition-all duration-500" style="width:${100 - priShare}%"></div>
           </div>
-          <div class="text-xs text-slate-300 truncate">3세 ${a3Pri+a3Gen}·4세 ${a4Pri+a4Gen}·5세 ${a5Pri+a5Gen}</div>
+          <div class="text-xs text-slate-300 truncate">3세 ${a3Pri+a3Gen}·4세 ${estCount > 0 ? "~" : ""}${a4Pri+a4Gen}·5세 ${estCount > 0 ? "~" : ""}${a5Pri+a5Gen}</div>
         </div>
       `;
 
@@ -1755,6 +1755,9 @@
         const exactBadge = d.exactQuotaBadge
           ? `<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">확정수치</span>`
           : ``;
+        const estBadge = (!d.generalUpdated && d.ageSplit.estNote)
+          ? `<span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">${escapeHtml(d.ageSplit.estNote)}</span>`
+          : ``;
         const priRuleBadge = d.ageSplit.priRule
           ? `<span class="px-2 py-0.5 rounded-full text-xs font-bold ${d.ageSplit.priRule.includes("100%") ? "bg-indigo-600 text-white" : (d.ageSplit.priRule.includes("50%") ? "bg-emerald-100 text-emerald-800 border border-emerald-200" : "bg-sky-100 text-sky-800 border border-sky-200")}">${escapeHtml(d.ageSplit.priRule)}</span>`
           : ``;
@@ -1769,6 +1772,7 @@
           ? `<span class="text-xs font-bold text-red-600">⏰ 11/4 ${escapeHtml(d.shortDeadline)}</span>`
           : `<span class="text-xs font-medium text-slate-600">⏰ 11/4 ${escapeHtml(d.shortDeadline)}</span>`;
 
+        const sumPfx = (d.ageSplit.sum.est && !d.generalUpdated) ? "~" : "";
         const isPri100Confirmed = !d.ageSplit.pendingQuota && d.ageSplit.sum.tot > 0 && d.ageSplit.sum.pri === d.ageSplit.sum.tot && d.ageSplit.sum.gen === 0;
         const sumHeaderBox = d.ageSplit.pendingQuota
           ? `<div class="text-right shrink-0 bg-purple-50 border border-purple-200/80 rounded-2xl px-3 py-1.5">
@@ -1778,11 +1782,11 @@
           : (isPri100Confirmed
             ? `<div class="text-right shrink-0 bg-indigo-50 border border-indigo-200/80 rounded-2xl px-3 py-1.5">
                  <div class="text-xs text-indigo-700 font-bold">우선 100% (미달이월)</div>
-                 <div class="text-sm sm:text-base font-extrabold text-slate-900"><span class="text-blue-700">${d.ageSplit.sum.pri}</span>/<span class="text-emerald-700">0</span> <span class="text-xs font-semibold text-slate-500">(${d.ageSplit.sum.tot})</span></div>
+                 <div class="text-sm sm:text-base font-extrabold text-slate-900"><span class="text-blue-700">${sumPfx}${d.ageSplit.sum.pri}</span>/<span class="text-emerald-700">0</span> <span class="text-xs font-semibold text-slate-500">(${sumPfx}${d.ageSplit.sum.tot})</span></div>
                </div>`
             : `<div class="text-right shrink-0 bg-slate-50 border border-slate-200/80 rounded-2xl px-3 py-1.5">
                  <div class="text-xs text-slate-500">우선/일반 합계</div>
-                 <div class="text-sm sm:text-base font-extrabold text-slate-900"><span class="text-blue-700">${d.ageSplit.sum.pri}</span>/<span class="text-emerald-700">${d.ageSplit.sum.gen}</span> <span class="text-xs font-semibold text-slate-500">(${d.ageSplit.sum.tot})</span></div>
+                 <div class="text-sm sm:text-base font-extrabold text-slate-900"><span class="text-blue-700">${sumPfx}${d.ageSplit.sum.pri}</span>/<span class="text-emerald-700">${sumPfx}${d.ageSplit.sum.gen}</span> <span class="text-xs font-semibold text-slate-500">(${sumPfx}${d.ageSplit.sum.tot})</span></div>
                </div>`);
 
         const ageBody = d.ageSplit.pendingQuota
@@ -1819,7 +1823,7 @@
                   <div class="flex items-center gap-1.5 flex-wrap">
                     <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border ${typeStyle}">${escapeHtml(d.type)}</span>
                     <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">${escapeHtml(d.regionLabel)}</span>
-                    ${priRuleBadge}${exactBadge}${genBadge}
+                    ${priRuleBadge}${estBadge}${exactBadge}${genBadge}
                   </div>
                   <h3 class="text-base sm:text-lg font-extrabold text-slate-900 mt-1.5">${escapeHtml(d.nameOnly)}</h3>
                 </div>
@@ -1848,11 +1852,14 @@
           ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-bold bg-emerald-600 text-white">일반반영</span>`
           : ``;
         const priTblBadge = d.ageSplit.priRule
-          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-bold ${d.ageSplit.priRule.includes("100%") ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-700"}">${escapeHtml(d.ageSplit.priRule)}</span>`
+          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-bold ${d.ageSplit.priRule.includes("100%") ? "bg-indigo-600 text-white" : (d.ageSplit.priRule.includes("50%") ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-700")}">${escapeHtml(d.ageSplit.priRule)}</span>`
+          : ``;
+        const estTblBadge = (!d.generalUpdated && d.ageSplit.estNote)
+          ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-800 border border-amber-200">4·5세추정</span>`
           : ``;
         const badge = (d.exactQuotaBadge
           ? `<span class="ml-1 inline-block px-1.5 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-700">확정</span>`
-          : ``) + priTblBadge + genBadge;
+          : ``) + priTblBadge + estTblBadge + genBadge;
         const typeColor = d.type === "사립" ? "text-purple-700 bg-purple-50 border-purple-200" : (d.type === "공립 단설" ? "text-indigo-700 bg-indigo-50 border-indigo-200" : "text-emerald-700 bg-emerald-50 border-emerald-200");
         const busHtml = d.hasBus
           ? `<span class="font-bold text-blue-700">🚌 ${escapeHtml(d.busLabel)}</span>`
@@ -1875,6 +1882,7 @@
               <td class="py-3 px-2.5 text-center whitespace-nowrap">${formatCellSplit(d.ageSplit.a5)}</td>
             `);
 
+        const tblSumPfx = (d.ageSplit.sum.est && !d.generalUpdated) ? "~" : "";
         const isTblPri100 = !d.ageSplit.pendingQuota && d.ageSplit.sum.tot > 0 && d.ageSplit.sum.pri === d.ageSplit.sum.tot && d.ageSplit.sum.gen === 0;
         const sumCol = d.ageSplit.pendingQuota
           ? `<td class="py-3 px-2.5 text-center whitespace-nowrap bg-purple-50/50 font-semibold">
@@ -1882,8 +1890,8 @@
                <div class="text-xs text-slate-500 font-normal">${escapeHtml(d.ageSplit.priRule)}</div>
              </td>`
           : `<td class="py-3 px-2.5 text-center whitespace-nowrap ${isTblPri100 ? "bg-indigo-50/60" : "bg-slate-50/80"} font-semibold">
-               <span class="text-blue-700 font-bold">${d.ageSplit.sum.pri}</span> / <span class="text-emerald-700 font-bold">${isTblPri100 ? "0(이월)" : d.ageSplit.sum.gen}</span>
-               <div class="text-xs text-slate-500 font-normal">총 ${d.ageSplit.sum.tot}명${isTblPri100 ? " · 우선100%" : ""}</div>
+               <span class="text-blue-700 font-bold">${tblSumPfx}${d.ageSplit.sum.pri}</span> / <span class="text-emerald-700 font-bold">${isTblPri100 ? "0(이월)" : `${tblSumPfx}${d.ageSplit.sum.gen}`}</span>
+               <div class="text-xs text-slate-500 font-normal">총 ${tblSumPfx}${d.ageSplit.sum.tot}명${isTblPri100 ? " · 우선100%" : ""}</div>
              </td>`;
 
         return `
@@ -1913,13 +1921,14 @@
         `;
       }).join("");
 
+      const rowApprox = estCount > 0 ? "~" : "";
       const totalRow = `
         <tr class="bg-slate-100 font-bold border-t-2 border-slate-300">
           <td class="sticky left-0 z-10 bg-slate-100 sticky-col-shadow py-3 px-3 text-slate-900 whitespace-nowrap">합계 (${rows.length}개원)</td>
           <td class="py-3 px-2.5 text-center whitespace-nowrap"><span class="text-blue-700">${a3Pri}</span> / <span class="text-emerald-700">${a3Gen}</span> <span class="text-xs text-slate-500 font-normal">(${a3Pri + a3Gen})</span></td>
-          <td class="py-3 px-2.5 text-center whitespace-nowrap"><span class="text-blue-700">${a4Pri}</span> / <span class="text-emerald-700">${a4Gen}</span> <span class="text-xs text-slate-500 font-normal">(${a4Pri + a4Gen})</span></td>
-          <td class="py-3 px-2.5 text-center whitespace-nowrap"><span class="text-blue-700">${a5Pri}</span> / <span class="text-emerald-700">${a5Gen}</span> <span class="text-xs text-slate-500 font-normal">(${a5Pri + a5Gen})</span></td>
-          <td class="py-3 px-2.5 text-center bg-slate-200/70 whitespace-nowrap"><span class="text-blue-800">${totPri}</span> / <span class="text-emerald-800">${totGen}</span><div class="text-xs text-slate-600">총 ${totAll}명</div></td>
+          <td class="py-3 px-2.5 text-center whitespace-nowrap"><span class="text-blue-700">${rowApprox}${a4Pri}</span> / <span class="text-emerald-700">${rowApprox}${a4Gen}</span> <span class="text-xs text-slate-500 font-normal">(${rowApprox}${a4Pri + a4Gen})</span></td>
+          <td class="py-3 px-2.5 text-center whitespace-nowrap"><span class="text-blue-700">${rowApprox}${a5Pri}</span> / <span class="text-emerald-700">${rowApprox}${a5Gen}</span> <span class="text-xs text-slate-500 font-normal">(${rowApprox}${a5Pri + a5Gen})</span></td>
+          <td class="py-3 px-2.5 text-center bg-slate-200/70 whitespace-nowrap"><span class="text-blue-800">${rowApprox}${totPri}</span> / <span class="text-emerald-800">${rowApprox}${totGen}</span><div class="text-xs text-slate-600">총 ${rowApprox}${totAll}명</div></td>
           <td colspan="3" class="py-3 px-2.5 text-center text-xs font-normal text-slate-600 whitespace-nowrap">11. 16.(월) 18:00 일반모집 확정 잔여석 공개</td>
         </tr>
       `;
@@ -2016,7 +2025,7 @@
           ? "연령별 정원 및 우선모집(50%) · 일반모집(50%) 배정 인원"
           : "연령별 정원 및 우선모집(70%) · 일반모집(30%) 배정 인원");
       const docRulePill = (doc.ageSplit && doc.ageSplit.priRule)
-        ? `<span class="px-3 py-1 rounded-full text-xs font-bold ${doc.ageSplit.priRule.includes("100%") ? "bg-indigo-600 text-white" : "bg-purple-100 text-purple-800 border border-purple-200"}">${escapeHtml(doc.ageSplit.priRule)} 선발</span>`
+        ? `<span class="px-3 py-1 rounded-full text-xs font-bold ${doc.ageSplit.priRule.includes("100%") ? "bg-indigo-600 text-white" : (doc.ageSplit.priRule.includes("50%") ? "bg-emerald-100 text-emerald-800 border border-emerald-200" : "bg-purple-100 text-purple-800 border border-purple-200")}">${escapeHtml(doc.ageSplit.priRule)} 선발</span>`
         : ``;
 
       container.innerHTML = `
@@ -2301,13 +2310,21 @@
         const pq = item.parsedQuotas || {};
         if (!doc.ageSplit.mixed && (pq.a3 !== undefined || pq.a4 !== undefined || pq.a5 !== undefined)) {
           doc.ageSplit.pendingQuota = false;
+          doc.ageSplit.estNote = "";
+          doc.ageSplit.sum.est = false;
+          const is100 = doc.ageSplit.priRule && doc.ageSplit.priRule.includes("100%");
           const applyAgeGen = (cell, qVal, qRow) => {
             if (qVal === undefined) return;
+            const wasEst = !!cell.est;
+            cell.est = false;
             cell.gen = qVal;
             if (cell.tot === 0) {
               cell.tot = qVal;
             } else if (cell.tot >= qVal) {
               cell.pri = cell.tot - qVal;
+            } else if (wasEst && is100) {
+              cell.pri = 0;
+              cell.tot = qVal;
             } else {
               cell.tot = cell.pri + qVal;
             }
