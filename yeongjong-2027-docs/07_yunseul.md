@@ -1,6 +1,17 @@
 # 인천윤슬초등학교병설유치원 (공립 병설) — 2027학년도 모집요강 원문 전문
 
-- **바로가기**: [공식 웹 공고문 열기(브라우저)](https://yunseul.icees.kr/boardCnts/updateCnt.do?action=view&m=0605&s=yunseul&boardID=318322&boardSeq=34285144&viewBoardID=318322&lev=0) | [원본 HWP 파일(Downloads)](./hwp/07_yunseul_guideline.hwp)
+- **바로가기**: [공식 웹 공고문 열기(브라우저)](https://yunseul.icees.kr/boardCnts/updateCnt.do?action=view&m=0605&s=yunseul&boardID=318322&boardSeq=34285144&viewBoardID=318322&lev=0) | [우선모집 접수결과 공고(웹)](https://yunseul.icees.kr/boardCnts/updateCnt.do?action=view&m=0605&s=yunseul&boardID=318322&boardSeq=34315644&viewBoardID=318322&lev=0) | [우선모집 접수결과 표 이미지](./general_files/07_yunseul_priority_result_20261105.png) | [원본 HWP 파일(Downloads)](./hwp/07_yunseul_guideline.hwp)
+
+---
+
+### [최신 공고] 2027학년도 유치원 유아모집(우선모집) 신입유아 접수 결과 (`2026. 11. 05. 공고`)
+
+| 연령 | 정원 | 진급인원 | 모집인원 | 1순위 | 2순위 | 3순위 | 4순위 | **접수인원 합계** |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **3세** | 12명 | 0명 | 12명 | 0명 | 0명 | 0명 | 44명 | **44명** |
+| **4세** | 34명 | 25명 | 9명 | 1명 | 0명 | 0명 | 25명 | **26명** |
+| **5세** | 19명 | 17명 | 2명 | 0명 | 0명 | 0명 | 7명 | **7명** |
+| **합계** | **65명** | **42명** | **23명** | **1명** | **0명** | **0명** | **76명** | **77명** |
 
 ---
 

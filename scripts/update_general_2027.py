@@ -34,15 +34,21 @@ GEN_FILES_DIR = os.path.join(DOCS_DIR, "general_files")
 STATUS_JSON_PATH = os.path.join(DOCS_DIR, "general_status.json")
 VIEWER_HTML_PATH = os.path.join(REPO_ROOT, "yeongjong_2027_originals_viewer.html")
 
-# Known priority-only boardSeqs from Oct 2026 so they are never mistaken for general notices
+# Known priority-only boardSeqs from Oct-Nov 2026 so they are never mistaken for general notices
 KNOWN_PRIORITY_SEQS = {
-    "34292526", "34292535", "34287374", "34291408", "34269012",
+    "34292526", "34292535", "34277878", "34287374", "34285732", "34291408", "34269012",
+    "34266418", "34287188", "34278258", "34262376", "34262348", "34285144",
     "34283433", "34286125", "34292301", "34291294", "34290766",
-    "34277946", "34288595", "34288607", "224455411476",
+    "34277946", "34281138", "34288595", "34288607", "224455411476",
+    "34313938", "34310786", "34308394", "34313572", "34310320", "34307792",
+    "34315644", "34313648", "34316672",
     "467", "101", "487", "458",
 }
 
-EXCLUDED_TITLE_WORDS = ("특수", "영재", "독서", "아이리더", "강사", "채용", "기간제", "급식", "입찰", "초등학교")
+EXCLUDED_TITLE_WORDS = (
+    "특수", "영재", "독서", "아이리더", "강사", "채용", "기간제", "급식", "입찰",
+    "초등학교", "중학교", "고등학교", "중고등", "청소년", "방과후아카데미", "정책연구",
+)
 
 TARGETS = [
     {
@@ -90,7 +96,7 @@ TARGETS = [
         "base": "https://starlight.icees.kr",
         "boards": [
             "/boardCnts/list.do?boardID=301738&m=060501&s=starlight",
-            "/boardCnts/list.do?boardID=301730&m=0601&s=starlight",
+            "/boardCnts/list.do?boardID=301138&m=0601&s=starlight",
         ],
     },
     {
@@ -101,7 +107,8 @@ TARGETS = [
         "kind": "ice",
         "base": "https://yj.icees.kr",
         "boards": [
-            "/boardCnts/list.do?boardID=275247&m=0901&s=iyoungjonges",
+            "/boardCnts/list.do?boardID=275247&m=0901&s=iyoungjonges&page=1",
+            "/boardCnts/list.do?boardID=275247&m=0901&s=iyoungjonges&page=2",
         ],
     },
     {
@@ -113,7 +120,7 @@ TARGETS = [
         "base": "https://yongyu.icees.kr",
         "boards": [
             "/boardCnts/list.do?boardID=257997&m=0404&s=yongyu",
-            "/boardCnts/list.do?boardID=257995&m=0403&s=yongyu",
+            "/boardCnts/list.do?boardID=257991&m=0401&s=yongyu",
         ],
     },
     {
@@ -531,6 +538,32 @@ def scan_ice_target(target: dict, prev_entry: dict) -> dict:
                         doc_txt = extract_document_text(fbytes, raw_fn)
                         if doc_txt:
                             extracted_chunks.append(f"### 첨부파일: {raw_fn}\n\n{doc_txt}")
+
+                # Also capture embedded board images (/upload/...) in case quotas are posted as an image table
+                img_srcs = []
+                for im in re.finditer(r'<img[^>]+src=["\']([^"\']*?/upload/[^"\']+\.(?:png|jpg|jpeg|gif|webp))["\']', vhtml, flags=re.I):
+                    isu = im.group(1).replace("&amp;", "&")
+                    if isu not in img_srcs:
+                        img_srcs.append(isu)
+                for idx_im, isu in enumerate(img_srcs):
+                    full_im = isu if isu.startswith("http") else target["base"] + (isu if isu.startswith("/") else "/" + isu)
+                    _, im_ext = os.path.splitext(isu)
+                    im_ext = (im_ext or ".png").lower()
+                    safe_im = f"{target['slug']}_general_{board_seq}_img{idx_im+1}{im_ext}"
+                    fpath_im = os.path.join(GEN_FILES_DIR, safe_im)
+                    try:
+                        req_im = urllib.request.Request(full_im, headers={"Referer": view_url, "User-Agent": "Mozilla/5.0"})
+                        with op.open(req_im, timeout=15) as resp_im:
+                            ibytes = resp_im.read()
+                            if len(ibytes) > 2000 and not ibytes.lstrip().startswith(b"<"):
+                                with open(fpath_im, "wb") as out_im:
+                                    out_im.write(ibytes)
+                                saved_rel_files.append({
+                                    "label": f"공고 본문 표 이미지 #{idx_im+1}",
+                                    "url": f"./yeongjong-2027-docs/general_files/{safe_im}",
+                                })
+                    except Exception:
+                        pass
 
                 vclean = re.sub(r"<script.*?</script>|<style.*?</style>", "", vhtml, flags=re.S)
                 body_txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", vclean)).strip()

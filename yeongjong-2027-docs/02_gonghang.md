@@ -1,6 +1,17 @@
 # 인천공항유치원 (공립 단설) — 2027학년도 모집요강 원문 전문
 
-- **바로가기**: [공식 웹 공고문 열기(브라우저)](https://gonghang-kg.icekg.kr/boardCnts/updateCnt.do?action=view&m=0706&s=gonghang_kg&boardID=302116&boardSeq=34287374&viewBoardID=302116&lev=0) | [운영안내 리플렛 PDF](./pdf/02_gonghang_brochure.pdf) | [원본 HWP 파일(Downloads)](./hwp/02_gonghang_guideline.hwp)
+- **바로가기**: [공식 웹 공고문 열기(브라우저)](https://gonghang-kg.icekg.kr/boardCnts/updateCnt.do?action=view&m=0706&s=gonghang_kg&boardID=302116&boardSeq=34287374&viewBoardID=302116&lev=0) | [우선모집 최종 접수결과 공고(웹)](https://gonghang-kg.icekg.kr/boardCnts/updateCnt.do?action=view&m=0706&s=gonghang_kg&boardID=302116&boardSeq=34313938&viewBoardID=302116&lev=0) | [우선모집 접수결과 표 이미지](./general_files/02_gonghang_priority_result_20261105.png) | [운영안내 리플렛 PDF](./pdf/02_gonghang_brochure.pdf) | [원본 HWP 파일(Downloads)](./hwp/02_gonghang_guideline.hwp)
+
+---
+
+### [최신 공고] 2027학년도 우선모집 최종 접수 결과 (`2026. 11. 05. 08:30 기준 모집완료`)
+
+| 연령 | 신입 모집인원 | 1순위 | 2순위 | 3순위 | 4순위 (`11.04 18:00` 마감) | **접수기간 내 누계** | 비고 |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **3세** | 12명 | 1명 | 0명 | 0명 | 57명 | **58명** | 1순위 100%, 4순위 70% 선발 |
+| **4세** | 21명 | 0명 | 0명 | 0명 | 29명 | **29명** | 4순위 약 1.9 : 1 |
+| **5세** | 6명 | 0명 | 0명 | 0명 | 4명 | **4명** | 우선배정(4명) 정원 일치 |
+| **합계** | **39명** | **1명** | **0명** | **0명** | **90명** | **91명** | 일반모집 잔여석 `11. 16. 18:00` 공개 |
 
 ---
 

@@ -1,6 +1,17 @@
 # 인천달빛초등학교병설유치원 (공립 병설) — 2027학년도 모집요강 원문 전문
 
-- **바로가기**: [공식 웹 공고문 열기(브라우저)](https://dalbit.icees.kr/boardCnts/updateCnt.do?action=view&m=0404&s=dalbit&boardID=317792&boardSeq=34266418&viewBoardID=317792&lev=0) | [원본 HWP 파일(Downloads)](./hwp/03_dalbit_guideline.hwp)
+- **바로가기**: [공식 웹 공고문 열기(브라우저)](https://dalbit.icees.kr/boardCnts/updateCnt.do?action=view&m=0404&s=dalbit&boardID=317792&boardSeq=34266418&viewBoardID=317792&lev=0) | [우선모집 최종 접수현황 공고(웹)](https://dalbit.icees.kr/boardCnts/updateCnt.do?action=view&m=0404&s=dalbit&boardID=317792&boardSeq=34313572&viewBoardID=317792&lev=0) | [원본 HWP 파일(Downloads)](./hwp/03_dalbit_guideline.hwp)
+
+---
+
+### [최신 공고] 2027학년도 유아모집(우선모집) 최종 접수 현황 (`2026. 11. 04. 18시 마감 기준`)
+
+| 연령 | 신입 모집인원 | 우선배정(70%) | **우선모집 접수인원** | 비고 |
+| :---: | :---: | :---: | :---: | :--- |
+| **3세** | 12명 | 약 8명 | **52명** | 약 6.5 : 1 |
+| **4세** | 10명 | 약 7명 | **13명** | 약 1.9 : 1 |
+| **5세** | 0명 | 0명 | **0명** | 미모집 |
+| **합계** | **22명** | **약 15명** | **65명** | 일반모집 잔여석 `11. 16. 18:00` 공개 |
 
 ---
 

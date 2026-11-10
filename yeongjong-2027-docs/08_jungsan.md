@@ -1,6 +1,17 @@
 # 인천중산초등학교병설유치원 (공립 병설) — 2027학년도 모집요강 원문 전문
 
-- **바로가기**: [공식 웹 공고문 열기(브라우저)](https://ijse.icees.kr/boardCnts/updateCnt.do?action=view&m=0604&s=ijse&boardID=284149&boardSeq=34277946&viewBoardID=284149&lev=0) | [우선모집 선발요강 원본 PDF](./pdf/08_jungsan_guideline.pdf) | [유아모집 선발 안내문 PDF](./pdf/08_jungsan_notice.pdf) | [원본 HWP 파일(Downloads)](./hwp/08_jungsan_forms.hwpx)
+- **바로가기**: [공식 웹 공고문 열기(브라우저)](https://ijse.icees.kr/boardCnts/updateCnt.do?action=view&m=0604&s=ijse&boardID=284149&boardSeq=34277946&viewBoardID=284149&lev=0) | [우선모집 최종 접수현황 공고(웹)](https://ijse.icees.kr/boardCnts/updateCnt.do?action=view&m=0604&s=ijse&boardID=284149&boardSeq=34313648&viewBoardID=284149&lev=0) | [우선모집 접수현황 표 이미지](./general_files/08_jungsan_priority_result_20261104.jpg) | [우선모집 선발요강 원본 PDF](./pdf/08_jungsan_guideline.pdf) | [유아모집 선발 안내문 PDF](./pdf/08_jungsan_notice.pdf) | [원본 HWP 파일(Downloads)](./hwp/08_jungsan_forms.hwpx)
+
+---
+
+### [최신 공고] 2027학년도 유아 우선모집 최종 접수현황 및 확정 우선정원 (`2026. 11. 04. 기준`)
+
+| 모집대상 | 학급수 | 정원 | 재학예정 | 신입 모집인원 | **우선모집 4순위(확정)** | **우선모집 접수인원** | 비고 |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **3세** | 1학급 | 12명 | - | 12명 | **8명** | **57명** | 약 7.1 : 1 |
+| **4세** | 2학급 | 34명 | 12명 | 22명 | **15명** | **25명** | 약 1.7 : 1 |
+| **5세** | 2학급 | 38명 | 32명 | 6명 | **4명** | **8명** | 2.0 : 1 |
+| **합계** | **5학급** | **84명** | **44명** | **40명** | **27명** | **90명** | 일반기본 13명 + 미등록분 이월 |
 
 ---
 

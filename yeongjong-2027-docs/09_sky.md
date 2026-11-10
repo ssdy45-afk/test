@@ -1,6 +1,17 @@
 # 인천하늘초등학교병설유치원 (공립 병설) — 2027학년도 모집요강 원문 전문
 
-- **바로가기**: [공식 웹 공고문 열기(브라우저)](https://sky.icees.kr/boardCnts/updateCnt.do?action=view&m=070401&s=skyes&boardID=286865&boardSeq=34281138&viewBoardID=286865&lev=0) | [유아모집 리플렛 PDF](./pdf/09_sky_leaflet.pdf) | [원본 HWP 파일(Downloads)](./hwp/09_sky_guideline.hwp)
+- **바로가기**: [공식 웹 공고문 열기(브라우저)](https://sky.icees.kr/boardCnts/updateCnt.do?action=view&m=070401&s=skyes&boardID=286865&boardSeq=34281138&viewBoardID=286865&lev=0) | [우선모집 접수결과 공고(웹)](https://sky.icees.kr/boardCnts/updateCnt.do?action=view&m=070401&s=skyes&boardID=286865&boardSeq=34316672&viewBoardID=286865&lev=0) | [유아모집 리플렛 PDF](./pdf/09_sky_leaflet.pdf) | [원본 HWP 파일(Downloads)](./hwp/09_sky_guideline.hwp)
+
+---
+
+### [최신 공고] 2027학년도 유아모집(우선모집) 신입유아 접수 결과 (`2026. 11. 05. 공고`)
+
+| 모집대상 | 학급수 | 정원 | 재학예정 | 신입 모집인원 | 우선배정(70%) | **우선모집 접수인원** | 비고 |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **3세반** | 1학급 | 12명 | 0명 | 12명 | 약 8명 | **33명** | 약 4.1 : 1 |
+| **4세반** | 1학급 | 17명 | 12명 | 5명 | 약 3~4명 | **15명** | 약 3.8~5.0 : 1 |
+| **5세반** | 1학급 | 19명 | 17명 | 2명 | 약 1명 | **4명** | 약 4.0 : 1 |
+| **합계** | **3학급** | **48명** | **29명** | **19명** | **약 13명** | **52명** | 일반모집 잔여석 `11. 16. 18:00` 공개 |
 
 ---
 
