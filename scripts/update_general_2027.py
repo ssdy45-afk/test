@@ -47,8 +47,10 @@ KNOWN_PRIORITY_SEQS = {
 
 EXCLUDED_TITLE_WORDS = (
     "특수", "영재", "독서", "아이리더", "강사", "채용", "기간제", "급식", "입찰",
-    "초등학교", "중학교", "고등학교", "중고등", "청소년", "방과후아카데미", "정책연구",
+    "청소년", "방과후아카데미", "정책연구",
 )
+# Primary/middle/high notices are excluded UNLESS the title also names a kindergarten ("유치원")
+EXCLUDED_SCHOOL_WORDS = ("초등학교", "중학교", "고등학교", "중고등")
 
 TARGETS = [
     {
@@ -404,6 +406,8 @@ def is_general_recruitment_title(title: str, seq: str, post_date: str = "") -> b
         return False
     if any(w in title for w in EXCLUDED_TITLE_WORDS):
         return False
+    if any(w in title for w in EXCLUDED_SCHOOL_WORDS) and "유치원" not in title:
+        return False
     # Reject 2026학년도 or earlier notices unless explicitly 2027
     if any(yr in title for yr in ("2026학년도", "2025학년도", "2024학년도", "2023학년도")):
         return False
@@ -423,30 +427,69 @@ def is_general_recruitment_title(title: str, seq: str, post_date: str = "") -> b
 
 def parse_general_quotas_from_text(text: str) -> dict:
     """
-    Attempt to extract confirmed general recruitment numbers per age (3세, 4세, 5세)
-    from extracted HWP/HWPX/PDF text lines. Returns dict like {"a3": 15, "a4": 8, "a5": 4}
-    when unambiguously matched, otherwise empty dict (full raw text is always preserved).
+    Extract confirmed general recruitment numbers per age (3세, 4세, 5세, or mixed 3~5세)
+    from extracted HWP/HWPX/PDF/HTML text lines. Returns dict like {"a3": 8, "a4": 6, "a5": 2}
+    or {"mixed": 8} when matched, otherwise empty dict.
     """
     if not text:
         return {}
     lines = [re.sub(r"\s+", " ", ln).strip() for ln in text.splitlines() if ln.strip()]
-    joined = "\n".join(lines[:120])
+    joined = "\n".join(lines[:180])
     result = {}
-    for age_key, age_pat in (("a3", r"3세"), ("a4", r"4세"), ("a5", r"5세")):
-        # Match patterns like: 3세반 | 4 | 2023.1.1.~2023.12.31. | 48명 | 35명 | 13명
-        m = re.search(
-            rf"{age_pat}(?:반)?[^\n]{{0,80}}?202[123]\.\s*1\.\s*1\.[^\n]{{0,120}}",
-            joined,
-            flags=re.S,
+
+    row_stop_re = re.compile(
+        r"(?:\n|^)\s*(?:"
+        r"(?:만\s*)?[345]\s*세(?:\s*반|\s*$|\s*\(|\s*[:|])|"
+        r"혼합\s*(?:반|연령)|"
+        r"특수\s*(?:학급|교육)|"
+        r"[합총소]\s*계(?:\s|$|:)|^계(?:\s|$|:)|"
+        r"※|\*\s|"
+        r"[2-9]\.\s|"
+        r"[가-하]\.\s|"
+        r"참고|유의사항|비고"
+        r")"
+    )
+
+    def _extract_last_quota(tail_chunk: str) -> int | None:
+        m_stop = row_stop_re.search(tail_chunk)
+        row_chunk = tail_chunk[: m_stop.start()] if m_stop else tail_chunk[:200]
+        nums_myeong = [int(x) for x in re.findall(r"(\d+)\s*명", row_chunk)]
+        if len(nums_myeong) >= 2:
+            return nums_myeong[-1]
+        if len(nums_myeong) == 1:
+            return nums_myeong[0]
+        # Fallback for table cells without "명" (e.g. HTML board tables: 12 | · | 7 | 5)
+        plain_nums = [
+            int(x)
+            for x in re.findall(r"(?<![\d.\-~])\b(\d{1,3})\b(?![\d.\-~%세학급월일호])", row_chunk)
+        ]
+        if len(plain_nums) >= 2:
+            return plain_nums[-1]
+        return None
+
+    # Single-age rows (3세->2023, 4세->2022, 5세->2021)
+    for age_key, age_num, birth_yr in (("a3", "3", "2023"), ("a4", "4", "2022"), ("a5", "5", "2021")):
+        pat = re.compile(
+            rf"(?<![\d~～\-]){age_num}\s*세\s*(?:반)?(?!\s*[~～\-])[\s\S]{{0,120}}?"
+            rf"{birth_yr}\.\s*1\.\s*1\.[\s\S]{{0,40}}?12\.\s*31\.?"
         )
+        m = pat.search(joined)
         if m:
-            chunk = joined[m.start() : m.end() + 100]
-            nums = [int(x) for x in re.findall(r"(\d+)\s*명", chunk)]
-            # Standard table columns: [정원, 재학(우선등록포함), 일반모집인원] -> last number in row
-            if len(nums) >= 3:
-                result[age_key] = nums[2]
-            elif len(nums) == 1:
-                result[age_key] = nums[0]
+            val = _extract_last_quota(joined[m.end() : m.end() + 220])
+            if val is not None:
+                result[age_key] = val
+
+    # Mixed-age 3~5세 row (e.g. 용유초병설: 3세~5세반 / 2021.1.1.~2023.12.31.)
+    if not result:
+        m_mix = re.search(
+            r"3\s*세?\s*[~～\-]\s*5\s*세\s*(?:반|혼합반)?[\s\S]{0,120}?2021\.\s*1\.\s*1\.[\s\S]{0,60}?2023\.\s*12\.\s*31\.?",
+            joined,
+        )
+        if m_mix:
+            val = _extract_last_quota(joined[m_mix.end() : m_mix.end() + 220])
+            if val is not None:
+                result["mixed"] = val
+
     return result
 
 
@@ -565,12 +608,35 @@ def scan_ice_target(target: dict, prev_entry: dict) -> dict:
                     except Exception:
                         pass
 
-                vclean = re.sub(r"<script.*?</script>|<style.*?</style>", "", vhtml, flags=re.S)
-                body_txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", vclean)).strip()
+                vclean = re.sub(r"<script.*?</script>|<style.*?</style>", "", vhtml, flags=re.S | re.I)
+                vblock = re.sub(r"<(?:/tr|/p|/div|/li|br\s*/?)>", "\n", vclean, flags=re.I)
+                vblock = re.sub(r"<(?:/td|/th)>", " | ", vblock, flags=re.I)
+                body_lines = re.sub(r"<[^>]+>", " ", vblock)
+                body_txt = re.sub(r"[ \t]+", " ", re.sub(r"\n\s*", "\n", body_lines)).strip()
                 pos = body_txt.find("작성자")
-                post_snippet = body_txt[max(0, pos - 80) : pos + 2000] if pos != -1 else body_txt[:1500]
-                full_extracted = "\n\n---\n\n".join(extracted_chunks) if extracted_chunks else post_snippet
-                parsed_quotas = parse_general_quotas_from_text(full_extracted)
+                post_snippet = body_txt[max(0, pos - 80) : pos + 2500] if pos != -1 else body_txt[:2000]
+                if extracted_chunks:
+                    joined_chunks = "\n\n---\n\n".join(extracted_chunks)
+                    if "다운로드 링크에서 직접 열람 가능" in joined_chunks:
+                        full_extracted = f"{joined_chunks}\n\n---\n\n### 공고 본문\n\n{post_snippet}"
+                    else:
+                        full_extracted = joined_chunks
+                else:
+                    full_extracted = post_snippet
+                parsed_quotas = parse_general_quotas_from_text(full_extracted) or parse_general_quotas_from_text(post_snippet)
+                verified_image_quotas = {
+                    "34345208": (
+                        {"a3": 4, "a4": 8, "a5": 5},
+                        "### 공고 본문 표 이미지(#1) 검수 확정 인원\n"
+                        "- 3세반(1학급): 정원 12명 / 재학예정 0명 / 우선확정 8명 / **일반모집 4명**\n"
+                        "- 4세반(2학급): 정원 34명 / 재학예정 13명 / 우선확정 13명 / **일반모집 8명**\n"
+                        "- 5세반(2학급): 정원 38명 / 재학예정 32명 / 우선확정 1명 / **일반모집 5명**\n"
+                        "- 합계: 정원 84명 / 재학예정 45명 / 우선확정 22명 / **일반모집 17명**",
+                    ),
+                }
+                if not parsed_quotas and board_seq in verified_image_quotas:
+                    parsed_quotas, img_summary = verified_image_quotas[board_seq]
+                    full_extracted = f"{img_summary}\n\n---\n\n{full_extracted}"
 
                 found_posts.append(
                     {
