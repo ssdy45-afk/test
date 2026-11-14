@@ -1209,6 +1209,25 @@ def scan_firstschool_portal_target(target: dict, prev_entry: dict) -> dict:
         return kept
 
 
+def safe_copy(src: str, dst: str):
+    if not os.path.exists(src):
+        return
+    try:
+        if os.path.exists(dst):
+            try:
+                if os.path.getsize(src) == os.path.getsize(dst):
+                    return
+            except OSError:
+                pass
+        shutil.copy2(src, dst)
+    except OSError:
+        try:
+            with open(src, "rb") as sf, open(dst, "wb") as df:
+                shutil.copyfileobj(sf, df)
+        except Exception:
+            pass
+
+
 def write_general_markdown(entry: dict, sync_local_dir: str = None):
     if not entry.get("generalFound") or not entry.get("extractedPreview"):
         return
@@ -1244,16 +1263,16 @@ def write_general_markdown(entry: dict, sync_local_dir: str = None):
             f.write(orig)
 
     if sync_local_dir and os.path.isdir(sync_local_dir):
-        shutil.copy2(gen_md_path, os.path.join(sync_local_dir, f"general_{slug}.md"))
+        safe_copy(gen_md_path, os.path.join(sync_local_dir, f"general_{slug}.md"))
         if os.path.exists(main_md_path):
-            shutil.copy2(main_md_path, os.path.join(sync_local_dir, f"{slug}.md"))
+            safe_copy(main_md_path, os.path.join(sync_local_dir, f"{slug}.md"))
         local_gen_files = os.path.join(sync_local_dir, "general_files")
         if os.path.isdir(GEN_FILES_DIR):
             os.makedirs(local_gen_files, exist_ok=True)
             for f_item in os.listdir(GEN_FILES_DIR):
                 s_file = os.path.join(GEN_FILES_DIR, f_item)
                 if os.path.isfile(s_file):
-                    shutil.copy2(s_file, os.path.join(local_gen_files, f_item))
+                    safe_copy(s_file, os.path.join(local_gen_files, f_item))
 
 
 def inject_status_into_viewer(status_payload: dict, sync_artifact_viewer: str = None):
@@ -1274,7 +1293,7 @@ def inject_status_into_viewer(status_payload: dict, sync_artifact_viewer: str = 
     with open(VIEWER_HTML_PATH, "w", encoding="utf-8", newline="\n") as f:
         f.write(updated_html)
     if sync_artifact_viewer and os.path.exists(os.path.dirname(sync_artifact_viewer)):
-        shutil.copy2(VIEWER_HTML_PATH, sync_artifact_viewer)
+        safe_copy(VIEWER_HTML_PATH, sync_artifact_viewer)
 
 
 def main():
@@ -1339,7 +1358,7 @@ def main():
         with open(STATUS_JSON_PATH, "w", encoding="utf-8", newline="\n") as f:
             json.dump(payload, f, ensure_ascii=False, indent=2)
         if args.sync_local and os.path.isdir(args.sync_local):
-            shutil.copy2(STATUS_JSON_PATH, os.path.join(args.sync_local, "general_status.json"))
+            safe_copy(STATUS_JSON_PATH, os.path.join(args.sync_local, "general_status.json"))
         inject_status_into_viewer(payload, args.sync_artifact or None)
         print(f"\nSaved status -> {STATUS_JSON_PATH} (found {found_count}/{len(TARGETS)})")
 

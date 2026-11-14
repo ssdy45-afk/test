@@ -539,7 +539,7 @@
 <!-- GENERAL_RECRUITMENT_AUTO_SECTION -->
 ## [최신 업데이트] 2027학년도 일반모집 공고 원문
 
-- **공고 제목**: 8 2027학년도 인천윤슬초등학교병설유치원 유아모집(일반모집) 요강 안내 양** 12 2026-11-13
+- **공고 제목**: 8 2027학년도 인천윤슬초등학교병설유치원 유아모집(일반모집) 요강 안내 양** 34 2026-11-13
 - **공식 링크**: https://yunseul.icees.kr/boardCnts/updateCnt.do?action=view&m=0605&s=yunseul&boardID=318322&boardSeq=34344350&viewBoardID=318322&lev=0
 
 ### 첨부파일: 2027학년도+모집요강(일반모집용).hwp

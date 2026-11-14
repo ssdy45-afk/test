@@ -607,7 +607,7 @@
 <!-- GENERAL_RECRUITMENT_AUTO_SECTION -->
 ## [최신 업데이트] 2027학년도 일반모집 공고 원문
 
-- **공고 제목**: 47 2027학년도 인천공항유치원 일반모집 안내 새글 황** 8 2026-11-13
+- **공고 제목**: 47 2027학년도 인천공항유치원 일반모집 안내 황** 23 2026-11-13
 - **공식 링크**: https://gonghang-kg.icekg.kr/boardCnts/updateCnt.do?action=view&m=0706&s=gonghang_kg&boardID=302116&boardSeq=34345208&viewBoardID=302116&lev=0
 
 ### 공고 본문 표 이미지(#1) 검수 확정 인원

@@ -494,7 +494,7 @@
 <!-- GENERAL_RECRUITMENT_AUTO_SECTION -->
 ## [최신 업데이트] 2027학년도 일반모집 공고 원문
 
-- **공고 제목**: 5 2027학년도 유치원 유아모집 일반모집 요강 박** 30 2026-11-12
+- **공고 제목**: 5 2027학년도 유치원 유아모집 일반모집 요강 박** 39 2026-11-12
 - **공식 링크**: https://starlight.icees.kr/boardCnts/updateCnt.do?action=view&m=060501&s=starlight&boardID=301738&boardSeq=34341394&viewBoardID=301738&lev=0
 
 ### 첨부파일: 2027학년도+표준모집요강(일반모집용).hwp

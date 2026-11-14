@@ -564,7 +564,7 @@
 <!-- GENERAL_RECRUITMENT_AUTO_SECTION -->
 ## [최신 업데이트] 2027학년도 일반모집 공고 원문
 
-- **공고 제목**: 564 2027학년도 영종유치원 유아모집(일반모집) 요강 이** 35 2026-11-12
+- **공고 제목**: 564 2027학년도 영종유치원 유아모집(일반모집) 요강 이** 68 2026-11-12
 - **공식 링크**: https://yeongjong.icekg.kr/boardCnts/updateCnt.do?action=view&m=0501&s=yeongjongu&boardID=212322&boardSeq=34341772&viewBoardID=212322&lev=0
 
 ### 첨부파일: 2027학년도+영종유치원+표준모집요강(일반모집용).hwp
