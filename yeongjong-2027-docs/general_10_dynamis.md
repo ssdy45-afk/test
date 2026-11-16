@@ -1,8 +1,8 @@
-# 뒤나미스유치원 — 2027학년도 일반모집 공고 원문
+# 뒤나미스유치원 — 2027학년도 일반모집 공고 원문 (자동 수집)
 
 - **공고 제목**: 2027학년도 뒤나미스유치원 표준모집요강 안내_일반모집
 - **게시일**: 2026-11-16
-- **원문 링크**: [블로그 공고 바로가기](https://blog.naver.com/dynafable/224479317770) | [유보통합포털 바로가기](https://www.go-firstschool.go.kr/PAMS_SS/selectPridInfo.do?PRESCH_CD=9000000768&UPPER_EDU_OFFICE_CD=E100000001&EDU_OFFICE_CD=E100000082&AID_YEAR=2026&USER_ID=&FST_DFLT_GB=RC928_002&PARENT_YN=N&CODE=ISPOP)
+- **원문 링크**: [공식 공고 바로가기](https://blog.naver.com/dynafable/224479317770)
 
 ---
 

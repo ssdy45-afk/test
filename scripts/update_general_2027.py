@@ -633,10 +633,12 @@ def scan_ice_target(target: dict, prev_entry: dict) -> dict:
                         "- 5세반(2학급): 정원 38명 / 재학예정 32명 / 우선확정 1명 / **일반모집 5명**\n"
                         "- 합계: 정원 84명 / 재학예정 45명 / 우선확정 22명 / **일반모집 17명**",
                     ),
+                    "34346018": ({"a3": 4, "a4": 8, "a5": 0}, ""),
                 }
-                if not parsed_quotas and board_seq in verified_image_quotas:
+                if board_seq in verified_image_quotas:
                     parsed_quotas, img_summary = verified_image_quotas[board_seq]
-                    full_extracted = f"{img_summary}\n\n---\n\n{full_extracted}"
+                    if img_summary:
+                        full_extracted = f"{img_summary}\n\n---\n\n{full_extracted}"
 
                 found_posts.append(
                     {
@@ -1338,6 +1340,25 @@ def main():
             portal_entry = scan_firstschool_portal_target(target, prev_entry)
             if portal_entry.get("generalFound"):
                 entry = portal_entry
+
+        # Preserve manually verified quotas/metadata unless a newer 추가모집 notice appears
+        new_title = entry.get("postTitle") or ""
+        if (
+            prev_entry
+            and prev_entry.get("parsedQuotas")
+            and not entry.get("parsedQuotas")
+            and not any(kw in new_title for kw in ("추가모집", "추가 모집"))
+        ):
+            prev_files = list(prev_entry.get("files") or [])
+            seen_urls = {f.get("url") for f in prev_files}
+            for nf in entry.get("files") or []:
+                if nf.get("url") not in seen_urls:
+                    prev_files.append(nf)
+                    seen_urls.add(nf.get("url"))
+            for key in ("parsedQuotas", "postTitle", "postDate", "webUrl", "boardStatus", "extractedPreview"):
+                if key in prev_entry:
+                    entry[key] = prev_entry[key]
+            entry["files"] = prev_files
 
         if entry.get("generalFound"):
             found_count += 1
