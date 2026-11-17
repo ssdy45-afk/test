@@ -543,7 +543,7 @@
 <!-- GENERAL_RECRUITMENT_AUTO_SECTION -->
 ## [최신 업데이트] 2027학년도 일반모집 공고 원문
 
-- **공고 제목**: 필독 2027학년도 인천달빛초등학교병셜유치원 일반모집 요강[공고] 윤** 19 2026-11-16
+- **공고 제목**: 필독 2027학년도 인천달빛초등학교병셜유치원 일반모집 요강[공고] 윤** 42 2026-11-16
 - **공식 링크**: https://dalbit.icees.kr/boardCnts/updateCnt.do?action=view&m=0404&s=dalbit&boardID=317792&boardSeq=34346018&viewBoardID=317792&lev=0
 
 ### 첨부파일: 2027학년도+인천달빛초등학교병설유치원+표준모집요강(일반모집용)-최종.hwp
