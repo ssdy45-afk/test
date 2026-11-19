@@ -548,7 +548,7 @@
 <!-- GENERAL_RECRUITMENT_AUTO_SECTION -->
 ## [최신 업데이트] 2027학년도 일반모집 공고 원문
 
-- **공고 제목**: 138 2027학년도 유치원 유아 일반모집 요강 윤** 52 2026-11-13
+- **공고 제목**: 138 2027학년도 유치원 유아 일반모집 요강 윤** 54 2026-11-13
 - **공식 링크**: https://sky.icees.kr/boardCnts/updateCnt.do?action=view&m=070401&s=skyes&boardID=286865&boardSeq=34344468&viewBoardID=286865&lev=0
 
 ### 첨부파일: 2027학년도+유치원+유아모집+안내장(일반모집).hwp
