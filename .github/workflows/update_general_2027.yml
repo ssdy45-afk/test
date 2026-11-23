@@ -1,9 +1,6 @@
 name: Update Yeongjong 2027 General Recruitment
 
 on:
-  schedule:
-    # Runs daily at 03:00 UTC = 12:00 PM KST (Asia/Seoul)
-    - cron: '0 3 * * *'
   workflow_dispatch:
 
 permissions:
